@@ -1,0 +1,71 @@
+:root {
+  --clr-dark: #404040;
+  --clr-navy: #1B1B3A;
+  --clr-plum: #693668;
+  --clr-shadow: #b4b4b4;
+  --clr-silver: #CDCDCD;
+  --clr-off-white: #F4F4F6;
+  --clr-white: #ffffff;
+}
+
+.key {
+  width: 4rem;
+  height: 4rem;
+  background: var(--clr-shadow);
+  overflow: hidden;
+  border-radius: 0.3rem;
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.key .key-idle {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  background: var(--clr-white);
+  border-radius: 0.15rem;
+  font-size: 1.25rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.key-pressed {
+  position: relative;
+  width: 95%;
+  height: 95%;
+  margin: auto;
+  background: var(--clr-silver);
+  border-radius: 0.15rem;
+  font-size: 1.25rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.keyboard__row {
+  display: flex;
+  flex-direction: row;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-title {
+  font-size: 3rem;
+  font-family: 'Lustria';
+  color: var(--clr-navy);
+  text-align: center;
+}
+
+body {
+  background-color: var(--clr-off-white)
+}
