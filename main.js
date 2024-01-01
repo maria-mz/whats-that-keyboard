@@ -1,73 +1,145 @@
-const KeyMappingsQWERTY = {
-    // First row
-    'q': { row: 0, pos: 0 },
-    'w': { row: 0, pos: 1 },
-    'e': { row: 0, pos: 2 },
-    'r': { row: 0, pos: 3 },
-    't': { row: 0, pos: 4 },
-    'y': { row: 0, pos: 5 },
-    'u': { row: 0, pos: 6 },
-    'i': { row: 0, pos: 7 },
-    'o': { row: 0, pos: 8 },
-    'p': { row: 0, pos: 9 },
+// TODO: placeholder for now, will get letters from database
+const lettersQWERTY = [
+    'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D',
+    'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'
+]
 
-    // Second row
-    'a': { row: 1, pos: 0 },
-    's': { row: 1, pos: 1 },
-    'd': { row: 1, pos: 2 },
-    'f': { row: 1, pos: 3 },
-    'g': { row: 1, pos: 4 },
-    'h': { row: 1, pos: 5 },
-    'j': { row: 1, pos: 6 },
-    'k': { row: 1, pos: 7 },
-    'l': { row: 1, pos: 8 },
+const lettersGen = [
+    'P', 'O', 'I', 'U', 'Y', 'T', 'R', 'E', 'W','Q', 'L', 'K', 'J',
+    'H', 'G', 'F', 'D', 'S', 'A', 'M', 'N', 'B', 'V', 'C', 'X', 'Z'
+]
 
-    // Third row
-    'z': { row: 2, pos: 0 },
-    'x': { row: 2, pos: 1 },
-    'c': { row: 2, pos: 2 },
-    'v': { row: 2, pos: 3 },
-    'b': { row: 2, pos: 4 },
-    'n': { row: 2, pos: 5 },
-    'm': { row: 2, pos: 6 },
+
+const parseLettersToLayout = letters => {
+    const lettersCopy = [...letters]; // because .shift() modifies original array
+    const keysPerRow = [10, 9, 7];  // standard keyboard layout
+    const keyLayout = {};
+
+    keysPerRow.forEach((keysPerRow, row) => {
+        for (let idx = 0; idx < keysPerRow; idx++) {
+            const letter = lettersCopy.shift();
+            keyLayout[letter] = {row: row, idx: idx};
+        };
+    });
+
+    return keyLayout;
 }
 
-document.addEventListener('keydown', (event) => {
-    const keyLoc = KeyMappingsQWERTY[event.key]
 
+const getKeytoKeyMap = (keyLayoutMapFrom, keyLayoutMapTo) => {
+    const map = {}
+
+    for (
+        const [
+            letterFrom, { row: rowFrom, idx: idxFrom }
+        ] of Object.entries(keyLayoutMapFrom)
+    ) {
+        const match = Object.entries(keyLayoutMapTo)
+            .find(([_, { row: rowTo, idx: idxTo }]) =>
+                rowFrom === rowTo && idxFrom === idxTo
+            );
+
+        if (match) {
+            const [letterTo] = match;
+            map[letterFrom] = letterTo;
+        };
+    };
+
+    return map
+};
+
+
+const keyLayoutGen = parseLettersToLayout(lettersGen);
+
+const keyQWERTYToKeyGen = getKeytoKeyMap(
+    parseLettersToLayout(lettersQWERTY), keyLayoutGen
+)
+
+
+// Render keyboard.
+// TODO: placeholder for now, should be done on `play game`
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM Loaded!");
+
+    const createKey = (idx, letter) => {
+        const key = document.createElement('div');
+        key.className = 'key';
+        key.setAttribute('idx', idx);
+
+        const keySurface = document.createElement('div');
+        keySurface.className = 'key-idle';
+        keySurface.textContent = letter.toUpperCase();
+
+        key.appendChild(keySurface);
+
+        return key;
+    };
+
+    const createKeyboardRow = row => {
+        const keyboardRow = document.createElement('div');
+        keyboardRow.className = 'keyboard__row';
+        keyboardRow.id = `keyboardRow${row}`;
+
+        return keyboardRow;
+    };
+
+    const keyboardRows = {};
+
+    for (const [letter, { row, idx }] of Object.entries(keyLayoutGen)) {
+        if (!keyboardRows.hasOwnProperty(row)) {
+            keyboardRows[row] = createKeyboardRow(row);
+        };
+
+        const keyElement = createKey(idx, letter);
+        keyboardRows[row].appendChild(keyElement);
+    };
+
+    const keyboard = document.getElementById('keyboard');
+
+    Object.values(keyboardRows).forEach(keyboardRow => {
+        keyboard.appendChild(keyboardRow);
+    });
+
+});
+
+
+// Keyboard event listeners
+document.addEventListener('keydown', event => {
+    const keyLoc = keyLayoutGen[
+        keyQWERTYToKeyGen[event.key.toUpperCase()]
+    ];
+
+    // Means non-letter key was pressed
     if (!keyLoc) return;
 
     const keyElement = document.getElementById(`keyboardRow${keyLoc.row}`)
-        .querySelector(`[pos="${keyLoc.pos}"]`);
-
-    if (!keyElement) return;
+        .querySelector(`[idx="${keyLoc.idx}"]`);
 
     const keySurface = keyElement.querySelector('.key-idle');
 
     if (keySurface && keySurface.classList.contains('key-idle')) {
         keySurface.classList.remove('key-idle');
         keySurface.classList.add('key-pressed');
-    }
+    };
 
 });
 
-document.addEventListener('keyup', function(event) {
-    const keyLoc = KeyMappingsQWERTY[event.key]
+document.addEventListener('keyup', event => {
+    const keyLoc = keyLayoutGen[
+        keyQWERTYToKeyGen[event.key.toUpperCase()]
+    ];
 
+    // Means non-letter key was pressed
     if (!keyLoc) return;
 
-    const keyElement = document.querySelector(
-        `.keyboard__row-${keyLoc.row} .key[pos="${keyLoc.pos}"]`
-    );
-
-    if (!keyElement) return;
+    const keyElement = document.getElementById(`keyboardRow${keyLoc.row}`)
+        .querySelector(`[idx="${keyLoc.idx}"]`);
 
     const keySurface = keyElement.querySelector('.key-pressed');
 
     if (keySurface && keySurface.classList.contains('key-pressed')) {
         keySurface.classList.remove('key-pressed');
         keySurface.classList.add('key-idle');
-    }
+    };
 
 });
-
