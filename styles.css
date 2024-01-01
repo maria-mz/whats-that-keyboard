@@ -9,43 +9,57 @@
 }
 
 .key {
-  width: 4rem;
-  height: 4rem;
-  background: var(--clr-shadow);
-  overflow: hidden;
-  border-radius: 0.3rem;
+  /* Size of key */
+  width: 4.5rem;
+  height: 4.5rem;
+
+  /* Space out the key */
   margin-left: 0.5em;
   margin-bottom: 0.5em;
+
+  /* Styles */
+  background: var(--clr-shadow);
+  border-radius: 0.3rem;
 }
 
 .key .key-idle {
+  /* Positions key surface relative to shadow (.key) */
   position: relative;
   width: 90%;
   height: 90%;
   margin: auto;
-  background: var(--clr-white);
-  border-radius: 0.15rem;
-  font-size: 1.25rem;
-  font-family: 'Lato';
-  color: var(--clr-dark);
+
+  /* To center the letters */
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* Styles */
+  background: var(--clr-white);
+  border-radius: 0.15rem;
+  font-size: 1.5rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
 }
 
 .key .key-pressed {
+  /* Positions key surface relative to shadow (.key) */
   position: relative;
   width: 90%;
   height: 95%;
   margin: auto;
-  background: var(--clr-silver);
-  border-radius: 0.15rem;
-  font-size: 1.25rem;
-  font-family: 'Lato';
-  color: var(--clr-dark);
+
+  /* To center the letters */
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* Styles */
+  background: var(--clr-silver);
+  border-radius: 0.15rem;
+  font-size: 1.5rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
 }
 
 .keyboard__row {
@@ -54,18 +68,44 @@
 }
 
 .keyboard {
+  /* To contain keyboard rows */
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  /* Center at the bottom of the page */
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
 }
 
 .game-title {
-  font-size: 3rem;
+  /* Position at top left */
+  text-align: left;
+  margin-left: 1em;
+
+  /* Styles */
+  font-size: 2rem;
   font-family: 'Lustria';
   color: var(--clr-navy);
-  text-align: center;
 }
 
 body {
-  background-color: var(--clr-off-white)
+  background-color: var(--clr-off-white);
+  margin: 0;
+}
+
+.word {
+  /* Center on the page */
+  text-align: center;
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Styles */
+  font-size: 4rem;
+  font-family: 'Lustria';
+  color: var(--clr-silver);
 }
