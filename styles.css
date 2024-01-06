@@ -4,30 +4,19 @@
   --clr-plum: #693668;
   --clr-shadow: #b4b4b4;
   --clr-silver: #CDCDCD;
-  --clr-off-white: #F4F4F6;
+  --clr-light-blue: #A7CCED;
+  --clr-off-white: #f6f6f4;
   --clr-white: #ffffff;
 }
 
 .key {
   /* Size of key */
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 60px;
+  height: 60px;
 
   /* Space out the key */
-  margin-left: 0.5em;
-  margin-bottom: 0.5em;
-
-  /* Styles */
-  background: var(--clr-shadow);
-  border-radius: 0.3rem;
-}
-
-.key .key-idle {
-  /* Positions key surface relative to shadow (.key) */
-  position: relative;
-  width: 90%;
-  height: 90%;
-  margin: auto;
+  margin-left: 0.25em;
+  margin-bottom: 0.25em;
 
   /* To center the letters */
   display: flex;
@@ -37,29 +26,15 @@
   /* Styles */
   background: var(--clr-white);
   border-radius: 0.15rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-family: 'Lato';
   color: var(--clr-dark);
+  border: 2px solid var(--clr-dark);
+  border-radius: 4px
 }
 
-.key .key-pressed {
-  /* Positions key surface relative to shadow (.key) */
-  position: relative;
-  width: 90%;
-  height: 95%;
-  margin: auto;
-
-  /* To center the letters */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* Styles */
-  background: var(--clr-silver);
-  border-radius: 0.15rem;
-  font-size: 1.5rem;
-  font-family: 'Lato';
-  color: var(--clr-dark);
+.key-pressed {
+  background-color: var(--clr-light-blue);
 }
 
 .keyboard__row {
@@ -77,13 +52,13 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 0;
+  bottom: 25%;
 }
 
 .game-title {
-  /* Position at top left */
-  text-align: left;
-  margin-left: 1em;
+  /* Position center */
+  text-align: center;
+  margin-top: 5em;
 
   /* Styles */
   font-size: 2rem;
@@ -96,16 +71,44 @@ body {
   margin: 0;
 }
 
-.word {
+.text-space {
   /* Center on the page */
   text-align: center;
   position: fixed;
   bottom: 50%;
   left: 50%;
   transform: translateX(-50%);
+  width: 50ch;
 
   /* Styles */
-  font-size: 4rem;
-  font-family: 'Lustria';
-  color: var(--clr-silver);
+  font-size: 1.25rem;
+  font-family: 'IBM Plex Mono';
+  color: var(--clr-dark);
+
+  max-height: 200px;
+  word-wrap: break-word;
+}
+
+.fade-out {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0), var(--clr-off-white) 50%, rgba(255, 255, 255, 0));
+  mask-image: linear-gradient(0deg, #000 60%, transparent 100%);
+}
+
+.cursor {
+  animation: blink 2s infinite;
+  font-weight: 700;
+}
+
+@keyframes blink {
+  0%, 50%, 100% {
+      opacity: 0;
+  }
+  25%, 75% {
+      opacity: 1;
+  }
+}
+
+.text-space-placeholder {
+  opacity: 50%;
+  font-style: italic;
 }
