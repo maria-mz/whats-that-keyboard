@@ -1,24 +1,34 @@
+const MAX_LINE_LEN = 50;
+const MAX_LINES = 5;
+
+const textSpace = document.getElementById('textSpace');
+const cursor = textSpace.lastElementChild;
+
+let userLineText = '';
+let currentLine;
+let numLines = 0;
+
 // TODO: placeholder for now, will get letters from database
 const lettersQWERTY = [
     'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D',
     'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'
-]
+];
 
 const lettersGen = [
     'P', 'O', 'I', 'U', 'Y', 'T', 'R', 'E', 'W','Q', 'L', 'K', 'J',
     'H', 'G', 'F', 'D', 'S', 'A', 'M', 'N', 'B', 'V', 'C', 'X', 'Z'
-]
+];
 
 
-const parseLettersToLayout = letters => {
+const lettersToLayout = letters => {
     const lettersCopy = [...letters]; // because .shift() modifies original array
-    const keysPerRow = [10, 9, 7];  // standard keyboard layout
+    const keysPerRow = [10, 9, 7];  // typical keyboard layout
     const keyLayout = {};
 
     keysPerRow.forEach((keysPerRow, row) => {
         for (let idx = 0; idx < keysPerRow; idx++) {
             const letter = lettersCopy.shift();
-            keyLayout[letter] = {row: row, idx: idx};
+            keyLayout[letter.toUpperCase()] = {row: row, idx: idx};
         };
     });
 
@@ -26,8 +36,8 @@ const parseLettersToLayout = letters => {
 }
 
 
-const getKeytoKeyMap = (keyLayoutMapFrom, keyLayoutMapTo) => {
-    const map = {}
+const getKeytoKeyMap = (keyLayoutMapFrom, keyLayoutMapTo, isCaps) => {
+    const map = {};
 
     for (
         const [
@@ -41,19 +51,23 @@ const getKeytoKeyMap = (keyLayoutMapFrom, keyLayoutMapTo) => {
 
         if (match) {
             const [letterTo] = match;
-            map[letterFrom] = letterTo;
+            if (isCaps) {
+                map[letterFrom.toUpperCase()] = letterTo.toUpperCase();
+            }
+            else {
+                map[letterFrom.toLowerCase()] = letterTo.toLowerCase();
+            };
         };
     };
 
-    return map
+    return map;
 };
 
 
-const keyLayoutGen = parseLettersToLayout(lettersGen);
+const keyLayoutGen = lettersToLayout(lettersGen);
 
-const keyQWERTYToKeyGen = getKeytoKeyMap(
-    parseLettersToLayout(lettersQWERTY), keyLayoutGen
-)
+const keyMapUpper = getKeytoKeyMap(lettersToLayout(lettersQWERTY), keyLayoutGen, true);
+const keyMapLower = getKeytoKeyMap(lettersToLayout(lettersQWERTY), keyLayoutGen, false);
 
 
 // Render keyboard.
@@ -61,22 +75,20 @@ const keyQWERTYToKeyGen = getKeytoKeyMap(
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Loaded!");
 
+    // --- create keyboard
     const createKey = (idx, letter) => {
         const key = document.createElement('div');
+
         key.className = 'key';
+        key.textContent = letter.toUpperCase();
         key.setAttribute('idx', idx);
-
-        const keySurface = document.createElement('div');
-        keySurface.className = 'key-idle';
-        keySurface.textContent = letter.toUpperCase();
-
-        key.appendChild(keySurface);
 
         return key;
     };
 
     const createKeyboardRow = row => {
         const keyboardRow = document.createElement('div');
+
         keyboardRow.className = 'keyboard__row';
         keyboardRow.id = `keyboardRow${row}`;
 
@@ -100,14 +112,35 @@ document.addEventListener('DOMContentLoaded', () => {
         keyboard.appendChild(keyboardRow);
     });
 
-});
+    // -- prepare text space
+    const placeholder = document.createElement('span');
+    placeholder.classList.add('text-space-placeholder');
+    placeholder.textContent = 'Type away...';
+    textSpace.insertBefore(placeholder, cursor);
 
+    numLines += 1;
+    currentLine = placeholder;
+});
 
 // Keyboard event listeners
 document.addEventListener('keydown', event => {
-    const keyLoc = keyLayoutGen[
-        keyQWERTYToKeyGen[event.key.toUpperCase()]
-    ];
+
+    // --- update text space
+    if (event.key === ' ') {
+        updateTextSpace('\u00A0');
+    }
+    else if (event.key in keyMapLower) {
+        updateTextSpace(keyMapLower[event.key]);
+    }
+    else if (event.key in keyMapUpper) {
+        updateTextSpace(keyMapUpper[event.key]);
+    }
+    else {
+        return;
+    };
+
+    const letter = keyMapUpper[event.key.toUpperCase()]
+    const keyLoc = keyLayoutGen[letter];
 
     // Means non-letter key was pressed
     if (!keyLoc) return;
@@ -115,18 +148,13 @@ document.addEventListener('keydown', event => {
     const keyElement = document.getElementById(`keyboardRow${keyLoc.row}`)
         .querySelector(`[idx="${keyLoc.idx}"]`);
 
-    const keySurface = keyElement.querySelector('.key-idle');
-
-    if (keySurface && keySurface.classList.contains('key-idle')) {
-        keySurface.classList.remove('key-idle');
-        keySurface.classList.add('key-pressed');
-    };
+    keyElement.classList.add('key-pressed');
 
 });
 
 document.addEventListener('keyup', event => {
     const keyLoc = keyLayoutGen[
-        keyQWERTYToKeyGen[event.key.toUpperCase()]
+        keyMapUpper[event.key.toUpperCase()]
     ];
 
     // Means non-letter key was pressed
@@ -135,11 +163,38 @@ document.addEventListener('keyup', event => {
     const keyElement = document.getElementById(`keyboardRow${keyLoc.row}`)
         .querySelector(`[idx="${keyLoc.idx}"]`);
 
-    const keySurface = keyElement.querySelector('.key-pressed');
-
-    if (keySurface && keySurface.classList.contains('key-pressed')) {
-        keySurface.classList.remove('key-pressed');
-        keySurface.classList.add('key-idle');
-    };
+    keyElement.classList.remove('key-pressed');
 
 });
+
+
+const updateTextSpace = (textChar) => {
+    // TODO: think of better way to handle placeholder
+    currentLine.classList.remove('text-space-placeholder');
+
+    if (userLineText.length + 1 === MAX_LINE_LEN) {
+        // on the last character for the line, add it to the current line,
+        // and create a new line
+        userLineText += textChar;
+        currentLine.textContent = userLineText;
+
+        currentLine = document.createElement('span');
+        textSpace.insertBefore(currentLine, cursor);
+        numLines += 1;
+        userLineText = '';
+    }
+    else {
+        userLineText += textChar;
+        currentLine.textContent = userLineText;
+    };
+
+    if (numLines === MAX_LINES) {
+        textSpace.classList.add('fade-out')
+    }
+    else if (numLines > MAX_LINES) {
+        // remove oldest line
+        const firstLine = textSpace.firstElementChild;
+        firstLine.remove();
+        numLines -= 1;
+    };
+};

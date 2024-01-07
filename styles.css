@@ -24,7 +24,7 @@
   align-items: center;
 
   /* Styles */
-  background: var(--clr-white);
+  background: transparent;
   border-radius: 0.15rem;
   font-size: 1.25rem;
   font-family: 'Lato';
@@ -84,8 +84,11 @@ body {
   font-size: 1.25rem;
   font-family: 'IBM Plex Mono';
   color: var(--clr-dark);
+  line-height: 1.5;
+  text-align: left;
 
   max-height: 200px;
+  overflow: hidden;
   word-wrap: break-word;
 }
 
