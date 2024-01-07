@@ -1,21 +1,22 @@
-import { putEmptyState, addChar, deleteChar } from './textSpaceManager.js';
+import { setTSEmptyState, addCharToTS, deleteCharFromTS } from './textSpace.js';
 import { lettersToLayout, getKeytoKeyMap } from './utils.js';
 
+
 // TODO: placeholder for now, will get letters from database
-const lettersQWERTY = [
+const QWERTY_LETTERS = [
     'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D',
     'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'
 ];
-
-const lettersGen = [
+const RAND_LETTERS = [
     'P', 'O', 'I', 'U', 'Y', 'T', 'R', 'E', 'W','Q', 'L', 'K', 'J',
     'H', 'G', 'F', 'D', 'S', 'A', 'M', 'N', 'B', 'V', 'C', 'X', 'Z'
 ];
 
-const keyLayoutGen = lettersToLayout(lettersGen);
+const QWERTY_KEY_LAYOUT = lettersToLayout(QWERTY_LETTERS)
+const RAND_KEY_LAYOUT = lettersToLayout(RAND_LETTERS);
 
-const keyMapUpper = getKeytoKeyMap(lettersToLayout(lettersQWERTY), keyLayoutGen, true);
-const keyMapLower = getKeytoKeyMap(lettersToLayout(lettersQWERTY), keyLayoutGen, false);
+const KEY_MAP_UPPER = getKeytoKeyMap(QWERTY_KEY_LAYOUT, RAND_KEY_LAYOUT, true);
+const KEY_MAP_LOWER = getKeytoKeyMap(QWERTY_KEY_LAYOUT, RAND_KEY_LAYOUT, false);
 
 
 // Render keyboard.
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const keyboardRows = {};
 
-    for (const [letter, { row, idx }] of Object.entries(keyLayoutGen)) {
+    for (const [letter, { row, idx }] of Object.entries(RAND_KEY_LAYOUT)) {
         if (!keyboardRows.hasOwnProperty(row)) {
             keyboardRows[row] = createKeyboardRow(row);
         };
@@ -60,8 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         keyboard.appendChild(keyboardRow);
     });
 
-    // -- prepare text space
-    putEmptyState()
+    setTSEmptyState()
 });
 
 // Keyboard event listeners
@@ -69,23 +69,23 @@ document.addEventListener('keydown', event => {
 
     // --- update text space
     if (event.key === ' ') {
-        addChar('\u00A0');
+        addCharToTS('\u00A0');
     }
     else if (event.key === 'Backspace') {
-        deleteChar()
+        deleteCharFromTS()
     }
-    else if (event.key in keyMapLower) {
-        addChar(keyMapLower[event.key]);
+    else if (event.key in KEY_MAP_LOWER) {
+        addCharToTS(KEY_MAP_LOWER[event.key]);
     }
-    else if (event.key in keyMapUpper) {
-        addChar(keyMapUpper[event.key]);
+    else if (event.key in KEY_MAP_UPPER) {
+        addCharToTS(KEY_MAP_UPPER[event.key]);
     }
     else {
         return;
     };
 
-    const letter = keyMapUpper[event.key.toUpperCase()]
-    const keyLoc = keyLayoutGen[letter];
+    const letter = KEY_MAP_UPPER[event.key.toUpperCase()]
+    const keyLoc = RAND_KEY_LAYOUT[letter];
 
     // Means non-letter key was pressed
     if (!keyLoc) return;
@@ -98,8 +98,8 @@ document.addEventListener('keydown', event => {
 });
 
 document.addEventListener('keyup', event => {
-    const keyLoc = keyLayoutGen[
-        keyMapUpper[event.key.toUpperCase()]
+    const keyLoc = RAND_KEY_LAYOUT[
+        KEY_MAP_UPPER[event.key.toUpperCase()]
     ];
 
     // Means non-letter key was pressed
