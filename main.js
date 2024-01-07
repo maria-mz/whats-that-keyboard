@@ -1,12 +1,5 @@
-const MAX_LINE_LEN = 50;
-const MAX_LINES = 5;
-
-const textSpace = document.getElementById('textSpace');
-const cursor = textSpace.lastElementChild;
-
-let userLineText = '';
-let currentLine;
-let numLines = 0;
+import { putEmptyState, addChar, deleteChar } from './textSpaceManager.js';
+import { lettersToLayout, getKeytoKeyMap } from './utils.js';
 
 // TODO: placeholder for now, will get letters from database
 const lettersQWERTY = [
@@ -18,51 +11,6 @@ const lettersGen = [
     'P', 'O', 'I', 'U', 'Y', 'T', 'R', 'E', 'W','Q', 'L', 'K', 'J',
     'H', 'G', 'F', 'D', 'S', 'A', 'M', 'N', 'B', 'V', 'C', 'X', 'Z'
 ];
-
-
-const lettersToLayout = letters => {
-    const lettersCopy = [...letters]; // because .shift() modifies original array
-    const keysPerRow = [10, 9, 7];  // typical keyboard layout
-    const keyLayout = {};
-
-    keysPerRow.forEach((keysPerRow, row) => {
-        for (let idx = 0; idx < keysPerRow; idx++) {
-            const letter = lettersCopy.shift();
-            keyLayout[letter.toUpperCase()] = {row: row, idx: idx};
-        };
-    });
-
-    return keyLayout;
-}
-
-
-const getKeytoKeyMap = (keyLayoutMapFrom, keyLayoutMapTo, isCaps) => {
-    const map = {};
-
-    for (
-        const [
-            letterFrom, { row: rowFrom, idx: idxFrom }
-        ] of Object.entries(keyLayoutMapFrom)
-    ) {
-        const match = Object.entries(keyLayoutMapTo)
-            .find(([_, { row: rowTo, idx: idxTo }]) =>
-                rowFrom === rowTo && idxFrom === idxTo
-            );
-
-        if (match) {
-            const [letterTo] = match;
-            if (isCaps) {
-                map[letterFrom.toUpperCase()] = letterTo.toUpperCase();
-            }
-            else {
-                map[letterFrom.toLowerCase()] = letterTo.toLowerCase();
-            };
-        };
-    };
-
-    return map;
-};
-
 
 const keyLayoutGen = lettersToLayout(lettersGen);
 
@@ -113,13 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -- prepare text space
-    const placeholder = document.createElement('span');
-    placeholder.classList.add('text-space-placeholder');
-    placeholder.textContent = 'Type away...';
-    textSpace.insertBefore(placeholder, cursor);
-
-    numLines += 1;
-    currentLine = placeholder;
+    putEmptyState()
 });
 
 // Keyboard event listeners
@@ -127,13 +69,16 @@ document.addEventListener('keydown', event => {
 
     // --- update text space
     if (event.key === ' ') {
-        updateTextSpace('\u00A0');
+        addChar('\u00A0');
+    }
+    else if (event.key === 'Backspace') {
+        deleteChar()
     }
     else if (event.key in keyMapLower) {
-        updateTextSpace(keyMapLower[event.key]);
+        addChar(keyMapLower[event.key]);
     }
     else if (event.key in keyMapUpper) {
-        updateTextSpace(keyMapUpper[event.key]);
+        addChar(keyMapUpper[event.key]);
     }
     else {
         return;
@@ -166,35 +111,3 @@ document.addEventListener('keyup', event => {
     keyElement.classList.remove('key-pressed');
 
 });
-
-
-const updateTextSpace = (textChar) => {
-    // TODO: think of better way to handle placeholder
-    currentLine.classList.remove('text-space-placeholder');
-
-    if (userLineText.length + 1 === MAX_LINE_LEN) {
-        // on the last character for the line, add it to the current line,
-        // and create a new line
-        userLineText += textChar;
-        currentLine.textContent = userLineText;
-
-        currentLine = document.createElement('span');
-        textSpace.insertBefore(currentLine, cursor);
-        numLines += 1;
-        userLineText = '';
-    }
-    else {
-        userLineText += textChar;
-        currentLine.textContent = userLineText;
-    };
-
-    if (numLines === MAX_LINES) {
-        textSpace.classList.add('fade-out')
-    }
-    else if (numLines > MAX_LINES) {
-        // remove oldest line
-        const firstLine = textSpace.firstElementChild;
-        firstLine.remove();
-        numLines -= 1;
-    };
-};
