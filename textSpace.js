@@ -1,5 +1,4 @@
 const MAX_LINE_LEN = 50;
-const MAX_LINES = 5;
 
 let onEmptyState = false;
 
@@ -39,15 +38,6 @@ const addCharToTS = (textChar) => {
         // -- insert a new empty line
         curLineElmt = document.createElement('span');
         textSpaceElmt.insertBefore(curLineElmt, cursorElmt);
-
-        // -- update look of text space
-        if (getNumLines() === MAX_LINES) {
-            textSpaceElmt.classList.add('fade-out');
-        }
-        else if (getNumLines() > MAX_LINES) {
-            const oldestLine = textSpaceElmt.firstElementChild;
-            oldestLine.remove();
-        };
     }
 };
 
@@ -69,11 +59,6 @@ const deleteCharFromTS = () => {
         // -- remove current line
         curLineElmt.remove();
         curLineElmt = cursorElmt.previousElementSibling;
-
-        // -- update look of text space
-        if (getNumLines() < MAX_LINES) {
-            textSpaceElmt.classList.remove('fade-out');
-        };
     };
 
     // -- delete previous character

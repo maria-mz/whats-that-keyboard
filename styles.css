@@ -11,12 +11,12 @@
 
 .key {
   /* Size of key */
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
 
   /* Space out the key */
-  margin-left: 0.25em;
-  margin-bottom: 0.25em;
+  margin-left: 0.3em;
+  margin-bottom: 0.3em;
 
   /* To center the letters */
   display: flex;
@@ -30,7 +30,7 @@
   font-family: 'Lato';
   color: var(--clr-dark);
   border: 2px solid var(--clr-dark);
-  border-radius: 4px
+  border-radius: 6px
 }
 
 .key-pressed {
@@ -52,14 +52,10 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 25%;
+  bottom: 0%;
 }
 
 .game-title {
-  /* Position center */
-  text-align: center;
-  margin-top: 5em;
-
   /* Styles */
   font-size: 2rem;
   font-family: 'Lustria';
@@ -75,7 +71,7 @@ body {
   /* Center on the page */
   text-align: center;
   position: fixed;
-  bottom: 50%;
+  bottom: 40%;
   left: 50%;
   transform: translateX(-50%);
   width: 50ch;
@@ -87,14 +83,12 @@ body {
   line-height: 1.5;
   text-align: left;
 
-  max-height: 200px;
-  overflow: hidden;
+  /* Encorce new line on max width */
   word-wrap: break-word;
-}
+  position: absolute;
 
-.fade-out {
-  background: linear-gradient(to top, rgba(255, 255, 255, 0), var(--clr-off-white) 50%, rgba(255, 255, 255, 0));
-  mask-image: linear-gradient(0deg, #000 60%, transparent 100%);
+  /* Go behind header, to appear faded at the top */
+  z-index: -1;
 }
 
 .cursor {
@@ -114,4 +108,16 @@ body {
 .text-space-placeholder {
   opacity: 50%;
   font-style: italic;
+}
+
+.game-header {
+  height: 12em;
+
+  /* Align game title */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Fade bottom part */
+  background: linear-gradient(to top, rgba(255,0,0,0), var(--clr-off-white) 20%);
 }
