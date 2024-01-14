@@ -45,4 +45,4 @@ const createKeyboardRowElmt = (row) => {
 };
 
 
-export { renderKeyboard };
+export default renderKeyboard;
