@@ -1,76 +1,32 @@
 import { setTSEmptyState, addCharToTS, addNewLineToTS, deleteCharFromTS } from './textSpace.js';
 import { lettersToLayout, getKeytoKeyMap } from './utils.js';
+import CHALLENGE_LETTERS from './challengeLetters.js';
+import renderKeyboard from './renderKeyboard.js';
 
 
-// TODO: placeholder for now, will get letters from database
 const QWERTY_LETTERS = [
     'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D',
     'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'
 ];
-const RAND_LETTERS = [
-    'P', 'O', 'I', 'U', 'Y', 'T', 'R', 'E', 'W','Q', 'L', 'K', 'J',
-    'H', 'G', 'F', 'D', 'S', 'A', 'M', 'N', 'B', 'V', 'C', 'X', 'Z'
-];
 
-const QWERTY_KEY_LAYOUT = lettersToLayout(QWERTY_LETTERS)
-const RAND_KEY_LAYOUT = lettersToLayout(RAND_LETTERS);
+const QWERTY_LAYOUT = lettersToLayout(QWERTY_LETTERS)
+const CHALLENGE_LAYOUT = lettersToLayout(CHALLENGE_LETTERS);
 
-const KEY_MAP_UPPER = getKeytoKeyMap(QWERTY_KEY_LAYOUT, RAND_KEY_LAYOUT, true);
-const KEY_MAP_LOWER = getKeytoKeyMap(QWERTY_KEY_LAYOUT, RAND_KEY_LAYOUT, false);
+const KEY_MAP_UPPER = getKeytoKeyMap(QWERTY_LAYOUT, CHALLENGE_LAYOUT, true);
+const KEY_MAP_LOWER = getKeytoKeyMap(QWERTY_LAYOUT, CHALLENGE_LAYOUT, false);
+
 
 const SPACE_KEY = ' '
 const ENTER_KEY = 'Enter'
 const BACKSPACE_KEY = 'Backspace'
 
 
-// Render keyboard.
-// TODO: placeholder for now, should be done on `play game`
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM Loaded!");
+renderKeyboard(CHALLENGE_LAYOUT, true)
+setTSEmptyState()
 
-    // --- create keyboard
-    const createKey = (idx, letter) => {
-        const key = document.createElement('div');
-
-        key.className = 'key';
-        key.textContent = letter.toUpperCase();
-        key.setAttribute('idx', idx);
-
-        return key;
-    };
-
-    const createKeyboardRow = row => {
-        const keyboardRow = document.createElement('div');
-
-        keyboardRow.className = 'keyboard__row';
-        keyboardRow.id = `keyboardRow${row}`;
-
-        return keyboardRow;
-    };
-
-    const keyboardRows = {};
-
-    for (const [letter, { row, idx }] of Object.entries(RAND_KEY_LAYOUT)) {
-        if (!keyboardRows.hasOwnProperty(row)) {
-            keyboardRows[row] = createKeyboardRow(row);
-        };
-
-        const keyElement = createKey(idx, letter);
-        keyboardRows[row].appendChild(keyElement);
-    };
-
-    const keyboard = document.getElementById('keyboard');
-
-    Object.values(keyboardRows).forEach(keyboardRow => {
-        keyboard.appendChild(keyboardRow);
-    });
-
-    setTSEmptyState()
-});
 
 // Keyboard event listeners
 document.addEventListener('keydown', event => {
-
     // --- update text space
     if (event.key === SPACE_KEY) {
         addCharToTS('\u00A0');
@@ -92,7 +48,7 @@ document.addEventListener('keydown', event => {
     };
 
     const letter = KEY_MAP_UPPER[event.key.toUpperCase()]
-    const keyLoc = RAND_KEY_LAYOUT[letter];
+    const keyLoc = CHALLENGE_LAYOUT[letter];
 
     // Means non-letter key was pressed
     if (!keyLoc) return;
@@ -105,7 +61,7 @@ document.addEventListener('keydown', event => {
 });
 
 document.addEventListener('keyup', event => {
-    const keyLoc = RAND_KEY_LAYOUT[
+    const keyLoc = CHALLENGE_LAYOUT[
         KEY_MAP_UPPER[event.key.toUpperCase()]
     ];
 
