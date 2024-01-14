@@ -1,4 +1,4 @@
-import { setTSEmptyState, addCharToTS, deleteCharFromTS } from './textSpace.js';
+import { setTSEmptyState, addCharToTS, addNewLineToTS, deleteCharFromTS } from './textSpace.js';
 import { lettersToLayout, getKeytoKeyMap } from './utils.js';
 
 
@@ -17,6 +17,10 @@ const RAND_KEY_LAYOUT = lettersToLayout(RAND_LETTERS);
 
 const KEY_MAP_UPPER = getKeytoKeyMap(QWERTY_KEY_LAYOUT, RAND_KEY_LAYOUT, true);
 const KEY_MAP_LOWER = getKeytoKeyMap(QWERTY_KEY_LAYOUT, RAND_KEY_LAYOUT, false);
+
+const SPACE_KEY = ' '
+const ENTER_KEY = 'Enter'
+const BACKSPACE_KEY = 'Backspace'
 
 
 // Render keyboard.
@@ -68,10 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('keydown', event => {
 
     // --- update text space
-    if (event.key === ' ') {
+    if (event.key === SPACE_KEY) {
         addCharToTS('\u00A0');
     }
-    else if (event.key === 'Backspace') {
+    else if (event.key === ENTER_KEY) {
+        addNewLineToTS();
+    }
+    else if (event.key === BACKSPACE_KEY) {
         deleteCharFromTS()
     }
     else if (event.key in KEY_MAP_LOWER) {
