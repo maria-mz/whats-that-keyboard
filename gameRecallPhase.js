@@ -39,11 +39,11 @@ let currKeyDroppable = null;
 draggableKeys.forEach((draggableKey) => {
     // Add dragging capability
 
-    // Adapted from https://javascript.info/mouse-drag-and-drop
+    // Adapted and expanded on the code from https://javascript.info/mouse-drag-and-drop
     draggableKey.onmousedown = function(event) {
         // Maintains position of mouse on the key
-        let shiftX = event.clientX - draggableKey.getBoundingClientRect().left;
-        let shiftY = event.clientY - draggableKey.getBoundingClientRect().top;
+        const shiftX = event.clientX - draggableKey.getBoundingClientRect().left;
+        const shiftY = event.clientY - draggableKey.getBoundingClientRect().top;
 
         // Append again to make sure it appears on top of other keys
         lettersZone.appendChild(draggableKey)
@@ -84,12 +84,23 @@ draggableKeys.forEach((draggableKey) => {
         draggableKey.onmouseup = function() {
             document.removeEventListener('mousemove', onMouseMove);
             draggableKey.onmouseup = null;
+
+            if (currKeyDroppable) {
+                // 'Snap' into place
+                // Get coordinates of key droppable
+                const x = currKeyDroppable.getBoundingClientRect().left;
+                const y = currKeyDroppable.getBoundingClientRect().top;
+
+                // Update coordinates of dragged key to key droppable
+                // -10.5px to account for padding on the key
+                draggableKey.style.left = x - 10.5 + 'px'
+                draggableKey.style.top = y - 10.5 +'px'
+            }
         };
     };
 
     function enterKeyDroppable(elmt) {
         elmt.style.background = '#9BA7C0';
-        // TODO: snap to place when lets go
     }
 
     function leaveKeyDroppable(elmt) {
