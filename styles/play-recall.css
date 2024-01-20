@@ -31,10 +31,6 @@ body {
   background: transparent;
   overflow: hidden;
 
-  /* Space out the key */
-  margin-left: 0.3em;
-  margin-bottom: 0.3em;
-
   /* To center the visible key */
   display: flex;
   justify-content: center;
