@@ -1,0 +1,41 @@
+:root {
+  --clr-dark: #404040;
+  --clr-navy: #1B1B3A;
+  --clr-plum: #693668;
+  --clr-shadow: #b4b4b4;
+  --clr-silver: #CDCDCD;
+  --clr-light-blue: #BCD3F2;
+  --clr-off-white: #f6f6f4;
+  --clr-white: #ffffff;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+
+  /* Grid background */
+  /* Note: dots will have no color, need to specify `background-color` */
+  background-image: linear-gradient(to right, transparent 1px, var(--clr-off-white) 2px, var(--clr-off-white) 100%), 
+                    linear-gradient(to bottom, transparent 1px, var(--clr-off-white) 2px, var(--clr-off-white) 100%);
+  background-size: 20px 20px; /* size of grid dots */
+  background-position: center center;
+}
+
+.game-title {
+  font-size: 2rem;
+  font-family: 'Lustria';
+  color: var(--clr-navy);
+}
+
+.game-header {
+  height: 12em;
+
+  /* Align game title */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Fade bottom part */
+  background: linear-gradient(to top, rgba(255,0,0,0), var(--clr-off-white) 30%); /* or 20%? */
+}

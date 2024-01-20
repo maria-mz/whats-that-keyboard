@@ -1,0 +1,25 @@
+.keyboard {
+  /* To contain keyboard rows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Center at the bottom of the page */
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0%;
+
+  /* Create look of a container around the keyboard */
+  background-color: var(--clr-off-white);
+  width: 100%;
+  padding-top: 5em;
+
+  /* Fade top part of the container*/
+  background: linear-gradient(to bottom, rgba(255,0,0,0), var(--clr-off-white) 30%);
+}
+
+.keyboard__row {
+  display: flex;
+  flex-direction: row;
+}
