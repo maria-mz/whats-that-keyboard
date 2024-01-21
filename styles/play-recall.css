@@ -25,7 +25,26 @@ body {
 }
 
 .key-draggable {
+  /* Size of key */
+  width: 55px;
+  height: 55px;
+
+  /* To center the letters */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Appearance */
   background: var(--clr-off-white);
+  border-radius: 0.15rem;
+  font-size: 1.25rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
+  border: 2px solid var(--clr-dark);
+  border-radius: 6px;
+
+  /* Prevents user from highlighting text on key */
+  user-select: none;
 
   /* Allow to be moved anywhere on the page */
   position: absolute;

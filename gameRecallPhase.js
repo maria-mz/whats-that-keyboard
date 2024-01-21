@@ -19,7 +19,6 @@ keyboardKeys.forEach((key) => {
 // Render letters zone
 CHALLENGE_LETTERS.forEach((letter) => {
     const draggableKeyElmt = document.createElement('div')
-    draggableKeyElmt.classList.add('key')
     draggableKeyElmt.classList.add('key-draggable')
     draggableKeyElmt.textContent = letter
 
@@ -37,7 +36,6 @@ draggableKeys.forEach((draggableKey) => {
 
     // Adapted and expanded on the code from https://javascript.info/mouse-drag-and-drop
     draggableKey.onmousedown = function(event) {
-        // Maintains position of mouse on the key
         const shiftX = event.clientX - draggableKey.getBoundingClientRect().left;
         const shiftY = event.clientY - draggableKey.getBoundingClientRect().top;
 
@@ -45,8 +43,22 @@ draggableKeys.forEach((draggableKey) => {
         lettersZone.appendChild(draggableKey)
 
         function moveAt(pageX, pageY) {
-            draggableKey.style.left = pageX - shiftX + 'px';
-            draggableKey.style.top = pageY - shiftY + 'px';
+            // Get dimensions
+            const elmtWidth = draggableKey.offsetWidth;
+            const elmtHeight = draggableKey.offsetHeight;
+
+            // Calculate potential new position
+            let newX = pageX - shiftX;
+            let newY = pageY - shiftY;
+
+            // Adjust position to prevent scrolling
+            newX = Math.max(newX, 0); // Prevent going beyond the left edge
+            newY = Math.max(newY, 0); // Prevent going beyond the top edge
+            newX = Math.min(newX, window.innerWidth - elmtWidth);
+            newY = Math.min(newY, window.innerHeight - elmtHeight);
+
+            draggableKey.style.left = newX + 'px';
+            draggableKey.style.top = newY + 'px';
         }
 
         function onMouseMove(event) {
