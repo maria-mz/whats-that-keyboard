@@ -29,6 +29,49 @@ CHALLENGE_LETTERS.forEach((letter) => {
 const draggableKeys = lettersZone.querySelectorAll('.key-draggable');
 
 
+
+const enterKeyDroppable = (elmt) => {
+    elmt.style.background = '#cdcdcd';
+}
+
+const leaveKeyDroppable = (elmt) => {
+    elmt.style.background = '';
+}
+
+/**
+ * Adjusts the position of an element to keep it within the visible
+ * area of the window.
+ * 
+ * @param {HTMLElement} elmt - element to be adjusted.
+ * @param {number} x - x-coordinate of `elmt`
+ * @param {number} y - y-coordinate of `elmt`
+ */
+const boundElmtInsideWindow = (elmt, x, y) => {
+    let boundedX;
+    let boundedY;
+
+    if (x < 0) {
+        // Prevents going outside Left edge
+        boundedX = 0
+    } else {
+        // Prevents going outside Right edge
+        const maxX = window.innerWidth - elmt.offsetWidth
+        boundedX = Math.min(x, maxX);
+    }
+
+    if (y < 0) {
+        // Prevents going outside Top edge
+        boundedY = 0
+    } else {
+        // Prevents going outside Bottom edge
+        const maxY = window.innerHeight - elmt.offsetHeight
+        boundedY = Math.min(y, maxY);
+    }
+
+    elmt.style.left = boundedX + 'px';
+    elmt.style.top = boundedY + 'px';
+}
+
 let currKeyDroppable = null;
 
 draggableKeys.forEach((draggableKey) => {
@@ -42,27 +85,11 @@ draggableKeys.forEach((draggableKey) => {
         // Append again to make sure it appears on top of other keys
         lettersZone.appendChild(draggableKey)
 
-        function moveAt(pageX, pageY) {
-            // Get dimensions
-            const elmtWidth = draggableKey.offsetWidth;
-            const elmtHeight = draggableKey.offsetHeight;
-
-            // Calculate potential new position
-            let newX = pageX - shiftX;
-            let newY = pageY - shiftY;
-
-            // Adjust position to prevent scrolling
-            newX = Math.max(newX, 0); // Prevent going beyond the left edge
-            newY = Math.max(newY, 0); // Prevent going beyond the top edge
-            newX = Math.min(newX, window.innerWidth - elmtWidth);
-            newY = Math.min(newY, window.innerHeight - elmtHeight);
-
-            draggableKey.style.left = newX + 'px';
-            draggableKey.style.top = newY + 'px';
-        }
-
         function onMouseMove(event) {
-            moveAt(event.pageX, event.pageY);
+            let newX = event.pageX - shiftX;
+            let newY = event.pageY - shiftY;
+
+            boundElmtInsideWindow(draggableKey, newX, newY)
 
             // Override `display` style to 'none' to capture element below
             draggableKey.style.display = 'none'
@@ -108,12 +135,4 @@ draggableKeys.forEach((draggableKey) => {
             }
         };
     };
-
-    function enterKeyDroppable(elmt) {
-        elmt.style.background = '#cdcdcd';
-    }
-
-    function leaveKeyDroppable(elmt) {
-        elmt.style.background = '';
-    }
 })
