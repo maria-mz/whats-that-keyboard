@@ -42,7 +42,7 @@ const leaveKeyDroppable = (elmt) => {
  * Adjusts the position of an element to keep it within the visible
  * area of the window.
  * 
- * @param {HTMLElement} elmt - element to be adjusted.
+ * @param {HTMLElement} elmt - element to be adjusted
  * @param {number} x - x-coordinate of `elmt`
  * @param {number} y - y-coordinate of `elmt`
  */
@@ -72,17 +72,30 @@ const boundElmtInsideWindow = (elmt, x, y) => {
     elmt.style.top = boundedY + 'px';
 }
 
+
+const snapToKeyboard = (keyboardKey, draggableKey) => {
+    // Remove this draggable key from HTML
+    lettersZone.removeChild(draggableKey)
+    draggableKey.onmousedown = null
+
+    keyboardKey.textContent = draggableKey.textContent
+    keyboardKey.style.background = "#f6f6f4"
+    keyboardKey.classList.remove('key-droppable')
+}
+
+
 let currKeyDroppable = null;
 
 draggableKeys.forEach((draggableKey) => {
-    // Add dragging capability
-
-    // Adapted and expanded on the code from https://javascript.info/mouse-drag-and-drop
-    draggableKey.onmousedown = function(event) {
+    draggableKey.onmousedown = (event) => {
+        // Adapted and expanded on the code from https://javascript.info/mouse-drag-and-drop
+    
+        // Capture mouse's position on the key.
+        // When moving, shift by this amount to keep mouse on same part of the key
         const shiftX = event.clientX - draggableKey.getBoundingClientRect().left;
         const shiftY = event.clientY - draggableKey.getBoundingClientRect().top;
 
-        // Append again to make sure it appears on top of other keys
+        // Append again to make sure it appears on top of other draggable keys
         lettersZone.appendChild(draggableKey)
 
         function onMouseMove(event) {
@@ -93,7 +106,9 @@ draggableKeys.forEach((draggableKey) => {
 
             // Override `display` style to 'none' to capture element below
             draggableKey.style.display = 'none'
+
             let elmtBelow = document.elementFromPoint(event.clientX, event.clientY);
+
             // Set `display` back to original style
             draggableKey.style.display = 'flex'
 
@@ -121,18 +136,14 @@ draggableKeys.forEach((draggableKey) => {
         // doesn't trigger and it continues to move
         document.onmouseup = () => {
             document.removeEventListener('mousemove', onMouseMove);
-            document.onmouseup = null;
 
             if (currKeyDroppable) {
-                // 'Snap' into place
-                lettersZone.removeChild(draggableKey)
-
-                currKeyDroppable.textContent = draggableKey.textContent
-                currKeyDroppable.style.background = "#f6f6f4"
-                currKeyDroppable.classList.remove('key-droppable')
-
+                // We're above a key on the keyboard, 'snap' this draggable key into place
+                snapToKeyboard(currKeyDroppable, draggableKey)
                 currKeyDroppable = null
             }
+
+            document.onmouseup = null;
         };
     };
 })
