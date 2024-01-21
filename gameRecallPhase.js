@@ -8,13 +8,6 @@ renderKeyboard(lettersToLayout(CHALLENGE_LETTERS), false);
 
 
 const lettersZone = document.getElementById('lettersZone');
-const keyboardElmt = document.getElementById('keyboard');
-
-const keyboardKeys = keyboardElmt.querySelectorAll('.key')
-keyboardKeys.forEach((key) => {
-    key.classList.add('key-droppable')
-});
-
 
 // Render letters zone
 CHALLENGE_LETTERS.forEach((letter) => {
@@ -73,17 +66,37 @@ const boundElmtInsideWindow = (elmt, x, y) => {
 }
 
 /**
- * Updates the keyboard with the content of the dragged key.
+ * Transfers the content of the dragged key to the specified keyboard key.
+ * 
+ * @param {HTMLElement} keyboardKey - the target keyboard key
+ * @param {HTMLElement} draggableKey - the dragged key
  */
-const snapToKeyboard = (keyboardKey, draggableKey) => {
+const snapKeyToKeyboard = (keyboardKey, draggableKey) => {
     // -- update keyboard key styles
     keyboardKey.textContent = draggableKey.textContent
     keyboardKey.style.background = "#f6f6f4"
     keyboardKey.classList.remove('key-droppable')
+}
 
-    // -- remove draggable key, as it has been transferred to the keyboard
-    lettersZone.removeChild(draggableKey)
-    draggableKey.onmousedown = null
+
+/**
+ * Releases the specified key from the keyboard, creating a new draggable key.
+ * 
+ * @param {HTMLElement} keyboardKey - the keyboard key to release
+ * @returns {HTMLElement} - the newly created draggable key
+ */
+const releaseKeyFromKeyboard = (keyboardKey) => {
+    // -- create new draggable key with styles
+    const draggableKey = document.createElement('div')
+    draggableKey.textContent = keyboardKey.textContent
+    draggableKey.classList.add('key-draggable')
+
+    // -- update keyboard key styles
+    keyboardKey.textContent = ''
+    keyboardKey.style.background = '#e7e7e7'
+    keyboardKey.classList.add('key-droppable')
+
+    return draggableKey
 }
 
 
@@ -139,7 +152,12 @@ const onDraggableKeyMouseDown = (draggableKey, event) => {
 
         if (currKeyDroppable) {
             // We're above a key on the keyboard, 'snap' this draggable key into place
-            snapToKeyboard(currKeyDroppable, draggableKey);
+            snapKeyToKeyboard(currKeyDroppable, draggableKey);
+
+            // -- remove draggable key
+            draggableKey.onmousedown = null
+            lettersZone.removeChild(draggableKey)
+
             currKeyDroppable = null;
         };
 
@@ -155,3 +173,43 @@ draggableKeys.forEach((draggableKey) => {
         onDraggableKeyMouseDown(draggableKey, event);
     };
 });
+
+
+const keyboardElmt = document.getElementById('keyboard');
+const keyboardKeys = keyboardElmt.querySelectorAll('.key')
+
+
+keyboardKeys.forEach((keyboardKey) => {
+    keyboardKey.classList.add('key-droppable')
+
+    keyboardKey.onmousedown = (event) => {
+        if (keyboardKey.classList.contains('key-droppable')) return;
+
+        // If reached here, means there is a key in this location.
+        // Release the key
+        const draggableKey = releaseKeyFromKeyboard(keyboardKey)
+
+        lettersZone.appendChild(draggableKey)
+
+        // Appending new element moves its location, we want to keep it in same
+        // position as keyboard key, to give effect of picking it up
+        draggableKey.style.left = keyboardKey.getBoundingClientRect().left + 'px'
+        draggableKey.style.top = keyboardKey.getBoundingClientRect().top +'px'
+
+        draggableKey.onmousedown = (event) => {
+            onDraggableKeyMouseDown(draggableKey, event)
+        }
+        // 'Transfer' `onmousedown` event to the new draggable key.
+        // This allows us to use only one mouse down to pick up the new key.
+        // To do this, triggering an artificial event containing everything
+        // needed by the event handler
+        const newEvent = new MouseEvent('mousedown', {
+            clientX: event.clientX,
+            clientY: event.clientY,
+            pageX: event.pageX,
+            pageY: event.pageY
+        });
+
+        draggableKey.dispatchEvent(newEvent);
+    }
+})
