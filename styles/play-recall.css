@@ -20,50 +20,15 @@ body {
   flex-grow: 1;
 }
 
-/* Invisible key padding to help prevent the key from */
-/* getting stuck when it is dragged by its edge. */
-.key-padding {
-  /* Real size of key */
-  width: 80px;
-  height: 80px;
-
-  /* Appearance */
-  background: transparent;
-  overflow: hidden;
-
-  /* To center the visible key */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  position: absolute;
+.key {
+  background: var(--clr-light-grey);
 }
 
-.key-padding .key-draggable {
-  /* Size of key */
-  width: 55px;
-  height: 55px;
-
-  /* To center the letters */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* Appearance */
+.key-draggable {
   background: var(--clr-off-white);
-  border-radius: 0.15rem;
-  font-size: 1.25rem;
-  font-family: 'Lato';
-  color: var(--clr-dark);
-  border: 2px solid var(--clr-dark);
-  border-radius: 6px;
-
-  /* Prevents letter from getting highlighted when */
-  /* key is dragged */
-  user-select: none;
 
   /* Allow to be moved anywhere on the page */
-  position: relative;
+  position: absolute;
 
   /* Make key appear on top of other elements */
   z-index: 10;
@@ -71,5 +36,5 @@ body {
 
 .key-draggable:hover {
   cursor: pointer;
-  background: var(--clr-light-grey)
+  background: #ffe69e;
 }

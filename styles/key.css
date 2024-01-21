@@ -13,13 +13,15 @@
   align-items: center;
 
   /* Appearance */
-  background: var(--clr-off-white);
   border-radius: 0.15rem;
   font-size: 1.25rem;
   font-family: 'Lato';
   color: var(--clr-dark);
   border: 2px solid var(--clr-dark);
-  border-radius: 6px
+  border-radius: 6px;
+
+  /* Prevents user from highlighting text on key */
+  user-select: none;
 }
 
 .key-pressed {
