@@ -77,9 +77,12 @@ draggableKeys.forEach((draggableKey) => {
 
         document.addEventListener('mousemove', onMouseMove);
 
-        draggableKey.onmouseup = function() {
+        // `mouseup` event needs to be on document, not draggableKey, because
+        // sometimes when key is picked up outside its edge, its `mouseup`
+        // doesn't trigger and it continues to move
+        document.onmouseup = () => {
             document.removeEventListener('mousemove', onMouseMove);
-            draggableKey.onmouseup = null;
+            document.onmouseup = null;
 
             if (currKeyDroppable) {
                 // 'Snap' into place
