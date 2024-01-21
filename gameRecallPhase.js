@@ -18,20 +18,16 @@ keyboardKeys.forEach((key) => {
 
 // Render letters zone
 CHALLENGE_LETTERS.forEach((letter) => {
-    const keyPaddingElmt = document.createElement('div')
-    keyPaddingElmt.className = 'key-padding'
-
     const draggableKeyElmt = document.createElement('div')
+    draggableKeyElmt.classList.add('key')
     draggableKeyElmt.classList.add('key-draggable')
     draggableKeyElmt.textContent = letter
 
-    keyPaddingElmt.appendChild(draggableKeyElmt)
-
-    lettersZone.appendChild(keyPaddingElmt)
+    lettersZone.appendChild(draggableKeyElmt)
 });
 
 
-const draggableKeys = lettersZone.querySelectorAll('.key-padding');
+const draggableKeys = lettersZone.querySelectorAll('.key-draggable');
 
 
 let currKeyDroppable = null;
@@ -87,20 +83,19 @@ draggableKeys.forEach((draggableKey) => {
 
             if (currKeyDroppable) {
                 // 'Snap' into place
-                // Get coordinates of key droppable
-                const x = currKeyDroppable.getBoundingClientRect().left;
-                const y = currKeyDroppable.getBoundingClientRect().top;
+                lettersZone.removeChild(draggableKey)
 
-                // Update coordinates of dragged key to key droppable
-                // -10.5px to account for padding on the key
-                draggableKey.style.left = x - 10.5 + 'px'
-                draggableKey.style.top = y - 10.5 +'px'
+                currKeyDroppable.textContent = draggableKey.textContent
+                currKeyDroppable.style.background = "#f6f6f4"
+                currKeyDroppable.classList.remove('key-droppable')
+
+                currKeyDroppable = null
             }
         };
     };
 
     function enterKeyDroppable(elmt) {
-        elmt.style.background = '#9BA7C0';
+        elmt.style.background = '#cdcdcd';
     }
 
     function leaveKeyDroppable(elmt) {
