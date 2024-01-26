@@ -6,5 +6,101 @@ body {
 }
 
 .key {
+  /* Size of key */
+  width: 55px;
+  height: 55px;
+
+  /* Space out the key */
+  margin-left: 0.3em;
+  margin-bottom: 0.3em;
+
+  /* To center the letters */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Appearance */
   background: var(--clr-off-white);
+  border-radius: 0.15rem;
+  font-size: 1.25rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
+  border: 2px solid var(--clr-dark);
+  border-radius: 6px;
+
+  /* Prevents user from highlighting text on key */
+  user-select: none;
+}
+
+.key-pressed {
+  background-color: var(--clr-light-blue);
+}
+
+.keyboard {
+  /* To contain keyboard rows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Center at the bottom of the page */
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0%;
+
+  /* Create look of a container around the keyboard */
+  background-color: var(--clr-off-white);
+  width: 100%;
+  padding-top: 5em;
+
+  /* Fade top part of the container */
+  background: linear-gradient(to bottom, rgba(255,0,0,0), var(--clr-off-white) 30%);
+}
+
+.keyboard__row {
+  display: flex;
+  flex-direction: row;
+}
+
+.text-space {
+  /* Center on the page */
+  text-align: center;
+  position: fixed;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50ch;
+
+  /* Appearance */
+  font-size: 1.25rem;
+  font-family: 'IBM Plex Mono';
+  color: var(--clr-dark);
+  line-height: 1.5;
+  text-align: left;
+
+  /* Enforce new line on max width */
+  word-wrap: break-word;
+  position: absolute;
+
+  /* Go behind header, so text fades at the top */
+  z-index: -1;
+}
+
+.cursor {
+  animation: blink 2s infinite;
+  font-weight: 700;
+}
+
+@keyframes blink {
+  0%, 50%, 100% {
+      opacity: 0;
+  }
+  25%, 75% {
+      opacity: 1;
+  }
+}
+
+.text-space-placeholder {
+  opacity: 50%;
+  font-style: italic;
 }

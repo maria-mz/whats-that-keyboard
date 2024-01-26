@@ -1,3 +1,5 @@
+/* Styles for play-recall.html */
+
 body {
   /* Colour of grid dots */
   background-color: #41266960;
@@ -21,7 +23,54 @@ body {
 }
 
 .key {
+  /* Size of key */
+  width: 55px;
+  height: 55px;
+
+  /* Space out the key */
+  margin-left: 0.3em;
+  margin-bottom: 0.3em;
+
+  /* To center the letters */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Appearance */
   background: var(--clr-light-grey);
+  border-radius: 0.15rem;
+  font-size: 1.25rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
+  border: 2px solid var(--clr-dark);
+  border-radius: 6px;
+
+  /* Prevents user from highlighting text on key */
+  user-select: none;
+}
+
+.key-pressed {
+  background-color: var(--clr-light-blue);
+}
+
+.keyboard {
+  /* To contain keyboard rows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Create look of a container around the keyboard */
+  background-color: var(--clr-off-white);
+  width: 100%;
+  padding-top: 5em;
+
+  /* Fade top part of the container */
+  background: linear-gradient(to bottom, rgba(255,0,0,0), var(--clr-off-white) 30%);
+}
+
+.keyboard__row {
+  display: flex;
+  flex-direction: row;
 }
 
 .key-draggable {
@@ -45,9 +94,6 @@ body {
 
   /* Prevents user from highlighting text on key */
   user-select: none;
-
-  /* Allow to be moved anywhere on the page */
-  position: absolute;
 
   /* Make key appear on top of other elements */
   z-index: 10;
