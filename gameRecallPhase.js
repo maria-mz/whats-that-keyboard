@@ -7,19 +7,19 @@ import CHALLENGE_LETTERS from './challengeLetters.js';
 renderKeyboard(lettersToLayout(CHALLENGE_LETTERS), false);
 
 
-const lettersZone = document.getElementById('lettersZone');
+const gameArea = document.getElementById('gameArea');
 
-// Render letters zone
+// Render game area
 CHALLENGE_LETTERS.forEach((letter) => {
     const draggableKeyElmt = document.createElement('div')
     draggableKeyElmt.classList.add('key-draggable')
     draggableKeyElmt.textContent = letter
 
-    lettersZone.appendChild(draggableKeyElmt)
+    gameArea.appendChild(draggableKeyElmt)
 });
 
 
-const draggableKeys = lettersZone.querySelectorAll('.key-draggable');
+const draggableKeys = gameArea.querySelectorAll('.key-draggable');
 
 
 
@@ -67,12 +67,12 @@ const boundElmtInsideWindow = (elmt, x, y) => {
 
 /**
  * Transfers the content of the dragged key to the specified keyboard key.
+ * This makes the keyboard key no longer 'droppable'.
  * 
  * @param {HTMLElement} keyboardKey - the target keyboard key
  * @param {HTMLElement} draggableKey - the dragged key
  */
 const snapKeyToKeyboard = (keyboardKey, draggableKey) => {
-    // -- update keyboard key styles
     keyboardKey.textContent = draggableKey.textContent
     keyboardKey.style.background = "#f6f6f4"
     keyboardKey.classList.remove('key-droppable')
@@ -81,17 +81,16 @@ const snapKeyToKeyboard = (keyboardKey, draggableKey) => {
 
 /**
  * Releases the specified key from the keyboard, creating a new draggable key.
+ * This makes the keyboard key now 'droppable'.
  * 
  * @param {HTMLElement} keyboardKey - the keyboard key to release
- * @returns {HTMLElement} - the newly created draggable key
+ * @returns {HTMLElement} - the newly-created, stylized, draggable key
  */
 const releaseKeyFromKeyboard = (keyboardKey) => {
-    // -- create new draggable key with styles
     const draggableKey = document.createElement('div')
     draggableKey.textContent = keyboardKey.textContent
     draggableKey.classList.add('key-draggable')
 
-    // -- update keyboard key styles
     keyboardKey.textContent = ''
     keyboardKey.style.background = '#e7e7e7'
     keyboardKey.classList.add('key-droppable')
@@ -109,7 +108,7 @@ const onDraggableKeyMouseDown = (draggableKey, event) => {
     const shiftY = event.clientY - draggableKey.getBoundingClientRect().top;
 
     // Append again to make sure it appears on top of other draggable keys
-    lettersZone.appendChild(draggableKey);
+    gameArea.appendChild(draggableKey);
 
     function onMouseMove(event) {
         let newX = event.pageX - shiftX;
@@ -154,9 +153,9 @@ const onDraggableKeyMouseDown = (draggableKey, event) => {
             // We're above a key on the keyboard, 'snap' this draggable key into place
             snapKeyToKeyboard(currKeyDroppable, draggableKey);
 
-            // -- remove draggable key
+            // Remove draggable key
             draggableKey.onmousedown = null
-            lettersZone.removeChild(draggableKey)
+            gameArea.removeChild(draggableKey)
 
             currKeyDroppable = null;
         };
@@ -189,7 +188,7 @@ keyboardKeys.forEach((keyboardKey) => {
         // Release the key
         const draggableKey = releaseKeyFromKeyboard(keyboardKey)
 
-        lettersZone.appendChild(draggableKey)
+        gameArea.appendChild(draggableKey)
 
         // Appending new element moves its location, we want to keep it in same
         // position as keyboard key, to give effect of picking it up
