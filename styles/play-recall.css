@@ -12,12 +12,12 @@ body {
   flex-direction: column;
 }
 
-.letters-zone {
+.game-area {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  /* To make letters-zone to occupy all space between the */
+  /* To make game-area to occupy all space between the */
   /* game-header and keyboard components */
   flex-grow: 1;
 }
