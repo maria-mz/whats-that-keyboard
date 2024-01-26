@@ -115,8 +115,18 @@ const onDraggableKeyMouseDown = (draggableKey, event) => {
     const shiftX = event.clientX - draggableKey.getBoundingClientRect().left;
     const shiftY = event.clientY - draggableKey.getBoundingClientRect().top;
 
-    // Append again to make sure it appears on top of other draggable keys
+    // Append outside of keyGrid (need to always do this so it appears on top of other keys)
+    // But first, need to capture current coordinates otherwise it will jump out of the grid,
+    // not giving effect of picking it up
+    const currX = draggableKey.getBoundingClientRect().left + 'px'
+    const currY = draggableKey.getBoundingClientRect().top + 'px'
+
+    draggableKey.style.position = 'absolute'
+
     gameArea.appendChild(draggableKey);
+
+    draggableKey.style.left = currX
+    draggableKey.style.top = currY
 
     function onMouseMove(event) {
         let newX = event.pageX - shiftX;
