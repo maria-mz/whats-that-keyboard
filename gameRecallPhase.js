@@ -98,6 +98,7 @@ const releaseKeyFromKeyboard = (keyboardKey) => {
     const draggableKey = document.createElement('div')
     draggableKey.textContent = keyboardKey.textContent
     draggableKey.classList.add('key-draggable')
+    draggableKey.style.position = 'absolute'
 
     keyboardKey.textContent = ''
     keyboardKey.style.background = '#e7e7e7'
