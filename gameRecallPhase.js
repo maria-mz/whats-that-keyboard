@@ -8,14 +8,22 @@ renderKeyboard(lettersToLayout(CHALLENGE_LETTERS), false);
 
 
 const gameArea = document.getElementById('gameArea');
+const keyGrid = document.getElementById('keyGrid')
 
 // Render game area
-CHALLENGE_LETTERS.forEach((letter) => {
+const sortedLetters = CHALLENGE_LETTERS.sort((a, b) => a.localeCompare(b))
+
+sortedLetters.forEach((letter) => {
+    const gridCellElmt = document.createElement('div')
+    gridCellElmt.id = letter
+
+    keyGrid.appendChild(gridCellElmt)
+
     const draggableKeyElmt = document.createElement('div')
     draggableKeyElmt.classList.add('key-draggable')
     draggableKeyElmt.textContent = letter
 
-    gameArea.appendChild(draggableKeyElmt)
+    gridCellElmt.appendChild(draggableKeyElmt)
 });
 
 

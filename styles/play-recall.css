@@ -103,3 +103,14 @@ body {
   cursor: pointer;
   background: #ffe69e;
 }
+
+.key-draggable:active {
+  cursor: grab;
+}
+
+.key-grid {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.9em; /* x3 gap between keyboard keys */
+}
