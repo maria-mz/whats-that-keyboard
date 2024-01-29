@@ -18,12 +18,8 @@ class TextSpace {
         this.setEmptyState()
     }
 
-    render(parentElmt) {
-        parentElmt.appendChild(this.textSpaceElmt)
-    }
-
-    remove() {
-        this.textSpaceElmt.remove()
+    getTextSpaceElmt() {
+        return this.textSpaceElmt;
     }
 
     setEmptyState() {
