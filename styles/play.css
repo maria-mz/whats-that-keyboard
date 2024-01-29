@@ -1,0 +1,174 @@
+:root {
+  --clr-dark: #404040;
+  --clr-navy: #1B1B3A;
+  --clr-plum: #693668;
+  --clr-shadow: #b4b4b4;
+  --clr-silver: #CDCDCD;
+  --clr-light-blue: #BCD3F2;
+  --clr-off-white: #f6f6f4;
+  --clr-light-grey: #e7e7e7;
+  --clr-white: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  /* Grid background */
+  background-image: linear-gradient(to right, transparent 1px, var(--clr-off-white) 2px, var(--clr-off-white) 100%), 
+                    linear-gradient(to bottom, transparent 1px, var(--clr-off-white) 2px, var(--clr-off-white) 100%);
+  background-size: 20px 20px; /* size of grid dots */
+  background-position: center center;
+
+  /* Colour of grid dots */
+  background-color: #ADD8E6;
+
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.header__game-title {
+  font-size: 1.5rem;
+  font-family: 'Lustria';
+  color: var(--clr-navy);
+  padding-bottom: 1.5em;
+}
+
+.header {
+  height: 8em;
+
+  /* Align game title */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Fade bottom part */
+  background: linear-gradient(to top, rgba(255,0,0,0), var(--clr-off-white) 30%); /* or 20%? */
+}
+
+.game-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* To make game-area to occupy all space between the */
+  /* game-header and keyboard components */
+  flex-grow: 1;
+}
+
+.key {
+  /* Size of key */
+  width: 50px;
+  height: 50px;
+
+  /* Space out the key */
+  margin-left: 0.3em;
+  margin-bottom: 0.3em;
+
+  /* To center the letters */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Appearance */
+  background: var(--clr-off-white);
+  border-radius: 0.15rem;
+  font-size: 1.15rem;
+  font-family: 'Lato';
+  color: var(--clr-dark);
+  border: 1px solid var(--clr-dark);
+  border-radius: 6px;
+
+  /* Prevents user from highlighting text on key */
+  user-select: none;
+}
+
+.key-pressed {
+  background-color: var(--clr-light-blue);
+}
+
+.game-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Create look of a container around the keyboard */
+  background-color: var(--clr-off-white);
+  width: 100%;
+  padding-top: 5em;
+
+  /* Fade top part of the container */
+  background: linear-gradient(to bottom, rgba(255,0,0,0), var(--clr-off-white) 30%);
+}
+
+.keyboard {
+  /* To contain keyboard rows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Center at the bottom of the page */
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0%;
+
+  /* Create look of a container around the keyboard */
+  background-color: var(--clr-off-white);
+  width: 100%;
+  padding-top: 5em;
+
+  /* Fade top part of the container */
+  background: linear-gradient(to bottom, rgba(255,0,0,0), var(--clr-off-white) 30%);
+}
+
+.keyboard__row {
+  display: flex;
+  flex-direction: row;
+}
+
+.text-space {
+  /* Center on the page */
+  text-align: center;
+  position: fixed;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50ch;
+
+  /* Appearance */
+  font-size: 1.15rem;
+  font-family: 'IBM Plex Mono';
+  color: var(--clr-dark);
+  line-height: 1.5;
+  text-align: left;
+
+  /* Enforce new line on max width */
+  word-wrap: break-word;
+  position: absolute;
+
+  /* Go behind header, so text fades at the top */
+  z-index: -1;
+}
+
+.text-space__cursor {
+  animation: blink 2s infinite;
+  font-weight: 700;
+}
+
+@keyframes blink {
+  0%, 50%, 100% {
+      opacity: 0;
+  }
+  25%, 75% {
+      opacity: 1;
+  }
+}
+
+.text-space__placeholder {
+  opacity: 50%;
+  font-style: italic;
+}
