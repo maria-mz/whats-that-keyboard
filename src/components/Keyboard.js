@@ -17,7 +17,7 @@ class Keyboard {
         this.keyboardElmt = document.createElement('div');
         this.keyboardElmt.id = 'keyboard';
         this.keyboardElmt.classList.add('keyboard');
-      
+
         Object.values(this.createRowElmts()).forEach((keyboardRow) => {
             this.keyboardElmt.appendChild(keyboardRow);
         });
