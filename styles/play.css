@@ -78,15 +78,24 @@ body {
   font-size: 1.15rem;
   font-family: 'Lato';
   color: var(--clr-dark);
-  border: 1px solid var(--clr-dark);
-  border-radius: 6px;
+  border-width: 1px 2px 4px 2px; /* top right bottom ("shadow") left */
+  border-style: solid;
+  border-color: var(--clr-silver);
+  border-radius: 12px;
 
   /* Prevents user from highlighting text on key */
   user-select: none;
 }
 
 .key-pressed {
-  background-color: var(--clr-light-blue);
+  /* Removes the "shadow" */
+  border-bottom-width: 2px;
+
+  /* Lowers the key a bit */
+  position: relative;
+  top: 2px;
+
+  background-color: #E0E0E0;
 }
 
 .game-input {
