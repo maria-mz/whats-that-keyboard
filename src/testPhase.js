@@ -1,21 +1,21 @@
+import { createKeyboard } from "./components/Keyboard.js";
 import { getKeyLayout } from "./utils/KeyboardUtils.js"
 import { getX, getY, moveElmtTo, boundElmtInsideWindow, sortArray } from "./utils/testPhaseUtils.js";
-
 
 let gameArea = {},
     gameInput = {},
     keyGrid = {},
     keyboard = {},
-    chKeyLayout = {},
+    keyLayout = {},
     currDroppableKey = {}
-
 
 function initElmts() {
     gameArea = document.getElementById('gameArea');
     gameInput = document.getElementById('gameInput');
 
     keyGrid = createKeyGrid();
-    keyboard = createKeyboard();
+    keyboard = createKeyboard(keyLayout);
+    setupKeyboardKeys();
 
     gameArea.appendChild(keyGrid);
     gameInput.appendChild(keyboard);
@@ -28,79 +28,39 @@ function createKeyGrid() {
     keyGrid.className = 'key-grid';
 
     // Show letters in alphabetical order
-    const sortedLetters = sortArray(Object.keys(chKeyLayout))
+    const sortedLetters = sortArray(Object.keys(keyLayout))
 
     sortedLetters.forEach((letter) => {
-        const gridCellElmt = document.createElement('div')
+        const gridCellElmt = document.createElement('div');
     
-        gridCellElmt.id = letter
-        gridCellElmt.appendChild(createDraggableKey(letter))
+        gridCellElmt.id = letter;
+        gridCellElmt.appendChild(createDraggableKey(letter));
 
-        keyGrid.appendChild(gridCellElmt)
+        keyGrid.appendChild(gridCellElmt);
     });
 
-    return keyGrid
+    return keyGrid;
 };
 
 function createDraggableKey(letter) {
-    const draggableKey = document.createElement('div')
+    const draggableKey = document.createElement('div');
 
-    draggableKey.classList.add('key');
-    draggableKey.classList.add('is-draggable');
+    draggableKey.classList.add('key', 'is-draggable');
     draggableKey.textContent = letter;
 
-    draggableKey.onmousedown = onDraggableKeyMouseDown(draggableKey)
+    draggableKey.onmousedown = onDraggableKeyMouseDown(draggableKey);
 
     return draggableKey;
 };
 
-function createKeyboard() {
-    const keyboard = document.createElement('div');
+function setupKeyboardKeys() {
+    const keyboardKeys = keyboard.querySelectorAll('.key');
 
-    keyboard.id = 'keyboard';
-    keyboard.className = 'keyboard';
-
-    Object.values(createKeyboardRows()).forEach((keyboardRow) => {
-        keyboard.appendChild(keyboardRow);
+    keyboardKeys.forEach((key) => {
+        key.classList.add('is-droppable');
+        key.textContent = '';
+        key.onmousedown = onKeyboardKeyMouseDown(key);
     });
-
-    return keyboard
-}
-
-function createKeyboardRows() {
-    const keyboardRows = {};
-
-    for (const [_, { row, idx }] of Object.entries(chKeyLayout)) {
-        if (!keyboardRows.hasOwnProperty(row)) {
-            keyboardRows[row] = createKeyboardRow(row);
-        };
-  
-        const keyElmt = createKeyboardKey(idx);
-        keyboardRows[row].appendChild(keyElmt);
-    };
-
-    return keyboardRows;
-}
-
-function createKeyboardRow(row) {
-    const keyboardRow = document.createElement('div');
-
-    keyboardRow.className = 'keyboard__row';
-    keyboardRow.id = `keyboardRow${row}`;
-
-    return keyboardRow;
-};
-
-function createKeyboardKey(idx) {
-    const keyboardKey = document.createElement('div');
-
-    keyboardKey.classList.add('key');
-    keyboardKey.classList.add('is-droppable')
-    keyboardKey.setAttribute('idx', idx);
-
-    keyboardKey.onmousedown = onKeyboardKeyMouseDown(keyboardKey)
-
-    return keyboardKey;
 };
 
 function snapKeyToKeyboard(keyboardKey, draggableKey) {
@@ -108,20 +68,20 @@ function snapKeyToKeyboard(keyboardKey, draggableKey) {
     keyboardKey.style.background = "#f6f6f4";
     keyboardKey.classList.remove('is-droppable');
 
-    draggableKey.onmousedown = null
+    draggableKey.onmousedown = null;
 
     gameArea.removeChild(draggableKey);
-}
+};
 
 const releaseKeyFromKeyboard = (keyboardKey) => {
-    const letter = keyboardKey.textContent
+    const letter = keyboardKey.textContent;
 
-    keyboardKey.textContent = ''
-    keyboardKey.style.background = '#e7e7e7'
-    keyboardKey.classList.add('is-droppable')
+    keyboardKey.textContent = '';
+    keyboardKey.style.background = '#e7e7e7';
+    keyboardKey.classList.add('is-droppable');
 
-    return createDraggableKey(letter)
-}
+    return createDraggableKey(letter);
+};
 
 function onDraggableKeyMouseDown(draggableKey) {
     let isFirstEvent = true;
@@ -152,10 +112,10 @@ function onDraggableKeyMouseDown(draggableKey) {
 
 function onMouseMove(draggableKey, shiftX, shiftY) {
     return function(e) {
-        const newX = e.pageX - shiftX
-        const newY = e.pageY - shiftY
+        const newX = e.pageX - shiftX;
+        const newY = e.pageY - shiftY;
 
-        moveElmtTo(draggableKey, newX, newY)
+        moveElmtTo(draggableKey, newX, newY);
         boundElmtInsideWindow(draggableKey);
 
         // Momentarily set `display` style to 'none' to capture element below
@@ -185,7 +145,7 @@ function onMouseMove(draggableKey, shiftX, shiftY) {
 
 function onDocMouseUp(draggableKey) {
     return function(e) {
-        document.onmousemove = null
+        document.onmousemove = null;
 
         if (currDroppableKey) {
             // Letting go above a spot on the keyboard
@@ -195,7 +155,7 @@ function onDocMouseUp(draggableKey) {
 
         document.onmouseup = null;
     };
-}
+};
 
 function onKeyboardKeyMouseDown(keyboardKey) {
     return function(e) {
@@ -224,8 +184,9 @@ function onKeyboardKeyMouseDown(keyboardKey) {
 };
 
 function beginTestPhase(challengeLetters) {
-    chKeyLayout = getKeyLayout(challengeLetters);
+    keyLayout = getKeyLayout(challengeLetters);
     currDroppableKey = null;
+
     initElmts();
 }
 

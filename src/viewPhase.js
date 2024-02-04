@@ -1,27 +1,23 @@
-import TextSpace from './components/TextSpace.js';
-import Keyboard from './components/Keyboard.js';
 import beginTestPhase from './testPhase.js';
-
+import { createKeyboard, getKeyboardKeyByLoc } from './components/Keyboard.js';
+import { getKeyLayout, getMappedLetter, isLetter } from './utils/KeyboardUtils.js';
 
 let gameArea = {},
     gameInput = {},
-    textSpace = {},
     keyboard = {},
     testBtn = {},
-    chLetters = []
-
+    chLetters = [],
+    keyLayout = {},
+    mapToLetter
 
 function initElmts() {
     gameArea = document.getElementById('gameArea');
     gameInput = document.getElementById('gameInput');
 
-    textSpace = new TextSpace();
-    keyboard = new Keyboard(textSpace, chLetters);
-
-    gameArea.appendChild(textSpace.getTextSpaceElmt());
-    gameInput.appendChild(keyboard.getKeyboardElmt());
-
+    keyboard = createKeyboard(keyLayout)
     testBtn = createTestBtn();
+
+    gameInput.appendChild(keyboard);
     gameInput.appendChild(testBtn);
 };
 
@@ -33,26 +29,47 @@ function createTestBtn() {
     testBtn.id = 'testMeBtn';
 
     testBtn.addEventListener('click', (e) => {
-        textSpace.getTextSpaceElmt().remove()
-        keyboard.getKeyboardElmt().remove()
-    
-        testBtn.click = null;
-        testBtn.remove()
+        keyboard.remove();
 
-        beginTestPhase(chLetters)
+        testBtn.click = null;
+        testBtn.remove();
+
+        document.removeEventListener('keydown', onKeyDown);
+        document.removeEventListener('keyup', onKeyUp);
+
+        beginTestPhase(chLetters);
     });
 
     return testBtn;
 }
 
+function onKeyDown(e) {
+    if (!isLetter(e.key)) return;
+
+    const loc = keyLayout[mapToLetter(e.key.toUpperCase())];
+    const keyboardKey = getKeyboardKeyByLoc(loc.row, loc.idx);
+
+    keyboardKey.classList.add('key-pressed');
+}
+
+function onKeyUp(e) {
+    if (!isLetter(e.key)) return;
+
+    const loc = keyLayout[mapToLetter(e.key.toUpperCase())];
+    const keyboardKey = getKeyboardKeyByLoc(loc.row, loc.idx);
+
+    keyboardKey.classList.remove('key-pressed');
+};
+
 function beginViewPhase(challengeLetters) {
-    chLetters = challengeLetters
+    chLetters = challengeLetters;
+    keyLayout = getKeyLayout(chLetters);
+    mapToLetter = getMappedLetter(keyLayout);
 
     initElmts();
 
-    document.addEventListener('keydown', keyboard.keydownEventHandler.bind(keyboard))
-    document.addEventListener('keyup', keyboard.keyupEventHandler.bind(keyboard))
-}
-
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup', onKeyUp);
+};
 
 export default beginViewPhase;

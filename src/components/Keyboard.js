@@ -1,105 +1,53 @@
-import { getKeyLayout, getMappedLetter, isLetter, convertCharCase } from '../utils/KeyboardUtils.js';
+function createKeyboard(keyLayout) {
+    const keyboard = document.createElement('div');
 
+    keyboard.id = 'keyboard';
+    keyboard.className = 'keyboard';
 
-const SPACE_KEY = ' '
-const ENTER_KEY = 'Enter'
-const BACKSPACE_KEY = 'Backspace'
+    Object.values(createKeyboardRows(keyLayout)).forEach((keyboardRow) => {
+        keyboard.appendChild(keyboardRow);
+    });
 
-
-class Keyboard {
-    constructor(textSpace, challengeLetters) {
-        this.textSpace = textSpace;
-
-        this.challengeKeyLayout = getKeyLayout(challengeLetters);
-        this.getMappedLetter = getMappedLetter(this.challengeKeyLayout);
-
-        this.keyboardElmt = document.createElement('div');
-        this.keyboardElmt.id = 'keyboard';
-        this.keyboardElmt.classList.add('keyboard');
-
-        Object.values(this.createRowElmts()).forEach((keyboardRow) => {
-            this.keyboardElmt.appendChild(keyboardRow);
-        });
-    };
-
-    getKeyboardElmt() {
-        return this.keyboardElmt;
-    };
-
-    // -- Event Handler methods 
-    keydownEventHandler(e) {
-        if (e.key === SPACE_KEY) {
-            this.textSpace.addChar('\u00A0');
-            return;
-        };
-        if (e.key === ENTER_KEY) {
-            this.textSpace.addNewLine();
-            return;
-        };
-        if (e.key === BACKSPACE_KEY) {
-            this.textSpace.deleteChar();
-            return;
-        };
-        if (!isLetter(e.key)) return;
-
-        const mappedLetter = this.getMappedLetter(e.key.toUpperCase());
-        const keyLoc = this.challengeKeyLayout[mappedLetter];
-
-        this.textSpace.addChar(convertCharCase(e.key, mappedLetter));
-
-        const keyElement = document.getElementById(`keyboardRow${keyLoc.row}`)
-            .querySelector(`[idx="${keyLoc.idx}"]`);
-
-        keyElement.classList.add('key-pressed');
-    };
-
-    keyupEventHandler(e) {
-        if (!isLetter(e.key)) return;
-
-        const mappedLetter = this.getMappedLetter(e.key.toUpperCase());
-        const keyLoc = this.challengeKeyLayout[mappedLetter];
-
-        const keyElement = document.getElementById(`keyboardRow${keyLoc.row}`)
-            .querySelector(`[idx="${keyLoc.idx}"]`);
-
-        keyElement.classList.remove('key-pressed');
-    };
-
-    // -- Helper methods
-    createKeyElmt(idx, letter) {
-        const keyElmt = document.createElement('div');
-    
-        keyElmt.classList.add('key');
-        keyElmt.classList.add('keyboard-key')
-        keyElmt.textContent = letter.toUpperCase();
-        keyElmt.setAttribute('idx', idx);
-    
-        return keyElmt;
-    };
-
-    createRowElmt(row) {
-        const keyboardRowElmt = document.createElement('div');
-    
-        keyboardRowElmt.className = 'keyboard__row';
-        keyboardRowElmt.id = `keyboardRow${row}`;
-    
-        return keyboardRowElmt;
-    };
-
-    createRowElmts() {
-        const keyboardRowElmts = {};
-
-        for (const [letter, { row, idx }] of Object.entries(this.challengeKeyLayout)) {
-            if (!keyboardRowElmts.hasOwnProperty(row)) {
-                keyboardRowElmts[row] = this.createRowElmt(row);
-            };
-      
-            const keyElmt = this.createKeyElmt(idx, letter);
-            keyboardRowElmts[row].appendChild(keyElmt);
-        };
-
-        return keyboardRowElmts;
-    };
+    return keyboard;
 };
 
-export default Keyboard;
+function createKeyboardRows(keyLayout) {
+    const keyboardRows = {};
+
+    for (const [letter, { row, idx }] of Object.entries(keyLayout)) {
+        if (!keyboardRows.hasOwnProperty(row)) {
+            keyboardRows[row] = createKeyboardRow(row);
+        };
+  
+        const keyElmt = createKeyboardKey(idx, letter);
+        keyboardRows[row].appendChild(keyElmt);
+    };
+
+    return keyboardRows;
+};
+
+function createKeyboardRow(row) {
+    const keyboardRow = document.createElement('div');
+
+    keyboardRow.className = 'keyboard__row';
+    keyboardRow.id = `keyboardRow${row}`;
+
+    return keyboardRow;
+};
+
+function createKeyboardKey(idx, letter) {
+    const keyboardKey = document.createElement('div');
+
+    keyboardKey.classList.add('key');
+    keyboardKey.textContent = letter.toUpperCase();
+    keyboardKey.setAttribute('idx', idx);
+
+    return keyboardKey;
+};
+
+function getKeyboardKeyByLoc(row, idx) {
+    return document.getElementById(`keyboardRow${row}`)
+        .querySelector(`[idx="${idx}"]`);
+};
+
+export { createKeyboard, getKeyboardKeyByLoc };

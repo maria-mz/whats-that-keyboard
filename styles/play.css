@@ -212,10 +212,12 @@ body {
 }
 
 .is-droppable {
-  height: 54px;
-  width: 52px;
   background: #e7e7e7;
   border: 1px solid var(--clr-silver);
+
+  /* Adjusted heights for borders */
+  width: 52px;
+  height: 53px;
 }
 
 .is-draggable:hover {
