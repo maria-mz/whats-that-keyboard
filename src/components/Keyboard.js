@@ -1,4 +1,3 @@
-import CHALLENGE_LETTERS from '../../challengeLetters.js';
 import { getKeyLayout, getMappedLetter, isLetter, convertCharCase } from '../utils/KeyboardUtils.js';
 
 
@@ -8,10 +7,10 @@ const BACKSPACE_KEY = 'Backspace'
 
 
 class Keyboard {
-    constructor(textSpace) {
+    constructor(textSpace, challengeLetters) {
         this.textSpace = textSpace;
 
-        this.challengeKeyLayout = getKeyLayout(CHALLENGE_LETTERS);
+        this.challengeKeyLayout = getKeyLayout(challengeLetters);
         this.getMappedLetter = getMappedLetter(this.challengeKeyLayout);
 
         this.keyboardElmt = document.createElement('div');
@@ -70,7 +69,8 @@ class Keyboard {
     createKeyElmt(idx, letter) {
         const keyElmt = document.createElement('div');
     
-        keyElmt.className = 'key';
+        keyElmt.classList.add('key');
+        keyElmt.classList.add('keyboard-key')
         keyElmt.textContent = letter.toUpperCase();
         keyElmt.setAttribute('idx', idx);
     
