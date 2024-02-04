@@ -48,7 +48,6 @@ function createDraggableKey(letter) {
     draggableKey.classList.add('key');
     draggableKey.classList.add('is-draggable');
     draggableKey.textContent = letter;
-    draggableKey.style.borderBottomWidth = '1px';
 
     draggableKey.onmousedown = onDraggableKeyMouseDown(draggableKey)
 

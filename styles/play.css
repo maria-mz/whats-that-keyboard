@@ -211,6 +211,13 @@ body {
   grid-template-columns: repeat(7, 1fr);
 }
 
+.is-droppable {
+  height: 54px;
+  width: 52px;
+  background: #e7e7e7;
+  border: 1px solid var(--clr-silver);
+}
+
 .is-draggable:hover {
   cursor: pointer;
 }
