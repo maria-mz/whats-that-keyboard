@@ -56,6 +56,8 @@ body {
   /* To make game-area to occupy all space between the */
   /* game-header and keyboard components */
   flex-grow: 1;
+
+  position: relative;
 }
 
 .key {
@@ -73,10 +75,10 @@ body {
   align-items: center;
 
   /* Appearance */
-  background: var(--clr-off-white);
+  background: white;
   border-radius: 0.15rem;
   font-size: 1.15rem;
-  font-family: 'Lato';
+  font-family: 'IBM Plex Mono';
   color: var(--clr-dark);
   border-width: 1px 2px 4px 2px; /* top right bottom ("shadow") left */
   border-style: solid;
@@ -215,11 +217,146 @@ body {
   background: #e7e7e7;
   border: 1px solid var(--clr-silver);
 
-  /* Adjusted heights for borders */
+  /* Adjusted lengths for borders */
   width: 52px;
   height: 53px;
 }
 
 .is-draggable:hover {
   cursor: pointer;
+}
+
+
+/* Sequences Input */
+.seq-input__container {
+  width: 46ch;
+}
+
+.seq-input__instr-text {
+  color: var(--clr-dark);
+  font-size: 1rem;
+  font-family: 'Lustria';
+}
+
+.seq-input__field-container {
+  display: flex;
+  height: 2.5em; /* Set a fixed height for the container */
+}
+
+.seq-input__field {
+  border-color: var(--clr-silver);
+  border-style: solid;
+  border-radius: 6px;
+  border-width: 1px;
+  color: var(--clr-navy);
+  flex: 1;
+  font-size: 1rem;
+  font-family: 'IBM Plex Mono';
+  padding: 0.5em;
+}
+
+.seq-input__field:focus {
+  border-color: var(--clr-dark);
+  outline: none;
+}
+
+.seq-input__add-btn {
+  background: #f3d2ac;
+  border-color: #e8b185;
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px 2px 4px 2px;
+  color: var(--clr-off-navy);
+  flex-shrink: 0;
+  font-family: 'Lustria';
+  font-size: 1rem;
+  margin-left: 5px;
+  transition: background 0.2s ease;
+  user-select: none;
+  width: 2.5em;
+}
+
+.seq-input__add-btn:hover {
+  background: #f1cfa5;
+  cursor: pointer;
+}
+
+.seq-input__add-btn:active {
+  background: #e8b185;
+}
+
+
+/* Sequences List */
+.seq-list__container {
+  position: absolute;
+  right: 50px;
+  top: 0;
+  width: 40ch;
+}
+
+.seq-list__header-container {
+  align-items: center;
+  display: flex;
+}
+
+.seq-list__title {
+  color: var(--clr-navy);
+  font-size: 1.25rem;
+  font-family: 'Lustria';
+  margin: 0;
+}
+
+.seq-list__count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e7e7e7;
+  border-radius: 6px;
+  color: var(--clr-dark);
+  font-family: 'Lustria';
+  font-size: 1rem;
+  margin-left: 1em;
+  padding: 0.15em 0.5em;
+  user-select: none;
+}
+
+.seq-list {
+  padding: 0;
+  position: relative;
+}
+
+.seq-list__item-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  
+
+  border-radius: 12px;
+  height: 2.5em;
+}
+
+.seq-list__item-container:hover {
+  background-color: rgba(231, 231, 231, 0.5);
+  cursor: pointer;
+}
+
+.seq-list__item {
+  color: var(--clr-navy);
+  flex: 1;
+  font-family: 'IBM Plex Mono';
+  font-size: 1rem;
+  list-style: none;
+  padding: 0.5em 1em;  
+}
+
+.seq-list__delete-icon {
+  font-size: 1.25rem;
+  margin-right: 1em;
+  user-select: none;
+}
+
+.seq-list__delete-icon:hover {
+  color: #fe6767;
+  cursor: pointer;
+  font-weight: bold;
 }

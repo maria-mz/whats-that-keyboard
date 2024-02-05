@@ -13,7 +13,31 @@
   <header class="header">
     <p class="header__game-title">What's That Keyboard</p>
   </header>
-  <section class="game-area" id="gameArea"></section>
+  <section class="game-area" id="gameArea">
+    <section class="seq-input__container">
+      <p class="seq-input__instr-text">What words / sequences of letters can help you remember the placement of keys?</p>
+      <div class="seq-input__field-container">
+        <input type="text" class="seq-input__field" placeholder="Type a new sequence" name="add-connection">
+        <button class="seq-input__add-btn">&plus;</button>
+      </div>
+    </section>
+    <section class="seq-list__container">
+      <div class="seq-list__header-container">
+        <p class="seq-list__title">Your sequences</p>
+        <span class="seq-list__count">2</span>
+      </div>
+      <ul class="seq-list">
+        <div class="seq-list__item-container">
+          <li class="seq-list__item">hello</li>
+          <div class="seq-list__delete-icon">&times;</div>
+        </div>
+        <div class="seq-list__item-container">
+          <li class="seq-list__item">world</li>
+          <div class="seq-list__delete-icon">&times;</div>
+        </div>
+      </ul>
+    </section>
+  </section>
   <secton class="game-input" id="gameInput"></section>
   <script type="module" src="src/play.js"></script>
 </body>

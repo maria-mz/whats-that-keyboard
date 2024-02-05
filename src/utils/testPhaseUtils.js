@@ -24,7 +24,7 @@ function moveElmtTo(elmt, x, y) {
  * Adjust the current position of an HTML element `elmt` to
  * keep it within the visible window
  */
-const boundElmtInsideWindow = (elmt) => {
+function boundElmtInsideWindow(elmt) {
     const x = getX(elmt);
     const y = getY(elmt);
 
@@ -58,6 +58,5 @@ const boundElmtInsideWindow = (elmt) => {
 function sortArray(arr) {
     return arr.sort((a, b) => a.localeCompare(b));
 }
-
 
 export { getX, getY, moveElmtTo, boundElmtInsideWindow, sortArray };
