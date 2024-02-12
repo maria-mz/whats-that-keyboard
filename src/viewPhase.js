@@ -26,8 +26,6 @@ function initElmts() {
     initWordInput()
     initWordList()
 
-    setAddWordBtnEvent()
-
     keyboard = createKeyboard(keyLayout)
     testBtn = createTestBtn();
 
@@ -48,22 +46,6 @@ function initWordList() {
     wordListCount = document.getElementById('wordListCount')
 }
 
-function setAddWordBtnEvent() {
-    const addWordBtn = document.getElementById('addWordBtn');
-
-    addWordBtn.addEventListener('click', (e) => {
-        const word = wordInputText.textContent;
-
-        if (word != '') {
-            wordList.appendChild(createWordListItem(word));
-            // Clear input field
-            wordInputText.textContent = ''
-            // Increment word count
-            wordListCount.textContent = Number(wordListCount.textContent) + 1;
-        }
-    })
-}
-
 function createTestBtn() {
     const testBtn = document.createElement('div');
 
@@ -71,19 +53,31 @@ function createTestBtn() {
     testBtn.classList.add('btn');
     testBtn.id = 'testMeBtn';
 
-    testBtn.addEventListener('click', (e) => {
-        wordInputSection.remove();
-
-        keyboard.remove();
-        testBtn.remove();
-
-        document.removeEventListener('keydown', onKeyDown);
-        document.removeEventListener('keyup', onKeyUp);
-
-        beginTestPhase(chLetters);
-    });
-
     return testBtn;
+}
+
+function onTestBtnClick(e) {
+    wordInputSection.remove();
+
+    keyboard.remove();
+    testBtn.remove();
+
+    document.removeEventListener('keydown', onKeyDown);
+    document.removeEventListener('keyup', onKeyUp);
+
+    beginTestPhase(chLetters);
+}
+
+function onAddWordBtnClick(e) {
+    const word = wordInputText.textContent;
+
+    if (word != '') {
+        wordList.appendChild(createWordListItem(word));
+        // Clear input field
+        wordInputText.textContent = ''
+        // Increment word count
+        wordListCount.textContent = Number(wordListCount.textContent) + 1;
+    }
 }
 
 function onKeyDown(e) {
@@ -113,15 +107,22 @@ function onKeyUp(e) {
     keyboardKey.classList.remove('key-pressed');
 };
 
+function setEventHandlers(e) {
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup', onKeyUp);
+    testBtn.addEventListener('click', onTestBtnClick);
+
+    const addWordBtn = document.getElementById('addWordBtn');
+    addWordBtn.addEventListener('click', onAddWordBtnClick);
+}
+
 function beginViewPhase(challengeLetters) {
     chLetters = challengeLetters;
     keyLayout = getKeyLayout(chLetters);
     mapToLetter = getMappedLetter(keyLayout);
 
     initElmts();
-
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('keyup', onKeyUp);
+    setEventHandlers();
 };
 
 export default beginViewPhase;
