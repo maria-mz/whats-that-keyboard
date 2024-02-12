@@ -2,12 +2,14 @@ import { createKeyboard } from "./components/Keyboard.js";
 import { getKeyLayout } from "./utils/KeyboardUtils.js"
 import { getX, getY, moveElmtTo, boundElmtInsideWindow, sortArray } from "./utils/testPhaseUtils.js";
 
+
 let gameArea = {},
     gameInput = {},
     keyGrid = {},
     keyboard = {},
     keyLayout = {},
     currDroppableKey = {}
+
 
 function initElmts() {
     gameArea = document.getElementById('gameArea');
@@ -65,12 +67,12 @@ function setupKeyboardKeys() {
 
 function snapKeyToKeyboard(keyboardKey, draggableKey) {
     keyboardKey.textContent = draggableKey.textContent;
-    keyboardKey.style.background = "#f6f6f4";
+    keyboardKey.style.background = '#ffffff';
     keyboardKey.classList.remove('is-droppable');
 
     draggableKey.onmousedown = null;
 
-    gameArea.removeChild(draggableKey);
+    draggableKey.remove();
 };
 
 const releaseKeyFromKeyboard = (keyboardKey) => {
@@ -90,16 +92,30 @@ function onDraggableKeyMouseDown(draggableKey) {
         const x = getX(draggableKey);
         const y = getY(draggableKey);
 
-        const shiftX = e.clientX - x;
-        const shiftY = e.clientY - y;
-
         if (isFirstEvent) {
+            // Update coordinates to the same position, prevents key from
+            // jumping to top left corner
             moveElmtTo(draggableKey, x, y);
+
+            // This allows key to be held + moved around
             draggableKey.style.position = 'absolute';
+
+            // Remove draggable key from the grid.
+            // Need to append to document body and not `gameArea`, since
+            // it has relative positioning which makes updating key's
+            // coordinates more complicated.
+            // But document body makes sense, since you can move this key
+            // anywhere on the page
+            document.body.append(draggableKey);
             isFirstEvent = false;
         };
 
-        gameArea.appendChild(draggableKey);
+
+        // These shifts ensure that when the element moves, it stays where it
+        // was picked up by the cursor. Otherwise it will jump to be centered
+        // under the cursor
+        const shiftX = e.clientX - x;
+        const shiftY = e.clientY - y;
 
         document.onmousemove = onMouseMove(draggableKey, shiftX, shiftY);
 
@@ -166,7 +182,7 @@ function onKeyboardKeyMouseDown(keyboardKey) {
         draggableKey.style.position = 'absolute';
         moveElmtTo(draggableKey, getX(keyboardKey), getY(keyboardKey))
 
-        gameArea.appendChild(draggableKey);
+        document.body.append(draggableKey);
 
         // 'Transfer' `onmousedown` event to the new draggable key.
         // This allows us to use only one mouse down to pick up the new key.
