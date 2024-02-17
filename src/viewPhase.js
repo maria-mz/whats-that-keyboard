@@ -72,12 +72,24 @@ function onAddWordBtnClick(e) {
     const word = wordInputText.textContent;
 
     if (word != '') {
-        wordList.appendChild(createWordListItem(word));
-        // Clear input field
+        addWordListItem(word)
         wordInputText.textContent = ''
-        // Increment word count
-        wordListCount.textContent = Number(wordListCount.textContent) + 1;
+        wordListCount.textContent = +wordListCount.textContent + 1;
     }
+}
+
+function addWordListItem(word) {
+    const newWordListItem = createWordListItem(word);
+
+    const deleteIcon = newWordListItem.querySelector('.word-list__delete-icon');
+
+    // Allow the word to be deleted
+    deleteIcon.addEventListener('click', (e) => {
+        newWordListItem.remove();
+        wordListCount.textContent = +wordListCount.textContent - 1;
+    });
+
+    wordList.appendChild(newWordListItem);
 }
 
 function onKeyDown(e) {
