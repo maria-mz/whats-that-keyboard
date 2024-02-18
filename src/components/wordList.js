@@ -39,7 +39,7 @@ function createWordListItem(word) {
     listItem.className = 'word-list__item';
 
     const deleteIcon = document.createElement('span');
-    deleteIcon.textContent = '×';
+    deleteIcon.textContent = 'x';
     deleteIcon.className = 'word-list__delete-icon';
 
     listItem.appendChild(deleteIcon);

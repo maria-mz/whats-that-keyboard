@@ -3,7 +3,7 @@ import { createWordInputSection } from './components/wordInput.js';
 import { createWordListSection, createWordListItem } from './components/wordList.js';
 import { createKeyboard, getKeyboardKeyByLoc } from './components/Keyboard.js';
 import { getKeyLayout, getMappedLetter, isLetter, convertCharCase } from './utils/KeyboardUtils.js';
-
+import { removeArrayVal } from './utils/viewPhaseUtils.js';
 
 let gameArea = {},
     wordInputSection = {},
@@ -11,6 +11,7 @@ let gameArea = {},
     wordListSection = {},
     wordListCount = {},
     wordList = {},
+    addedWords = [],
     gameInput = {},
     keyboard = {},
     testBtn = {},
@@ -56,7 +57,7 @@ function createTestBtn() {
     return testBtn;
 }
 
-function onTestBtnClick(e) {
+function onTestBtnClick() {
     wordInputSection.remove();
 
     keyboard.remove();
@@ -68,13 +69,19 @@ function onTestBtnClick(e) {
     beginTestPhase(chLetters);
 }
 
-function onAddWordBtnClick(e) {
+function onAddWordBtnClick() {
     const word = wordInputText.textContent;
 
-    if (word != '') {
+    if (word in addedWords) return;
+
+    if (word != '' && !addedWords.includes(word)) {
+        // Update view
         addWordListItem(word)
         wordInputText.textContent = ''
         wordListCount.textContent = +wordListCount.textContent + 1;
+
+        // Update `addedWords` state
+        addedWords.push(word)
     }
 }
 
@@ -82,11 +89,13 @@ function addWordListItem(word) {
     const newWordListItem = createWordListItem(word);
 
     const deleteIcon = newWordListItem.querySelector('.word-list__delete-icon');
-
-    // Allow the word to be deleted
-    deleteIcon.addEventListener('click', (e) => {
+    deleteIcon.addEventListener('click', () => {
+        // Update view
         newWordListItem.remove();
         wordListCount.textContent = +wordListCount.textContent - 1;
+
+        // Update `addedWords` state
+        removeArrayVal(addedWords, newWordListItem.textContent);
     });
 
     wordList.appendChild(newWordListItem);
@@ -94,7 +103,13 @@ function addWordListItem(word) {
 
 function onKeyDown(e) {
     if (e.key == 'Backspace') {
+        // Delete the last character
         wordInputText.textContent = wordInputText.textContent.slice(0, -1);
+        return;
+    }
+
+    if (e.key == 'Enter') {
+        onAddWordBtnClick()
         return;
     }
 
@@ -119,7 +134,7 @@ function onKeyUp(e) {
     keyboardKey.classList.remove('key-pressed');
 };
 
-function setEventHandlers(e) {
+function setEventHandlers() {
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keyup', onKeyUp);
     testBtn.addEventListener('click', onTestBtnClick);
