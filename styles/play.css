@@ -208,7 +208,7 @@ body {
   grid-template-columns: repeat(7, 1fr);
 }
 
-.key-is-hidden {
+.key-hidden-keycap {
   background: #e7e7e7;
   border: 1px solid var(--clr-silver);
 

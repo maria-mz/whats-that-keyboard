@@ -1,5 +1,8 @@
 import { publishEvent } from "./eventBus.js";
 
+// TODO: define this in one place
+const NO_GUESS_STR = ''
+
 /**
  * @class GameModel
  * 
@@ -25,7 +28,7 @@ class GameModel {
         // TODO: Get values from local storage, if not, start by
         // having no guess for each letter
         this.todaysLetterList.forEach((letter) => {
-            this.keyGuesses[letter] = '';
+            this.keyGuesses[letter] = NO_GUESS_STR;
         });
     };
 
@@ -64,6 +67,8 @@ class GameModel {
     };
 
     updateKeyGuess(keyLetter, newGuess) {
+        // TODO: Check if key is a valid word
+
         this.keyGuesses[keyLetter] = newGuess;
         // TODO: Save to local storage
 

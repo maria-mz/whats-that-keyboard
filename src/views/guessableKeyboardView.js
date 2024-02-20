@@ -3,17 +3,7 @@ import { publishEvent, subscribeEvent } from '../eventBus.js';
 
 
 /**
- * Represents the current visibility of a keycap on a key
- * 
- * @const {object} KeycapVisibility
- */
-const KeycapVisibility = {
-    VISIBLE: 'visible',
-    HIDDEN: 'hidden'
-};
-
-/**
- * Represents the current hover state of a key
+ * Represents the hover state of a key
  * 
  * @const {object} KeyHoverState
  */
@@ -21,6 +11,10 @@ const KeyHoverState = {
     ACTIVE: 'active',
     INACTIVE: 'inactive'
 };
+
+const HOVER_BG_HEX = '#cdcdcd'
+// TODO: define this in one place
+const NO_GUESS_STR = ''
 
 
 /**
@@ -32,28 +26,28 @@ class GuessableKeyboardView extends KeyboardView {
     constructor(keysLayout, keyGuesses) {
         super(keysLayout);
 
-        this.letterToCapVis = {};
-        this.letterToHoverState = {};
-
-        this._initHoverState();
-        this._initClickPublishing();
+        this._setupGuessableKeys();
         this._subscribeToEvents();
 
         this._updateKeyboard(keyGuesses);
     };
 
-    _initHoverState() {
-        Object.keys(this.letterToKeyDiv).forEach((letter) => {
-            this.letterToHoverState[letter] = KeyHoverState.INACTIVE
-        });
+    _setupGuessableKeys() {
+        for (const [letter, keyDiv] of Object.entries(this.letterToKeyDiv)) {
+            // 1. Add event listener for removing a guess
+            keyDiv.addEventListener('click', () => {
+                if (this._keyHasGuess(letter)) {
+                    publishEvent('keyboardViewGuessRemoved', letter);
+                };
+            });
+
+            // 2. Add relevant class name
+            keyDiv.classList.add('guessable-key');
+        };
     };
 
-    _initClickPublishing() {
-        for (const [letter, keyDiv] of Object.entries(this.letterToKeyDiv)) {
-            keyDiv.addEventListener('click', () => {
-                publishEvent('keyboardKeyClicked', letter);
-            });
-        };
+    _keyHasGuess(letter) {
+        return this.letterToKeyDiv[letter].textContent !== NO_GUESS_STR;
     };
 
     _subscribeToEvents() {
@@ -65,44 +59,40 @@ class GuessableKeyboardView extends KeyboardView {
     _updateKeyboard(keyGuesses) {
         for (const [letter, guess] of Object.entries(keyGuesses)) {
             this._setKeyGuess(letter, guess);
-
-            if (guess === '') {
-                this._setKeyVisibility(letter, KeycapVisibility.HIDDEN);
-            }
-            else {
-                this._setKeyVisibility(letter, KeycapVisibility.VISIBLE);
-            };
         };
-    };
-
-    _setKeyVisibility(letter, visibility) {
-        const keyDiv = this.letterToKeyDiv[letter];
-
-        if (visibility === KeycapVisibility.VISIBLE) {
-            keyDiv.classList.remove('key-is-hidden');
-            this.enableTypingKey(letter);
-        }
-        else if (visibility === KeycapVisibility.HIDDEN) {
-            keyDiv.classList.add('key-is-hidden');
-            this.disableTypingKey(letter);
-        }
-        else {
-            throw new Error(`Invalid 'KeycapVisibility' = ${visibility}`);
-        };
-
-        this.letterToCapVis[letter] = visibility;
     };
 
     _setKeyGuess(letter, guess) {
         const keyDiv = this.letterToKeyDiv[letter];
         keyDiv.textContent = guess;
+
+        if (guess === NO_GUESS_STR) {
+            this._hideKeyCap(letter);
+        }
+        else {
+            this._showKeyCap(letter);
+        };
+    };
+
+    _hideKeyCap(letter) {
+        const keyDiv = this.letterToKeyDiv[letter];
+        keyDiv.classList.add('key-hidden-keycap');
+
+        this.disableTypingKey(letter);
+    };
+
+    _showKeyCap(letter) {
+        const keyDiv = this.letterToKeyDiv[letter];
+        keyDiv.classList.remove('key-hidden-keycap');
+
+        this.enableTypingKey(letter);
     };
 
     setKeyHoverState(letter, state) {
         const keyDiv = this.letterToKeyDiv[letter];
 
         if (state === KeyHoverState.ACTIVE) {
-            keyDiv.style.background = '#cdcdcd';
+            keyDiv.style.background = HOVER_BG_HEX;
         }
         else if (state === KeyHoverState.INACTIVE) {
             keyDiv.style.background = '';
@@ -110,9 +100,7 @@ class GuessableKeyboardView extends KeyboardView {
         else {
             throw new Error(`Invalid 'KeyHoverState' = ${state}`);
         };
-
-        this.letterToHoverState[letter] = state;
     };
 };
 
-export { GuessableKeyboardView, KeycapVisibility, KeyHoverState };
+export { GuessableKeyboardView, KeyHoverState };

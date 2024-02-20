@@ -72,7 +72,7 @@ class KeyboardView {
         const keyDiv = document.createElement('div');
 
         keyDiv.setAttribute('key-face-letter', letter);
-        keyDiv.classList.add('key', 'keyboard-key');
+        keyDiv.classList.add('key');
         keyDiv.textContent = letter.toUpperCase();
 
         return keyDiv;
