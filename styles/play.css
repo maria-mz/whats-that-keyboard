@@ -14,14 +14,8 @@ body {
   margin: 0;
   padding: 0;
 
-  /* Grid background */
-  background-image: linear-gradient(to right, transparent 1px, var(--clr-off-white) 2px, var(--clr-off-white) 100%), 
-                    linear-gradient(to bottom, transparent 1px, var(--clr-off-white) 2px, var(--clr-off-white) 100%);
-  background-size: 20px 20px; /* size of grid dots */
-  background-position: center center;
-
   /* Colour of grid dots */
-  background-color: #ADD8E6;
+  background-color: var(--clr-off-white);
 
   display: flex;
   flex-direction: column;
@@ -194,7 +188,7 @@ body {
   border-style: solid;
   border-color: #a3cae4;
 
-  transition: background 0.2s ease;
+  transition: background 0.15s ease;
 
   user-select: none;
 }
@@ -214,7 +208,7 @@ body {
   grid-template-columns: repeat(7, 1fr);
 }
 
-.is-droppable {
+.key-is-hidden {
   background: #e7e7e7;
   border: 1px solid var(--clr-silver);
 
@@ -241,7 +235,7 @@ body {
 
 .word-input__field-container {
   display: flex;
-  height: 2.5em;
+  height: 50px;
 }
 
 .word-input__field {
@@ -252,10 +246,12 @@ body {
   border-width: 1px;
   color: var(--clr-navy);
   flex: 1;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-family: 'IBM Plex Mono';
   padding: 0.5em;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .word-input__cursor {
@@ -273,28 +269,29 @@ body {
 }
 
 .word-input__add-btn {
-  background: #f3d2ac;
-  border-color: #e8b185;
+  background: #d5e6f2;
+  border-color: #a3cae4;
   border-radius: 6px;
   border-style: solid;
   border-width: 1px 2px 4px 2px;
   color: var(--clr-off-navy);
   flex-shrink: 0;
   font-family: 'Lustria';
-  font-size: 1rem;
+  font-size: 1.15rem;
+  font-weight: bold;
   margin-left: 5px;
-  transition: background 0.2s ease;
+  transition: background 0.15s ease;
   user-select: none;
-  width: 2.5em;
+  width: 50px;  /* Same as field container height */
 }
 
 .word-input__add-btn:hover {
-  background: #f1cfa5;
+  background: #bcd8eb;
   cursor: pointer;
 }
 
 .word-input__add-btn:active {
-  background: #e8b185;
+  background: #a3cae4;
 }
 
 
@@ -339,35 +336,32 @@ body {
   gap: 0.5em;
   padding: 0;
   position: relative;
-  margin-top: 0.5em;
+  margin-top: 0.75em;
 }
 
 .word-list__item {
-  background: #ebebeb;
+  background: #e9edc9;
   border: solid 1px transparent;
-  border-radius: 4px;
+  border-radius: 6px;
   color: var(--clr-navy);
   display: inline-block;
   font-family: 'IBM Plex Mono';
   font-size: 1rem;
   list-style: none;
-  padding: 0.5em 0.5em;
+  padding: 0.75em 0.75em;
   user-select: none;
+  transition: background 0.15s ease;
 }
 
 .word-list__item:hover {
-  background: #e5e5e5;
+  background: rgb(228, 234, 190);
   cursor: pointer;
 }
 
 .word-list__delete-icon {
-  font-size: 1.25rem;
-  margin-left: 0.5em;
+  color: #A2AB79;
+  font-weight: bold;
+  margin-left: 0.75em;
   margin-right: 0.25em;
   user-select: none;
-}
-
-.word-list__delete-icon:hover {
-  color: #fe6767;
-  font-weight: bold;
 }
