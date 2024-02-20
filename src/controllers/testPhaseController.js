@@ -1,11 +1,15 @@
 import WordListView from "../views/wordListView.js";
 import { GuessableKeyboardView, KeyHoverState } from "../views/guessableKeyboardView.js";
-import { DraggableKeysView } from "../views/draggableKeysView.js";
+import { GuessingKeysView } from "../views/guessingKeysView.js";
 
 import GameModel from "../gameModel.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
+
+
+// TODO: define this in one place
+const NO_GUESS_STR = ''
 
 
 /**
@@ -25,7 +29,7 @@ class TestPhaseController {
         const keysLayout = getKeyLayout(todaysLetterList);
 
         this._initKeyboardView(keysLayout);
-        this._initDraggableKeysView(todaysLetterList);
+        this._initGuessingKeysView(todaysLetterList);
         this._initWordsListView();
 
         this._subscribeToEvents();
@@ -41,12 +45,12 @@ class TestPhaseController {
         this.keyboardView.enableTyping();
     };
 
-    _initDraggableKeysView(todaysLetterList) {
-        // TODO: Display draggable keys aligned with model progress
-        this.draggableKeysView = new DraggableKeysView(
+    _initGuessingKeysView(todaysLetterList) {
+        // TODO: Display guessing keys aligned with model progress
+        this.guessingKeysView = new GuessingKeysView(
             todaysLetterList, this.model.getKeyGuesses()
         );
-        this.draggableKeysView.displayDraggableKeysGrid();
+        this.guessingKeysView.displayFreeKeysGrid();
     };
 
     _initWordsListView() {
@@ -60,93 +64,80 @@ class TestPhaseController {
      */
     _subscribeToEvents() {
         subscribeEvent(
-            'draggableKeyLeftKeyboardKey',
-            this._onDraggableKeyLeftKeyboardKey.bind(this)
+            'guessingKeyEnteredGuessableKey',
+            this._setGuessableKeyHover.bind(this)
         );
         subscribeEvent(
-            'draggableKeyEnteredKeyboardKey',
-            this._onDraggableKeyEnteredKeyboardKey.bind(this)
+            'guessingKeyLeftGuessableKey',
+            this._removeGuessableKeyHover.bind(this)
         );
         subscribeEvent(
-            'draggableKeyLetGoAboveKeyboardKey',
-            this._onDraggableKeyLetGoAboveKeyboardKey.bind(this)
+            'guessingKeyReleasedOnGuessableKey',
+            this._updateGuess.bind(this)
         );
         subscribeEvent(
-            'keyboardKeyClicked',
-            this._onKeyboardKeyClicked.bind(this)
+            'keyboardViewGuessRemoved',
+            this._removeKeyGuess.bind(this)
         );
     };
 
     /**
-     * Handles the event when a draggable key has just started hovering
-     * over a key on the keyboard.
-     * 
-     * Adds an effect on the keyboard key to indicate a potential
-     * drop spot.
+     * Handles the event when a guessing key has just started hovering
+     * over a guessable key on the keyboard.
      * 
      * @param {Object} msg - letters of keys involved in this interaction
-     * @param {string} msg.letterOfDraggableKey
-     * @param {string} msg.letterOfKeyboardKey
+     * @param {string} msg.letterOfGuessingKey
+     * @param {string} msg.letterOfGuessableKey
      */
-    _onDraggableKeyEnteredKeyboardKey(msg) {
+    _setGuessableKeyHover(msg) {
         this.keyboardView.setKeyHoverState(
-            msg.letterOfKeyboardKey, KeyHoverState.ACTIVE
+            msg.letterOfGuessableKey, KeyHoverState.ACTIVE
         );
     };
 
     /**
-     * Handles the event when a draggable key has just stopped hovering
-     * over a key on the keyboard.
-     * 
-     * Removes the effect on the keyboard key that indicated a potential
-     * drop spot.
+     * Handles the event when a guessing key has just stopped hovering
+     * over a guessable key on the keyboard.
      * 
      * @param {Object} msg - letters of keys involved in this interaction
-     * @param {string} msg.letterOfDraggableKey
-     * @param {string} msg.letterOfKeyboardKey
+     * @param {string} msg.letterOfGuessingKey
+     * @param {string} msg.letterOfGuessableKey
      */
-    _onDraggableKeyLeftKeyboardKey(msg) {
+    _removeGuessableKeyHover(msg) {
         this.keyboardView.setKeyHoverState(
-            msg.letterOfKeyboardKey, KeyHoverState.INACTIVE
+            msg.letterOfGuessableKey, KeyHoverState.INACTIVE
         );
     };
 
     /**
-     * Handles the event when a draggable key is released over a
-     * key on the keyboard.
+     * Handles the event when a guessing key is released over a guessable
+     * key the keyboard.
      * 
-     * This is considered making progress in the game. The
-     * draggable key letter is the player's guess at the real
-     * keyboard key letter.
-     * 
-     * Updates the game model.
+     * This is considered making progress in the game. The guessing key
+     * letter is the player's guess at the real guessable key letter.
      * 
      * @param {Object} msg - letters of keys involved in this interaction
-     * @param {string} msg.letterOfDraggableKey
-     * @param {string} msg.letterOfKeyboardKey
+     * @param {string} msg.letterOfGuessingKey
+     * @param {string} msg.letterOfGuessableKey
      */
-    _onDraggableKeyLetGoAboveKeyboardKey(msg) {
+    _updateGuess(msg) {
         this.keyboardView.setKeyHoverState(
-            msg.letterOfKeyboardKey, KeyHoverState.INACTIVE
+            msg.letterOfGuessableKey, KeyHoverState.INACTIVE
         );
         this.model.updateKeyGuess(
-            msg.letterOfKeyboardKey, msg.letterOfDraggableKey
+            msg.letterOfGuessableKey, msg.letterOfGuessingKey
         );
     };
 
     /**
-     * Handles the event when a keyboard key is clicked.
+     * Handles the event when a guessable key that has a guess, is clicked.
      * 
-     * This is considered removing the key placed by the user
-     * on the keyboard. By default, if the user hasn't made
-     * a guess for a letter, the guess is the empty sring.
+     * This is considered removing the guess made for that key.
      * 
-     * Updates the game model.
-     * 
-     * @param {string} letterOfKeyboardKey
+     * @param {string} letterOfGuessableKey
      */
-    _onKeyboardKeyClicked(letterOfKeyboardKey) {
-        this.model.updateKeyGuess(letterOfKeyboardKey, '');
+    _removeKeyGuess(letterOfGuessableKey) {
+        this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
     };
 };
 
