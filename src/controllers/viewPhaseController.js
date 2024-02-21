@@ -30,8 +30,7 @@ class ViewPhaseController {
 
         // TODO: Display on event that starts the view phase. like 'Play' button click
         this.wordInputView.displayWordInputSection();
-        // TODO: Display words saved in model
-        this.wordListView.displayWordListSection();
+        this.wordListView.displayWordListSection(this.model.getUserWordsSet());
         this.keyboardView.displayKeyboard();
         this.keyboardView.enableTyping();
 

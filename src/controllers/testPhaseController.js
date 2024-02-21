@@ -1,6 +1,7 @@
 import WordListView from "../views/wordListView.js";
 import { GuessableKeyboardView, KeyHoverState } from "../views/guessableKeyboardView.js";
 import { GuessingKeysView } from "../views/guessingKeysView.js";
+import SubmitGuessBtnView from "../views/submitGuessBtnView.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
@@ -23,6 +24,18 @@ class TestPhaseController {
     constructor(gameModel) {
         this.model = gameModel;
 
+        subscribeEvent(
+            'testMeBtnClicked', this._beginTestPhase.bind(this)
+        );
+    };
+
+    _beginTestPhase() {
+        this._initViews();
+        this._displayViews();
+        this._subscribeToTestPhaseEvents();
+    };
+
+    _initViews() {
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
 
@@ -36,14 +49,23 @@ class TestPhaseController {
         );
         // TODO: Display words saved in model
         this.wordListView = new WordListView();
+        this.submitGuessBtnView = new SubmitGuessBtnView();
+    };
 
-        this._subscribeToEvents();
+    _displayViews() {
+        this.keyboardView.displayKeyboard();
+        this.keyboardView.enableTyping();
+        this.guessingKeysView.displayFreeKeysGrid();
+        this.wordListView.displayWordListSection(this.model.getUserWordsSet());
+        // Note, order matters here. Make sure to display button after
+        // keyboard has been displayed.
+        this.submitGuessBtnView.displaySubmitGuessBtn();
     };
 
     /**
      * Subscribe to events transmitted by views during Test Phase
      */
-    _subscribeToEvents() {
+    _subscribeToTestPhaseEvents() {
         subscribeEvent(
             'guessingKeyEnteredGuessableKey',
             this._setGuessableKeyHover.bind(this)
@@ -59,10 +81,6 @@ class TestPhaseController {
         subscribeEvent(
             'keyboardViewGuessRemoved',
             this._removeKeyGuess.bind(this)
-        );
-        subscribeEvent(
-            'testMeBtnClicked',
-            this._displayTestPhase.bind(this)
         );
     };
 
@@ -123,13 +141,6 @@ class TestPhaseController {
      */
     _removeKeyGuess(letterOfGuessableKey) {
         this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
-    };
-
-    _displayTestPhase() {
-        this.keyboardView.displayKeyboard();
-        this.keyboardView.enableTyping();
-        this.guessingKeysView.displayFreeKeysGrid();
-        this.wordListView.displayWordListSection();
     };
 };
 
