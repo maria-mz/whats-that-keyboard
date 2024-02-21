@@ -164,7 +164,7 @@ body {
   font-style: italic;
 }
 
-.btn {
+.solid-btn {
   padding: 1em 2em;
 
   display: flex;
@@ -174,32 +174,50 @@ body {
   font-size: 1rem;
   font-family: 'Lustria';
   font-weight: 900;
-  color: var(--clr-off-navy);
+
+  user-select: none;
+
   border-radius: 6px;
-  border: none;
+  border-style: solid;
+  border-width: 1px 2px 4px 2px; /* top right bottom ("shadow") left */
+
+  transition: background 0.15s ease;
+}
+
+.test-me-btn {
   background: #d5e6f2;
+  border-color: #a3cae4;
+  color: var(--clr-off-navy);
 
   margin-top: 0.9em;
   margin-bottom: 0.9em;
-
-  user-select: none;
-
-  border-width: 1px 2px 4px 2px; /* top right bottom ("shadow") left */
-  border-style: solid;
-  border-color: #a3cae4;
-
-  transition: background 0.15s ease;
-
-  user-select: none;
 }
 
-.btn:hover {
+.test-me-btn:hover {
   cursor: pointer;
   background: #bcd8eb;
 }
 
-.btn:active {
+.test-me-btn:active {
   background: #a3cae4;
+}
+
+.submit-guess-btn {
+  background: #b3e0dc;
+  border-color: #81cdc6;
+  color: var(--clr-off-navy);
+
+  margin-top: 0.9em;
+  margin-bottom: 0.9em;
+}
+
+.submit-guess-btn:hover {
+  cursor: pointer;
+  background: #97d6d1;
+}
+
+.submit-guess-btn:active {
+  background: #81cdc6;
 }
 
 .key-grid {
@@ -340,10 +358,10 @@ body {
 }
 
 .word-list__item {
-  background: #e9edc9;
+  background: #ebebeb;
   border: solid 1px transparent;
   border-radius: 6px;
-  color: var(--clr-navy);
+  color: #6D435A;
   display: inline-block;
   font-family: 'IBM Plex Mono';
   font-size: 1rem;
@@ -354,12 +372,13 @@ body {
 }
 
 .word-list__item:hover {
-  background: rgb(228, 234, 190);
+  background: #e5e5e5;
   cursor: pointer;
 }
 
 .word-list__delete-icon {
-  color: #A2AB79;
+  color: #6D435A;
+  opacity: 0.5;
   font-weight: bold;
   margin-left: 0.75em;
   margin-right: 0.25em;
