@@ -1,13 +1,10 @@
 import WordInputView from "../views/wordInputView.js";
 import WordListView from "../views/wordListView.js";
 import { KeyboardView } from "../views/keyboardView.js";
-import testMeBtnView from "../views/testMeBtnView.js";
-
-import GameModel from "../gameModel.js";
+import TestMeBtnView from "../views/testMeBtnView.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
-import TestMeBtnView from "../views/testMeBtnView.js";
 
 
 /**
@@ -20,8 +17,8 @@ import TestMeBtnView from "../views/testMeBtnView.js";
  * which may involve updating the game model or view.
  */
 class ViewPhaseController {
-    constructor() {
-        this.model = new GameModel();
+    constructor(gameModel) {
+        this.model = gameModel;
 
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
@@ -51,15 +48,15 @@ class ViewPhaseController {
     _subscribeToEvents() {
         subscribeEvent(
             'keyboardLetterPressed',
-            this._onKeyboardLetterPressed.bind(this)
+            this._appendCharToField.bind(this)
         );
         subscribeEvent(
             'keyboardBackspacePressed',
-            this._onKeyboardBackspacePressed.bind(this)
+            this._deleteCharFromField.bind(this)
         );
         subscribeEvent(
             'wordListViewWordDeleted',
-            this._onWordListViewWordDeleted.bind(this)
+            this._deleteWordListWord.bind(this)
         );
         subscribeEvent(
             'keyboardEnterPressed',
@@ -76,21 +73,21 @@ class ViewPhaseController {
     };
 
     /**
-     * Handles the event when a letter key is pressed on
-     * the keyboard view.
+     * Append a character to Word Input Field text
      * 
-     * Updates the input field text to include the new letter.
-     * 
-     * @param {string} letter - the letter associated with key press
+     * @param {string} char - the character to append
      */
-    _onKeyboardLetterPressed(letter) {
+    _appendCharToField(char) {
         const inputFieldText = this.wordInputView.getFieldText();
-        const newText = inputFieldText + letter;
+        const newText = inputFieldText + char;
 
         this.wordInputView.setFieldText(newText);
     };
 
-    _onKeyboardBackspacePressed() {
+    /**
+     * Delete a character from Word Input Field text
+     */
+    _deleteCharFromField() {
         const inputFieldText = this.wordInputView.getFieldText();
         const newText = inputFieldText.slice(0, -1);
 
@@ -98,35 +95,32 @@ class ViewPhaseController {
     }
 
     /**
-     * Handles the event when player deletes a word in the
-     * word list view.
+     * Delete a Word List word
      * 
-     * Deletes the word in the game model.
-     * 
-     * @param {string} word - the deleted word
+     * @param {string} word - the word to delete
      */
-    _onWordListViewWordDeleted(word) {
+    _deleteWordListWord(word) {
         this.model.deleteUserWord(word);
     };
 
     /**
-     * Handles an event that means adding a new word to the
-     * word list. Currently this happens if:
-     * 
-     *     1. The '+' button in the word input view is pressed
-     *     2. The 'Enter' key is pressed on keyboard
-     * 
-     * Updates the model to add the word currently in the
-     * input field. If update succeeds, clears the input field.
+     * Use current text of Word Input Field to add word to Word List.
+     * If word goes through, clears the field
      */
     _addWordListWord() {
         const inputFieldText = this.wordInputView.getFieldText();
 
         if (this.model.addUserWord(inputFieldText)) {
             this.wordInputView.setFieldText('')
-        }
+        };
+
+        // TODO: Add view handling when word is not good, like show text:
+        // "Word not recognized", or "Word already in list"
     };
 
+    /**
+     * Clear displays used during View phase
+     */
     _clearViewPhase() {
         this.wordInputView.removeWordInputSection();
         this.wordListView.removeWordListSection();

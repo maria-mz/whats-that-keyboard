@@ -2,8 +2,6 @@ import WordListView from "../views/wordListView.js";
 import { GuessableKeyboardView, KeyHoverState } from "../views/guessableKeyboardView.js";
 import { GuessingKeysView } from "../views/guessingKeysView.js";
 
-import GameModel from "../gameModel.js";
-
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
 
@@ -22,8 +20,8 @@ const NO_GUESS_STR = ''
  * which may involve updating the game model or view.
  */
 class TestPhaseController {
-    constructor() {
-        this.model = new GameModel();
+    constructor(gameModel) {
+        this.model = gameModel;
 
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
@@ -64,7 +62,7 @@ class TestPhaseController {
         );
         subscribeEvent(
             'testMeBtnClicked',
-            tihs._displayTestPhase.bind(this)
+            this._displayTestPhase.bind(this)
         );
     };
 
