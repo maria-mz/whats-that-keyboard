@@ -1,11 +1,13 @@
 import WordInputView from "../views/wordInputView.js";
 import WordListView from "../views/wordListView.js";
 import { KeyboardView } from "../views/keyboardView.js";
+import testMeBtnView from "../views/testMeBtnView.js";
 
 import GameModel from "../gameModel.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
+import TestMeBtnView from "../views/testMeBtnView.js";
 
 
 /**
@@ -27,12 +29,18 @@ class ViewPhaseController {
         this.wordInputView = new WordInputView();
         this.wordListView = new WordListView();
         this.keyboardView = new KeyboardView(keysLayout);
+        this.testMeBtnView = new TestMeBtnView();
 
+        // TODO: Display on event that starts the view phase. like 'Play' button click
         this.wordInputView.displayWordInputSection();
         // TODO: Display words saved in model
         this.wordListView.displayWordListSection();
         this.keyboardView.displayKeyboard();
         this.keyboardView.enableTyping();
+
+        // Note, order matters here. Make sure to display button after
+        // keyboard has been displayed.
+        this.testMeBtnView.displayTestMeBtn();
 
         this._subscribeToEvents()
     };
@@ -60,6 +68,10 @@ class ViewPhaseController {
         subscribeEvent(
             'addWordBtnPressed',
             this._addWordListWord.bind(this)
+        );
+        subscribeEvent(
+            'testMeBtnClicked',
+            this._clearViewPhase.bind(this)
         );
     };
 
@@ -114,6 +126,13 @@ class ViewPhaseController {
             this.wordInputView.setFieldText('')
         }
     };
+
+    _clearViewPhase() {
+        this.wordInputView.removeWordInputSection();
+        this.wordListView.removeWordListSection();
+        this.keyboardView.removeKeyboard();
+        this.testMeBtnView.removeTestMeBtn();
+    }
 };
 
 export default ViewPhaseController;

@@ -28,36 +28,19 @@ class TestPhaseController {
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
 
-        this._initKeyboardView(keysLayout);
-        this._initGuessingKeysView(todaysLetterList);
-        this._initWordsListView();
-
-        this._subscribeToEvents();
-    };
-
-    _initKeyboardView(keysLayout) {
-        // TODO: Display keyboard aligned with model progress
-        this.keyboardView = new GuessableKeyboardView(
-            keysLayout, this.model.getKeyGuesses()
-        );
-
-        this.keyboardView.displayKeyboard();
-        this.keyboardView.enableTyping();
-    };
-
-    _initGuessingKeysView(todaysLetterList) {
         // TODO: Display guessing keys aligned with model progress
         this.guessingKeysView = new GuessingKeysView(
             todaysLetterList, this.model.getKeyGuesses()
         );
-        this.guessingKeysView.displayFreeKeysGrid();
-    };
-
-    _initWordsListView() {
+        // TODO: Display keyboard aligned with model progress
+        this.keyboardView = new GuessableKeyboardView(
+            keysLayout, this.model.getKeyGuesses()
+        );
         // TODO: Display words saved in model
         this.wordListView = new WordListView();
-        this.wordListView.displayWordListSection();
-    }
+
+        this._subscribeToEvents();
+    };
 
     /**
      * Subscribe to events transmitted by views during Test Phase
@@ -78,6 +61,10 @@ class TestPhaseController {
         subscribeEvent(
             'keyboardViewGuessRemoved',
             this._removeKeyGuess.bind(this)
+        );
+        subscribeEvent(
+            'testMeBtnClicked',
+            tihs._displayTestPhase.bind(this)
         );
     };
 
@@ -138,6 +125,13 @@ class TestPhaseController {
      */
     _removeKeyGuess(letterOfGuessableKey) {
         this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
+    };
+
+    _displayTestPhase() {
+        this.keyboardView.displayKeyboard();
+        this.keyboardView.enableTyping();
+        this.guessingKeysView.displayFreeKeysGrid();
+        this.wordListView.displayWordListSection();
     };
 };
 
