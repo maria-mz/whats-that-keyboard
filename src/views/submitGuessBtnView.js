@@ -6,24 +6,40 @@ import { publishEvent } from "../eventBus.js";
  * 
  */
 class SubmitGuessBtnView {
-    constructor() {
-        this.submitGuessBtn = document.createElement('div');
+    constructor(isEnabled) {
+        this.btn = document.createElement('div');
+        this.btn.textContent = 'Submit guess';
+        this.btn.classList.add('solid-btn', 'submit-guess-btn');
 
-        this.submitGuessBtn.textContent = 'Submit guess';
-        this.submitGuessBtn.classList.add('solid-btn', 'submit-guess-btn');
+        if (isEnabled === true) {
+            this.enableBtn();
+        }
+        else {
+            this.disableBtn();
+        };
+    };
 
-        this.submitGuessBtn.addEventListener('click', () => {
+    disableBtn() {
+        this.btn.classList.add('solid-btn-disabled');
+        this.btn.classList.remove('solid-btn-enabled');
+        this.btn.onclick = null;
+    };
+
+    enableBtn() {
+        this.btn.classList.add('solid-btn-enabled');
+        this.btn.classList.remove('solid-btn-disabled');
+        this.btn.onclick = () => {
             publishEvent('submitGuessBtnClicked');
-        });
+        };
     };
 
-    displaySubmitGuessBtn() {
+    displayBtn() {
         const gameInputSection = document.getElementById('gameInput');
-        gameInputSection.appendChild(this.submitGuessBtn);
+        gameInputSection.appendChild(this.btn);
     };
 
-    removeSubmitGuessBtn() {
-        this.submitGuessBtn.remove()
+    removeBtn() {
+        this.btn.remove();
     };
 };
 

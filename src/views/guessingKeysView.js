@@ -252,7 +252,7 @@ class GuessingKeysView {
         };
     };
 
-    displayFreeKeysGrid() {
+    displayKeysGrid() {
         const gameAreaSection = document.getElementById('gameArea');
         gameAreaSection.appendChild(this.keyGridDiv);
     };

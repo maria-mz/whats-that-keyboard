@@ -49,17 +49,19 @@ class TestPhaseController {
         );
         // TODO: Display words saved in model
         this.wordListView = new WordListView();
-        this.submitGuessBtnView = new SubmitGuessBtnView();
+        // TODO: enable true or false depending on progress from model,
+        // for now assumes first-time view, no keys placed, so disable btn
+        this.submitGuessBtnView = new SubmitGuessBtnView(false);
     };
 
     _displayViews() {
         this.keyboardView.displayKeyboard();
         this.keyboardView.enableTyping();
-        this.guessingKeysView.displayFreeKeysGrid();
+        this.guessingKeysView.displayKeysGrid();
         this.wordListView.displayWordListSection(this.model.getUserWordsSet());
         // Note, order matters here. Make sure to display button after
         // keyboard has been displayed.
-        this.submitGuessBtnView.displaySubmitGuessBtn();
+        this.submitGuessBtnView.displayBtn();
     };
 
     /**

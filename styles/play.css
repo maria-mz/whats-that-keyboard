@@ -188,13 +188,28 @@ body {
   transition: background 0.15s ease;
 }
 
-.solid-btn:hover {
+.solid-btn-enabled {
+  background: #d5e6f2;
+  border-color: #a3cae4;
+}
+
+.solid-btn-enabled:hover {
   cursor: pointer;
   background: #bcd8eb;
 }
 
-.solid-btn:active {
+.solid-btn-enabled:active {
   background: #a3cae4;
+}
+
+.solid-btn-disabled {
+  background: #e7e7e7;
+  border-color: var(--clr-silver);
+  color: #555555;
+}
+
+.solid-btn-disabled:hover {
+  cursor: not-allowed;
 }
 
 .test-me-btn {
