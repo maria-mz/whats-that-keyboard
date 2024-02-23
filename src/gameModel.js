@@ -3,6 +3,8 @@ import { publishEvent } from "./eventBus.js";
 // TODO: define this in one place
 const NO_GUESS_STR = ''
 
+const NUM_LETTER_KEYS = 26
+
 /**
  * @class GameModel
  * 
@@ -73,6 +75,20 @@ class GameModel {
         // TODO: Save to local storage
 
         publishEvent('keyGuessesUpdated', this.keyGuesses);
+    };
+
+    calcGameAccuracyScorePerc() {
+        let correctGuessCount = 0;
+
+        for (const [letter, guess] of Object.entries(this.keyGuesses)) {
+            if (letter === guess) {
+                correctGuessCount++;
+            };
+        };
+
+        const accuracyScore = (correctGuessCount / NUM_LETTER_KEYS) * 100;
+
+        return accuracyScore;
     };
 
 };
