@@ -91,6 +91,10 @@ class GameModel {
         return accuracyScore;
     };
 
+    isGameOver() {
+        const guesses = Object.values(this.keyGuesses);
+        return !(guesses.includes(NO_GUESS_STR));
+    };
 };
 
 export default GameModel;

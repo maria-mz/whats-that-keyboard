@@ -11,25 +11,39 @@ class SubmitGuessBtnView {
         this.btn.textContent = 'Submit guess';
         this.btn.classList.add('solid-btn', 'submit-guess-btn');
 
-        if (isEnabled === true) {
-            this.enableBtn();
+        if (isEnabled) {
+            this._enableBtn();
         }
         else {
-            this.disableBtn();
+            this._disableBtn();
         };
     };
 
-    disableBtn() {
-        this.btn.classList.add('solid-btn-disabled');
-        this.btn.classList.remove('solid-btn-enabled');
-        this.btn.onclick = null;
-    };
-
-    enableBtn() {
+    _enableBtn() {
         this.btn.classList.add('solid-btn-enabled');
         this.btn.classList.remove('solid-btn-disabled');
         this.btn.onclick = () => {
             publishEvent('submitGuessBtnClicked');
+        };
+        this.btnIsEnabled = true;
+    };
+
+    _disableBtn() {
+        this.btn.classList.add('solid-btn-disabled');
+        this.btn.classList.remove('solid-btn-enabled');
+        this.btn.onclick = null;
+        this.btnIsEnabled = false;
+    };
+
+    enableBtn() {
+        if (!this.btnIsEnabled) {
+            this._enableBtn();
+        };
+    };
+
+    disableBtn() {
+        if (this.btnIsEnabled) {
+            this._disableBtn();
         };
     };
 

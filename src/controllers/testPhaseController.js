@@ -129,9 +129,21 @@ class TestPhaseController {
         this.keyboardView.setKeyHoverState(
             msg.letterOfGuessableKey, KeyHoverState.INACTIVE
         );
+
         this.model.updateKeyGuess(
             msg.letterOfGuessableKey, msg.letterOfGuessingKey
         );
+
+        this._updateSubmitGuessBtn();
+    };
+
+    _updateSubmitGuessBtn() {
+        if (!this.model.isGameOver()) {
+            this.submitGuessBtnView.disableBtn();
+        }
+        else {
+            this.submitGuessBtnView.enableBtn();
+        };
     };
 
     /**
@@ -143,6 +155,7 @@ class TestPhaseController {
      */
     _removeKeyGuess(letterOfGuessableKey) {
         this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
+        this._updateSubmitGuessBtn();
     };
 };
 
