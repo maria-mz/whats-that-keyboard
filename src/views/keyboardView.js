@@ -33,7 +33,6 @@ class KeyboardView {
 
     _initKeyboardDiv(keysLayout) {
         this.keyboardDiv = document.createElement('div');
-        this.keyboardDiv.id = 'keyboard';
         this.keyboardDiv.className = 'keyboard';
 
         const keyboardRowDivs = this._createKeyboardRowDivs(keysLayout);
@@ -48,7 +47,7 @@ class KeyboardView {
 
         for (const [letter, { row, _ }] of Object.entries(keysLayout)) {
             if (!keyboardRowDivs.hasOwnProperty(row)) {
-                keyboardRowDivs[row] = this._createKeyboardRowDiv(row);
+                keyboardRowDivs[row] = this._createKeyboardRowDiv();
             };
 
             const keyDiv = this._createKeyDiv(letter);
@@ -60,10 +59,9 @@ class KeyboardView {
         return keyboardRowDivs;
     };
 
-    _createKeyboardRowDiv(row) {
+    _createKeyboardRowDiv() {
         const keyboardRowDiv = document.createElement('div');
         keyboardRowDiv.className = 'keyboard__row';
-        keyboardRowDiv.id = `keyboardRow${row}`;
 
         return keyboardRowDiv;
     };
