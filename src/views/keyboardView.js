@@ -12,13 +12,17 @@ import { publishEvent } from '../eventBus.js';
  * 
  */
 class KeyboardView {
-    constructor(keysLayout) {
+    constructor(keysLayout, showAnimationOnDisplay) {
         this.letterToKeyDiv = {};
         this.keyToCanType = {};
         this.mapRegKeyLetter = getMappedLetter(keysLayout);
 
         this._initKeyboardDiv(keysLayout);
         this._initDefaultTyping();
+
+        if (showAnimationOnDisplay) {
+            this._addKeysAnimation();
+        }
     };
 
     _initDefaultTyping() {
@@ -43,24 +47,16 @@ class KeyboardView {
 
     _createKeyboardRowDivs(keysLayout) {
         const keyboardRowDivs = {};
-        let animationDelay;
 
         for (const [letter, { row, _ }] of Object.entries(keysLayout)) {
             if (!keyboardRowDivs.hasOwnProperty(row)) {
-                // Starting animation delay for the row.
-                // This essentially allows us to start the animation at
-                // at the first key then propagate it diagonally across the
-                // keyboard
-                animationDelay = row * 0.05;
                 keyboardRowDivs[row] = this._createKeyboardRowDiv();
             };
 
-            const keyDiv = this._createKeyDiv(letter, animationDelay);
+            const keyDiv = this._createKeyDiv(letter);
             this.letterToKeyDiv[letter] = keyDiv;
 
             keyboardRowDivs[row].appendChild(keyDiv);
-
-            animationDelay += 0.05;
         };
 
         return keyboardRowDivs;
@@ -73,15 +69,35 @@ class KeyboardView {
         return keyboardRowDiv;
     };
 
-    _createKeyDiv(letter, animationDelay) {
+    _createKeyDiv(letter) {
         const keyDiv = document.createElement('div');
 
         keyDiv.setAttribute('key-face-letter', letter);
         keyDiv.classList.add('key');
         keyDiv.textContent = letter.toUpperCase();
-        keyDiv.style.animationDelay = `${animationDelay}s`;
 
         return keyDiv;
+    };
+
+    _addKeysAnimation() {
+        let animationDelay;
+        const keyboardRowDivs = this.keyboardDiv.querySelectorAll('.keyboard__row');
+
+        keyboardRowDivs.forEach((rowDiv, row) => {
+            // Starting animation delay for the row.
+            // This essentially allows us to start the animation at
+            // at the first key then propagate it diagonally across the
+            // keyboard
+            animationDelay = row * 0.05;
+
+            const keyDivs = rowDiv.querySelectorAll('.key');
+
+            keyDivs.forEach((keyDiv) => {
+                keyDiv.classList.add('key-animation');
+                keyDiv.style.animationDelay = `${animationDelay}s`;
+                animationDelay += 0.05;
+            });
+        });
     };
 
     displayKeyboard() {

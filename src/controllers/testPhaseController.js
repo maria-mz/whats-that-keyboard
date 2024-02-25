@@ -41,17 +41,17 @@ class TestPhaseController {
 
         // TODO: Display guessing keys aligned with model progress
         this.guessingKeysView = new GuessingKeysView(
-            todaysLetterList, this.model.getKeyGuesses()
+            todaysLetterList, this.model.getKeyGuesses(), true
         );
         // TODO: Display keyboard aligned with model progress
         this.keyboardView = new GuessableKeyboardView(
-            keysLayout, this.model.getKeyGuesses()
+            keysLayout, this.model.getKeyGuesses(), false
         );
         // TODO: Display words saved in model
         this.wordListView = new WordListView();
         // TODO: enable true or false depending on progress from model,
         // for now assumes first-time view, no keys placed, so disable btn
-        this.submitGuessBtnView = new SubmitGuessBtnView(false);
+        this.submitGuessBtnView = new SubmitGuessBtnView(true);
     };
 
     _displayViews() {

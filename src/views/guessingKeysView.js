@@ -28,7 +28,7 @@ const NO_GUESS_STR = ''
  * 
  */
 class GuessingKeysView {
-    constructor(letters, keyGuesses) {
+    constructor(letters, keyGuesses, showAnimationOnGridDisplay) {
         this.letterToKeyDiv = {};
         this.letterToKeyLoc = {};
         this.letterToIsUsedAsGuess = {};
@@ -41,6 +41,10 @@ class GuessingKeysView {
         this._subscribeToEvents();
 
         this._updateGuessingKeys(keyGuesses);
+
+        if (showAnimationOnGridDisplay) {
+            this._addKeysAnimation();
+        }
     };
 
     _initGuessingKeys(letters) {
@@ -48,36 +52,43 @@ class GuessingKeysView {
         // TODO: initialize object with the copy instead?
         const lettersCopy = [...letters];
         const sortedLetters = sortArray(lettersCopy);
-        
-        // Vars to know what animation delay to apply to the key.
+
+        sortedLetters.forEach((letter) => {
+            const guessingKeyDiv = this._createGuessingKeyDiv(letter);
+
+            this.letterToKeyDiv[letter] = guessingKeyDiv;
+
+            this.letterToIsUsedAsGuess[letter] = false;
+            this._enableDragging(letter);
+        });
+
+        this.keyGridDiv = this._createKeyGridDiv()
+    };
+
+    _addKeysAnimation() {
         // Setup allows the animation to start at the top left
         // key then propagate diagonally across the grid
         const numLettersInRow = 7;  // From CSS grid box
         let rowCount = 0
         let animationDelay;
 
-        for (let i = 0; i < sortedLetters.length; i++) {
+        const keyDivs = Object.values(this.letterToKeyDiv);
+
+        keyDivs.forEach((keyDiv, i) => {
             const rowIdx = i % numLettersInRow;
             animationDelay = (rowCount + rowIdx) * 0.05;
             rowCount = (rowIdx === 0) ? rowCount + 1 : rowCount;
 
-            const letter = sortedLetters[i];
-            const guessingKeyDiv = this._createGuessingKeyDiv(letter, animationDelay);
+            keyDiv.classList.add('key-animation');
+            keyDiv.style.animationDelay = `${animationDelay}s`;
 
-            this.letterToKeyDiv[letter] = guessingKeyDiv;
-
-            this.letterToIsUsedAsGuess[letter] = false;
-            this._enableDragging(letter);
-        }
-
-        this.keyGridDiv = this._createKeyGridDiv()
+        });
     };
 
-    _createGuessingKeyDiv(letter, animationDelay) {
+    _createGuessingKeyDiv(letter) {
         const guessingKeyDiv = document.createElement('div');
         guessingKeyDiv.classList.add('key', 'is-draggable');
         guessingKeyDiv.textContent = letter;
-        guessingKeyDiv.style.animationDelay = `${animationDelay}s`;
 
         return guessingKeyDiv;
     };

@@ -25,7 +25,7 @@ class ViewPhaseController {
 
         this.wordInputView = new WordInputView();
         this.wordListView = new WordListView();
-        this.keyboardView = new KeyboardView(keysLayout);
+        this.keyboardView = new KeyboardView(keysLayout, true);
         this.testMeBtnView = new TestMeBtnView();
 
         // TODO: Display on event that starts the view phase. like 'Play' button click

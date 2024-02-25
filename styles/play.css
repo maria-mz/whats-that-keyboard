@@ -83,10 +83,12 @@ body {
 
   /* Prevents user from highlighting text on key */
   user-select: none;
+}
 
-  /* For key to appear to pop up, must be hidden first */
-  opacity: 0;
-  animation: pop-up 0.75s ease forwards;
+.key-animation {
+    /* For key to appear to pop up, must be hidden first */
+    opacity: 0;
+    animation: pop-up 0.75s ease forwards;
 }
 
 @keyframes pop-up {
@@ -145,11 +147,6 @@ body {
 .keyboard__row {
   display: flex;
   flex-direction: row;
-}
-
-.text-space__placeholder {
-  opacity: 50%;
-  font-style: italic;
 }
 
 .solid-btn {

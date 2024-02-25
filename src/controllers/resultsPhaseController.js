@@ -38,8 +38,8 @@ class ResultsPhaseController {
         const keysLayout = getKeyLayout(todaysLetterList);
         const keyGuesses = this.model.getKeyGuesses();
 
-        this.playerKeyboard = new GuessableKeyboardView(keysLayout, keyGuesses);
-        this.correctKeyboard = new KeyboardView(keysLayout);
+        this.playerKeyboard = new GuessableKeyboardView(keysLayout, keyGuesses, true);
+        this.correctKeyboard = new KeyboardView(keysLayout, true);
         this.gameEndResultsView = new GameResultsView(
             this.playerKeyboard.keyboardDiv,
             this.correctKeyboard.keyboardDiv,

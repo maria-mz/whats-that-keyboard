@@ -25,8 +25,8 @@ const KEY_HOVER_BG_HEX = '#cdcdcd';
  * 
  */
 class GuessableKeyboardView extends KeyboardView {
-    constructor(keysLayout, keyGuesses) {
-        super(keysLayout);
+    constructor(keysLayout, keyGuesses, showAnimationOnDisplay) {
+        super(keysLayout, showAnimationOnDisplay);
 
         this._setupGuessableKeys();
         this._subscribeToEvents();
