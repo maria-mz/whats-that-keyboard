@@ -44,7 +44,10 @@ class GuessingKeysView {
     };
 
     _initGuessingKeys(letters) {
-        const sortedLetters = sortArray(letters);
+        // Need to copy letters.. otherwise modifies original
+        // TODO: initialize object with the copy instead?
+        const lettersCopy = [...letters];
+        const sortedLetters = sortArray(lettersCopy);
 
         sortedLetters.forEach((letter) => {
             const guessingKeyDiv = this._createGuessingKeyDiv(letter);
@@ -255,6 +258,20 @@ class GuessingKeysView {
     displayKeysGrid() {
         const gameAreaSection = document.getElementById('gameArea');
         gameAreaSection.appendChild(this.keyGridDiv);
+    };
+
+    removeKeysGrid() {
+        this.keyGridDiv.remove();
+    };
+
+    removeGuessingKeys() {
+        for (const [letter, keyDiv] of Object.entries(this.letterToKeyDiv)) {
+            // For simplicity make sure to return the key back to the grid
+            // Otherwise if key was in document need to track position...
+            // Easier this way
+            this._returnKeyToGrid(letter);
+            keyDiv.remove();
+        };
     };
 };
 

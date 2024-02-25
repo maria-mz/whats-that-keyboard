@@ -84,6 +84,10 @@ class TestPhaseController {
             'keyboardViewGuessRemoved',
             this._removeKeyGuess.bind(this)
         );
+        subscribeEvent(
+            'submitGuessBtnClicked',
+            this._concludeGame.bind(this)
+        );
     };
 
     /**
@@ -156,6 +160,17 @@ class TestPhaseController {
     _removeKeyGuess(letterOfGuessableKey) {
         this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
         this._updateSubmitGuessBtn();
+    };
+
+    /**
+     * Removes all elements involved in Test Phase
+     */
+    _concludeGame() {
+        this.keyboardView.removeKeyboard();
+        this.wordListView.removeWordListSection();
+        this.guessingKeysView.removeKeysGrid();
+        this.guessingKeysView.removeGuessingKeys();
+        this.submitGuessBtnView.removeBtn();
     };
 };
 
