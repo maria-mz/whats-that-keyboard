@@ -17,10 +17,6 @@ const NO_GUESS_STR = ''
 
 // Colour constants
 const KEY_HOVER_BG_HEX = '#cdcdcd';
-const KEY_BG_HEX_CORRECT_GUESS = '#e4fde1';
-const KEY_BORDER_HEX_CORRECT_GUESS = '#a7dca5';
-const KEY_BG_HEX_WRONG_GUESS = '#ffeded';
-const KEY_BORDER_HEX_WRONG_GUESS = '#ffb5b7';
 
 
 /**
@@ -105,23 +101,6 @@ class GuessableKeyboardView extends KeyboardView {
         }
         else {
             throw new Error(`Invalid 'KeyHoverState' = ${state}`);
-        };
-    };
-
-    colourKeyboardByGuesses() {
-        for (const [letter, keyDiv] of Object.entries(this.letterToKeyDiv)) {
-            const guess = keyDiv.textContent;
-
-            if (guess === NO_GUESS_STR) continue;
-
-            if (guess === letter) {
-                keyDiv.style.background = KEY_BG_HEX_CORRECT_GUESS;
-                keyDiv.style.borderColor = KEY_BORDER_HEX_CORRECT_GUESS;
-            }
-            else {
-                keyDiv.style.background = KEY_BG_HEX_WRONG_GUESS;
-                keyDiv.style.borderColor = KEY_BORDER_HEX_WRONG_GUESS;
-            };
         };
     };
 };

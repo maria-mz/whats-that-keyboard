@@ -6,7 +6,6 @@ import {
 
 import { publishEvent } from '../eventBus.js';
 
-
 /**
  * @class KeyboardView
  * 
@@ -143,6 +142,18 @@ class KeyboardView {
             throw new Error(`Invalid 'key' provided = ${key}`);
         };
         this.keyToCanType[key] = false;
+    };
+
+    setKeyColour(letter, face_bg, border_bg) {
+        const keyDiv = this.letterToKeyDiv[letter];
+        keyDiv.style.background = face_bg;
+        keyDiv.style.borderColor = border_bg;
+    };
+
+    resetKeyColour(letter) {
+        const keyDiv = this.letterToKeyDiv[letter];
+        keyDiv.style.background = '';
+        keyDiv.style.borderColor = '';
     };
 };
 
