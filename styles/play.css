@@ -301,24 +301,26 @@ body {
 /* Word List */
 .word-list__container {
   position: absolute;
-  right: 0;
+  right: 50px;
   top: 0;
-  width: 40ch;
+  width: 300px;
 }
 
-.word-list__header-container {
-  align-items: center;
+.word-list__header__container {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.word-list__title {
+.word-list__header__title {
   color: var(--clr-navy);
   font-size: 1.25rem;
+  font-weight: 500;
   font-family: 'Quicksand';
   margin: 0;
 }
 
-.word-list__count {
+.word-list__header__count {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -333,43 +335,90 @@ body {
   user-select: none;
 }
 
+.word-list__progress-text__container {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5em;
+}
+
+.word-list__progress-text__title {
+  color: var(--clr-dark);
+  font-family: 'Quicksand';
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.word-list__progress-text__coverage {
+  color: var(--clr-dark);
+  font-family: 'Quicksand';
+  font-size: 1rem;
+  margin: 0;
+}
+
+.word-list__progress-bar__container {
+  width: 300px;
+  height: 15px;
+  border-radius: 10px;
+  background-color: #ededed;
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+.word-list__progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
 .word-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
   padding: 0;
   position: relative;
-  margin-top: 0.75em;
 }
 
-.word-list__item {
-  background: #ebebeb;
-  border: solid 1px transparent;
+.word-list__item__container {
   border-radius: 6px;
+  padding: 0.5em 0.5em;
+  transition: background 0.15s ease;
+  width: 300px;
+
   color: #6D435A;
-  display: inline-block;
   font-family: 'IBM Plex Mono';
   font-size: 1rem;
-  list-style: none;
-  padding: 0.75em 0.75em;
+
   user-select: none;
-  transition: background 0.15s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.word-list__item:hover {
-  background: #e5e5e5;
+.word-list__item__container:hover {
+  background: #ebebeb;
   cursor: pointer;
 }
 
-.word-list__delete-icon {
-  color: #6D435A;
-  opacity: 0.5;
-  font-weight: bold;
-  margin-left: 0.75em;
-  margin-right: 0.25em;
-  user-select: none;
+.word-list__item__word {
+  margin: 0;
 }
 
+.word-list__item__delete-icon {
+  opacity: 0.5;
+  font-weight: 800;
+  margin-left: 0.75em;
+  margin-right: 0.25em;
+  transition: opacity 0.15s ease;
+}
+
+.word-list__item__delete-icon:hover {
+  opacity: 1;
+}
 
 /* Game End Results */
 .results__container {
