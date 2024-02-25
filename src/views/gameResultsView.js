@@ -1,21 +1,21 @@
 /**
- * @class GameEndResultsView
+ * @class GameResultsView
  * 
  * 
  */
-class GameEndView {
-    constructor(playerKeyboardElmt, correctKeyboardElmt, playerScore) {
-        this._initView(playerKeyboardElmt, correctKeyboardElmt, playerScore);
+class GameResultsView {
+    constructor(playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses) {
+        this._initView(playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses);
     };
 
-    _initView(playerKeyboardElmt, correctKeyboardElmt, playerScore) {
+    _initView(playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses) {
         const resultsContainer = document.createElement('div');
-        resultsContainer.className = 'game-end-results__container';
+        resultsContainer.className = 'results__container';
 
         const answersContainer = this._createAnswersContainer(
             playerKeyboardElmt, correctKeyboardElmt
         );
-        const scoreContainer = this._createScoreContainer(playerScore);
+        const scoreContainer = this._createScoreContainer(numCorrectGuesses);
 
         resultsContainer.append(answersContainer, scoreContainer);
 
@@ -24,13 +24,13 @@ class GameEndView {
 
     _createAnswersContainer(playerKeyboardElmt, correctKeyboardElmt) {
         const answersContainer = document.createElement('div');
-        answersContainer.className = 'game-end-results__answers__container';
+        answersContainer.className = 'results__answers__container';
 
         const playerAnswerContainer = this._createAnswerContainer(
             'Your Answer', playerKeyboardElmt
         );
         const correctAnswerContainer = this._createAnswerContainer(
-            'Today\'s Correct Answer', correctKeyboardElmt
+            'Correct Answer', correctKeyboardElmt
         );
 
         answersContainer.append(
@@ -45,19 +45,19 @@ class GameEndView {
 
         const title = document.createElement('p');
         title.textContent = titleText;
-        title.className = 'game-end-results__answer__title';
+        title.className = 'results__answer__title';
 
         container.append(title, keyboardElmt);
 
         return container;
     };
 
-    _createScoreContainer(playerScore) {
+    _createScoreContainer(numCorrectGuesses) {
         const container = document.createElement('div');
-        container.className = 'game-end-results__score__container';
+        container.className = 'results__score__container';
 
         const scoreTitle = this._createScoreTitle();
-        const score = this._createScore(playerScore);
+        const score = this._createScore(numCorrectGuesses);
         const scoreSubtitle = this._createScoreSubtitle();
 
         container.append(scoreTitle, score, scoreSubtitle);
@@ -67,23 +67,29 @@ class GameEndView {
 
     _createScoreTitle() {
         const scoreTitle = document.createElement('p');
-        scoreTitle.className = 'game-end-results__score-title';
+        scoreTitle.className = 'results__score-title';
         scoreTitle.textContent = 'You got'
 
         return scoreTitle;
     };
 
-    _createScore(playerScore) {
-        const score = document.createElement('div');
-        score.className = 'game-end-results__score';
-        score.textContent = `${playerScore}%`;
+    _createScore(numCorrectGuesses) {
+        const scoreTotal = document.createElement('p');
+        scoreTotal.className = 'results__score';
+        scoreTotal.textContent = ' / 26';
 
-        return score;
+        const score = document.createElement('span');
+        score.textContent = numCorrectGuesses;
+        score.style.color = '#008bf8';
+
+        scoreTotal.insertBefore(score, scoreTotal.firstChild);
+
+        return scoreTotal;
     };
 
     _createScoreSubtitle() {
-        const scoreSubtitle = document.createElement('div');
-        scoreSubtitle.className = 'game-end-results__score-subtitle';
+        const scoreSubtitle = document.createElement('p');
+        scoreSubtitle.className = 'results__score-subtitle';
         // TODO: Show different messages depending on score?
         scoreSubtitle.textContent = 'Well done! Thanks for playing :-)';
 
@@ -100,4 +106,4 @@ class GameEndView {
     };
 };
 
-export default GameEndView;
+export default GameResultsView;
