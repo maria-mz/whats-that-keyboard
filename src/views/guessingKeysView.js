@@ -48,23 +48,36 @@ class GuessingKeysView {
         // TODO: initialize object with the copy instead?
         const lettersCopy = [...letters];
         const sortedLetters = sortArray(lettersCopy);
+        
+        // Vars to know what animation delay to apply to the key.
+        // Setup allows the animation to start at the top left
+        // key then propagate diagonally across the grid
+        const numLettersInRow = 7;  // From CSS grid box
+        let rowCount = 0
+        let animationDelay;
 
-        sortedLetters.forEach((letter) => {
-            const guessingKeyDiv = this._createGuessingKeyDiv(letter);
+        for (let i = 0; i < sortedLetters.length; i++) {
+            const rowIdx = i % numLettersInRow;
+            animationDelay = (rowCount + rowIdx) * 0.05;
+            rowCount = (rowIdx === 0) ? rowCount + 1 : rowCount;
+
+            const letter = sortedLetters[i];
+            const guessingKeyDiv = this._createGuessingKeyDiv(letter, animationDelay);
 
             this.letterToKeyDiv[letter] = guessingKeyDiv;
 
             this.letterToIsUsedAsGuess[letter] = false;
             this._enableDragging(letter);
-        });
+        }
 
         this.keyGridDiv = this._createKeyGridDiv()
     };
 
-    _createGuessingKeyDiv(letter) {
+    _createGuessingKeyDiv(letter, animationDelay) {
         const guessingKeyDiv = document.createElement('div');
         guessingKeyDiv.classList.add('key', 'is-draggable');
         guessingKeyDiv.textContent = letter;
+        guessingKeyDiv.style.animationDelay = `${animationDelay}s`;
 
         return guessingKeyDiv;
     };
@@ -103,6 +116,11 @@ class GuessingKeysView {
             const guessingKeyLoc = this.letterToKeyLoc[letter];
 
             if (guessingKeyLoc === GuessingKeyLocation.GRID) {
+                // Remove animation otherwise it will replay continuously
+                // as the key updates its position when moved
+                guessingKeyDiv.style.animation = 'none';
+                guessingKeyDiv.style.opacity = '1';
+
                 // Update coordinates to the same position, prevents key from
                 // jumping to top left corner
                 moveElmtTo(guessingKeyDiv, x, y);

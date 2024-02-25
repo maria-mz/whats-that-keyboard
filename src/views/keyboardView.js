@@ -43,16 +43,24 @@ class KeyboardView {
 
     _createKeyboardRowDivs(keysLayout) {
         const keyboardRowDivs = {};
+        let animationDelay;
 
         for (const [letter, { row, _ }] of Object.entries(keysLayout)) {
             if (!keyboardRowDivs.hasOwnProperty(row)) {
+                // Starting animation delay for the row.
+                // This essentially allows us to start the animation at
+                // at the first key then propagate it diagonally across the
+                // keyboard
+                animationDelay = row * 0.05;
                 keyboardRowDivs[row] = this._createKeyboardRowDiv();
             };
 
-            const keyDiv = this._createKeyDiv(letter);
+            const keyDiv = this._createKeyDiv(letter, animationDelay);
             this.letterToKeyDiv[letter] = keyDiv;
 
             keyboardRowDivs[row].appendChild(keyDiv);
+
+            animationDelay += 0.05;
         };
 
         return keyboardRowDivs;
@@ -65,12 +73,13 @@ class KeyboardView {
         return keyboardRowDiv;
     };
 
-    _createKeyDiv(letter) {
+    _createKeyDiv(letter, animationDelay) {
         const keyDiv = document.createElement('div');
 
         keyDiv.setAttribute('key-face-letter', letter);
         keyDiv.classList.add('key');
         keyDiv.textContent = letter.toUpperCase();
+        keyDiv.style.animationDelay = `${animationDelay}s`;
 
         return keyDiv;
     };
