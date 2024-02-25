@@ -25,7 +25,8 @@ body {
 
 .header__game-title {
   font-size: 1.5rem;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
+  font-weight: 500;
   color: var(--clr-navy);
   padding-bottom: 1.5em;
 }
@@ -172,8 +173,7 @@ body {
   align-items: center;
 
   font-size: 1rem;
-  font-family: 'Lustria';
-  font-weight: 900;
+  font-family: 'Quicksand';
 
   user-select: none;
 
@@ -250,7 +250,7 @@ body {
 .word-input__instr-text {
   color: var(--clr-dark);
   font-size: 1rem;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
 }
 
 .word-input__field-container {
@@ -296,9 +296,8 @@ body {
   border-width: 1px 2px 4px 2px;
   color: var(--clr-off-navy);
   flex-shrink: 0;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
   font-size: 1.15rem;
-  font-weight: bold;
   margin-left: 5px;
   transition: background 0.15s ease;
   user-select: none;
@@ -331,7 +330,7 @@ body {
 .word-list__title {
   color: var(--clr-navy);
   font-size: 1.25rem;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
   margin: 0;
 }
 
@@ -343,7 +342,7 @@ body {
   background: #ebebeb;
   border-radius: 6px;
   color: var(--clr-dark);
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
   font-size: 1rem;
   margin-left: 1em;
   padding: 0.15em 0.5em;
@@ -389,13 +388,13 @@ body {
 
 
 /* Game End Results */
-.game-end-results__container {
+.results__container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.game-end-results__answers__container {
+.results__answers__container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -403,37 +402,37 @@ body {
   gap: 2.5em;
 }
 
-.game-end-results__answer__title {
+.results__answer__title {
   color: var(--clr-navy);
   font-size: 1.25rem;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
   font-weight: 500;
   margin: 0;
   text-align: center;
 }
 
-.game-end-results__score__container {
+.results__score__container {
   margin-top: 2.5em;
 }
 
-.game-end-results__score-title {
+.results__score-title {
   font-size: 1.25rem;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
   font-weight: 500;
   text-align: center;
 }
 
-.game-end-results__score {
-  color: #90cf8e;
+.results__score {
+  color: var(--clr-dark);
   font-size: 2.5rem;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
   font-weight: 500;
   text-align: center;
   margin: 0;
 }
 
-.game-end-results__score-subtitle {
+.results__score-subtitle {
   margin-top: 1.25em;
-  font-family: 'Lustria';
+  font-family: 'Quicksand';
   text-align: center;
 }
