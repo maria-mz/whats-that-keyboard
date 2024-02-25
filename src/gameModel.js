@@ -12,14 +12,9 @@ const NUM_LETTER_KEYS = 26
  */
 class GameModel {
     constructor() {
-        // TODO: placeholder for now, will get letters from database
-        this.todaysLetterList = [
-            'P', 'O', 'I', 'U', 'Y', 'T', 'R', 'E', 'W','Q', 'L', 'K', 'J',
-            'H', 'G', 'F', 'D', 'S', 'A', 'M', 'N', 'B', 'V', 'C', 'X', 'Z'
-        ];
-
         // TODO: if any words saved in local storage, get those 
         this.userWordsSet = new Set();
+        this.todaysLetterList = this._genTodaysLetterList()
 
         this._initKeyGuesses();
     };
@@ -32,6 +27,23 @@ class GameModel {
         this.todaysLetterList.forEach((letter) => {
             this.keyGuesses[letter] = NO_GUESS_STR;
         });
+    };
+
+    /**
+     * Generates a randomized list of uppercase letters based on today's date,
+     * to be used as today's keyboard layout.
+     * 
+     * Uses the current date to generate a seed for the random number generator.
+     * This ensures that all players get the same layout on any given day.
+     */
+    _genTodaysLetterList() {
+        const todaysSeed = new Date().toDateString();
+
+        const rng = new Math.seedrandom(todaysSeed);
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const todaysLetterList = letters.sort(() => { return rng() - 0.5; });
+
+        return todaysLetterList;
     };
 
     getTodaysLetterList() {
@@ -77,18 +89,16 @@ class GameModel {
         publishEvent('keyGuessesUpdated', this.keyGuesses);
     };
 
-    calcGameAccuracyScorePerc() {
-        let correctGuessCount = 0;
+    getNumCorrectGuesses() {
+        let numCorrectGuesses = 0;
 
         for (const [letter, guess] of Object.entries(this.keyGuesses)) {
             if (letter === guess) {
-                correctGuessCount++;
+                numCorrectGuesses++;
             };
         };
 
-        const accuracyScore = (correctGuessCount / NUM_LETTER_KEYS) * 100;
-
-        return accuracyScore;
+        return numCorrectGuesses;
     };
 
     isGameOver() {
