@@ -7,6 +7,10 @@ import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
 
 
+const HEX_KEY_HIGHLIGHT_BG = '#ECE2EB';
+const HEX_KEY_HIGHLIGHT_BORDER = '#BAA5B6';
+
+
 /**
  * @class ViewPhaseController
  * 
@@ -24,13 +28,15 @@ class ViewPhaseController {
         const keysLayout = getKeyLayout(todaysLetterList);
 
         this.wordInputView = new WordInputView();
-        this.wordListView = new WordListView();
+        this.wordListView = new WordListView(
+            this.model.getUserWordsSet(), true, true
+        );
         this.keyboardView = new KeyboardView(keysLayout, true);
         this.testMeBtnView = new TestMeBtnView();
 
         // TODO: Display on event that starts the view phase. like 'Play' button click
         this.wordInputView.displayWordInputSection();
-        this.wordListView.displayWordListSection(this.model.getUserWordsSet());
+        this.wordListView.displayWordListSection();
         this.keyboardView.displayKeyboard();
         this.keyboardView.enableTyping();
 
@@ -53,6 +59,14 @@ class ViewPhaseController {
             'keyboardBackspacePressed',
             this._deleteCharFromField.bind(this)
         );
+        subscribeEvent(
+            'wordListViewWordSelected',
+            this._highlightWordOnKeyboard.bind(this)
+        );
+        subscribeEvent(
+            'wordListViewWordDeselected',
+            this._unHighlightWordOnKeyboard.bind(this)
+        )
         subscribeEvent(
             'wordListViewWordDeleted',
             this._deleteWordListWord.bind(this)
@@ -92,6 +106,22 @@ class ViewPhaseController {
 
         this.wordInputView.setFieldText(newText);
     }
+
+    _highlightWordOnKeyboard(word) {
+        for (let i = 0; i < word.length; i++) {
+            this.keyboardView.setKeyColour(
+                word[i].toUpperCase(),
+                HEX_KEY_HIGHLIGHT_BG,
+                HEX_KEY_HIGHLIGHT_BORDER
+            );
+        };
+    };
+
+    _unHighlightWordOnKeyboard(word) {
+        for (let i = 0; i < word.length; i++) {
+            this.keyboardView.resetKeyColour(word[i].toUpperCase());
+        };
+    };
 
     /**
      * Delete a Word List word

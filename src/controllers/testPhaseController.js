@@ -47,8 +47,9 @@ class TestPhaseController {
         this.keyboardView = new GuessableKeyboardView(
             keysLayout, this.model.getKeyGuesses(), false
         );
-        // TODO: Display words saved in model
-        this.wordListView = new WordListView();
+        this.wordListView = new WordListView(
+            this.model.getUserWordsSet(), false, false
+        );
         // TODO: enable true or false depending on progress from model,
         // for now assumes first-time view, no keys placed, so disable btn
         this.submitGuessBtnView = new SubmitGuessBtnView(true);
@@ -58,7 +59,7 @@ class TestPhaseController {
         this.keyboardView.displayKeyboard();
         this.keyboardView.enableTyping();
         this.guessingKeysView.displayKeysGrid();
-        this.wordListView.displayWordListSection(this.model.getUserWordsSet());
+        this.wordListView.displayWordListSection();
         // Note, order matters here. Make sure to display button after
         // keyboard has been displayed.
         this.submitGuessBtnView.displayBtn();
