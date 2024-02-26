@@ -1,9 +1,4 @@
-import {
-    getMappedLetter,
-    isLetter,
-    convertCharCase
-} from '../utils.js';
-
+import { getMappedLetter, isLetter } from '../utils.js';
 import { publishEvent } from '../eventBus.js';
 
 /**
@@ -127,10 +122,7 @@ class KeyboardView {
 
             if (this.keyToCanType[letter]) {
                 this._pressKey(letter);
-
-                publishEvent(
-                    'keyboardLetterPressed', convertCharCase(e.key, letter)
-                );
+                publishEvent('keyboardLetterPressed', letter);
             };
         });
 
