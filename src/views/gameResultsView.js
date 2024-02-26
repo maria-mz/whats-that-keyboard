@@ -1,11 +1,36 @@
+const resultsProperties = {
+    'poorScore': {
+        'scoreColour': '#d1002d',
+        'msg': 'There\'s room for improvement.'
+    },
+    'okScore': {
+        'scoreColour': '#fdad0c',
+        'msg': 'Solid effort.'
+    },
+    'goodScore': {
+        'scoreColour': '#8bdc83',
+        'msg': 'Good job!'
+    },
+    'greatScore': {
+        'scoreColour': '#178317',
+        'msg': 'Well done!'
+    }
+};
+
 /**
  * @class GameResultsView
  * 
  * 
  */
 class GameResultsView {
-    constructor(playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses) {
-        this._initView(playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses);
+    constructor(
+        playerKeyboardElmt,
+        correctKeyboardElmt,
+        numCorrectGuesses) 
+    {
+        this._initView(
+            playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses
+        );
     };
 
     _initView(playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses) {
@@ -56,13 +81,32 @@ class GameResultsView {
         const container = document.createElement('div');
         container.className = 'results__score__container';
 
+        const resultsProperty = this._getResultsProperty(numCorrectGuesses);
+
         const scoreTitle = this._createScoreTitle();
-        const score = this._createScore(numCorrectGuesses);
-        const scoreSubtitle = this._createScoreSubtitle();
+        const score = this._createScore(
+            numCorrectGuesses, resultsProperty.scoreColour
+        );
+        const scoreSubtitle = this._createScoreSubtitle(resultsProperty.msg);
 
         container.append(scoreTitle, score, scoreSubtitle);
 
         return container;
+    };
+
+    _getResultsProperty(numCorrectGuesses) {
+        if (numCorrectGuesses < 10) { 
+            return resultsProperties.poorScore;
+        };
+        if (numCorrectGuesses >= 10 && numCorrectGuesses < 20) { 
+            return resultsProperties.okScore;
+        };
+        if (numCorrectGuesses >= 20 && numCorrectGuesses < 23) { 
+            return resultsProperties.goodScore;
+        };
+        if (numCorrectGuesses >= 23) {
+            return resultsProperties.greatScore;
+        };
     };
 
     _createScoreTitle() {
@@ -73,25 +117,24 @@ class GameResultsView {
         return scoreTitle;
     };
 
-    _createScore(numCorrectGuesses) {
+    _createScore(numCorrectGuesses, colour) {
         const scoreTotal = document.createElement('p');
         scoreTotal.className = 'results__score';
         scoreTotal.textContent = ' / 26';
 
         const score = document.createElement('span');
         score.textContent = numCorrectGuesses;
-        score.style.color = '#008bf8';
+        score.style.color = colour;
 
         scoreTotal.insertBefore(score, scoreTotal.firstChild);
 
         return scoreTotal;
     };
 
-    _createScoreSubtitle() {
+    _createScoreSubtitle(msg) {
         const scoreSubtitle = document.createElement('p');
         scoreSubtitle.className = 'results__score-subtitle';
-        // TODO: Show different messages depending on score?
-        scoreSubtitle.textContent = 'Well done! Thanks for playing :-)';
+        scoreSubtitle.textContent = `${msg} Thanks for playing :-)`;
 
         return scoreSubtitle;
     };
