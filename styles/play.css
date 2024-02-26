@@ -161,7 +161,7 @@ body {
 
   user-select: none;
 
-  border-radius: 6px;
+  border-radius: 8px;
   border-style: solid;
   border-width: 1px 2px 4px 2px; /* top right bottom ("shadow") left */
 
@@ -246,7 +246,7 @@ body {
   background-color: white;
   border-color: var(--clr-silver);
   border-style: solid;
-  border-radius: 6px;
+  border-radius: 8px;
   border-width: 1px;
   color: var(--clr-navy);
   flex: 1;
@@ -275,7 +275,7 @@ body {
 .word-input__add-btn {
   background: #d5e6f2;
   border-color: #a3cae4;
-  border-radius: 6px;
+  border-radius: 8px;
   border-style: solid;
   border-width: 1px 2px 4px 2px;
   color: var(--clr-off-navy);
@@ -326,7 +326,7 @@ body {
   justify-content: center;
 
   background: #ebebeb;
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--clr-dark);
   font-family: 'Quicksand';
   font-size: 1rem;
@@ -383,12 +383,13 @@ body {
 }
 
 .word-list__item__container {
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid transparent;
   padding: 0.5em 0.5em;
-  transition: background 0.15s ease;
+  transition: background 0.1s ease;
   width: 300px;
 
-  color: #6D435A;
+  color: var(--clr-dark);
   font-family: 'IBM Plex Mono';
   font-size: 1rem;
 
@@ -399,9 +400,14 @@ body {
   justify-content: space-between;
 }
 
-.word-list__item__container:hover {
+.word-list__item__container-selectable:hover {
   background: #ebebeb;
   cursor: pointer;
+}
+
+.word-list__item__container-selected {
+  background: #ECE2EB !important; /* To prevent hover effect */
+  border-color: #6D435A;
 }
 
 .word-list__item__word {

@@ -13,19 +13,38 @@ const HEX_COVERAGE_GREAT = '#178317'
  * 
  */
 class WordListView {
-    // TODO: update init to take in the words, and call update
-    constructor() {
-        this._initWordListSection();
-        this._subscribeToEvents()
+    constructor(
+        wordsSet,
+        isListItemSelectable,
+        isListItemDeleteable
+    ) {
+        // Configurations
+        this.isListItemDeleteable = isListItemDeleteable;
+        this.isListItemSelectable = isListItemSelectable;
+
+        // Variables to hold HTML Elements for easy access
+        this.wordListSection;
+        this.wordListCountSpan;
+        this.coverageText;
+        this.progressBar;
+        this.wordListDiv;
+        this.wordToItemContainer = {};
+
+        // Variable to track currently selected word list item
+        this.currSelectedWord = null;
+
+        this._createWordListSection();
+        this._subscribeToEvents();
+        this._updateWordList(wordsSet);
     };
 
-    _initWordListSection() {
+    _createWordListSection() {
         this.wordListSection = document.createElement('section');
         this.wordListSection.className = 'word-list__container';
 
-        const headerContainer = this._initWordListHeaderContainer();
-        const progressTextContainer = this._initProgressTextContainer();
-        const progressBarContainer = this._initProgressBarContainer();
+        const headerContainer = this._createWordListHeaderContainer();
+        const progressTextContainer = this._createProgressTextContainer();
+        const progressBarContainer = this._createProgressBarContainer();
         this.wordListDiv = this._createWordListDiv();
 
         this.wordListSection.append(
@@ -44,7 +63,7 @@ class WordListView {
         return wordListDiv;
     };
 
-    _initWordListHeaderContainer() {
+    _createWordListHeaderContainer() {
         const headerContainer = document.createElement('div');
         headerContainer.className = 'word-list__header__container';
 
@@ -72,7 +91,7 @@ class WordListView {
         return wordListCountSpan;
     };
 
-    _initProgressTextContainer() {
+    _createProgressTextContainer() {
         const progressTextContainer = document.createElement('div');
         progressTextContainer.className = 'word-list__progress-text__container';
 
@@ -100,7 +119,7 @@ class WordListView {
         return coverageText;
     };
 
-    _initProgressBarContainer() {
+    _createProgressBarContainer() {
         const progressBarContainer = document.createElement('div');
         progressBarContainer.className = 'word-list__progress-bar__container';
 
@@ -116,17 +135,33 @@ class WordListView {
         const itemContainer = document.createElement('div');
         itemContainer.className = 'word-list__item__container';
 
-        const itemWord = document.createElement('p');
-        itemWord.textContent = word;
-        itemWord.className = 'word-list__item__word';
-    
-        const itemDeleteIcon = document.createElement('span');
-        itemDeleteIcon.textContent = 'x';
-        itemDeleteIcon.className = 'word-list__item__delete-icon';
-    
-        itemContainer.append(itemWord, itemDeleteIcon);
-    
+        const wordText = this._createListItemWordText(word);
+
+        if (this.isListItemDeleteable) {
+            const deleteIcon = this._createListItemDeleteIcon();
+            itemContainer.append(wordText, deleteIcon);
+        }
+        else {
+            itemContainer.append(wordText);
+        };
+
         return itemContainer;
+    };
+
+    _createListItemWordText(word) {
+        const wordText = document.createElement('p');
+        wordText.textContent = word;
+        wordText.className = 'word-list__item__word';
+
+        return wordText;
+    };
+
+    _createListItemDeleteIcon() {
+        const deleteIcon = document.createElement('span');
+        deleteIcon.textContent = 'x';
+        deleteIcon.className = 'word-list__item__delete-icon';
+
+        return deleteIcon;
     };
 
     _subscribeToEvents() {
@@ -136,31 +171,84 @@ class WordListView {
     };
 
     _clearWordList() {
-        const itemContainers = document.querySelectorAll('.word-list__item__container');
+        const itemContainers = Object.values(this.wordToItemContainer);
         itemContainers.forEach((item) => item.remove());
+        this.wordToItemContainer = {};
     };
 
     _updateWordList(wordsSet) {
         this._clearWordList();
 
         wordsSet.forEach((word) => {
-            const newWordItemDiv = this._createWordListItemContainer(word);
-            const deleteIcon = newWordItemDiv.querySelector('.word-list__item__delete-icon');
+            const newItemContainer = this._createWordListItemContainer(word);
 
-            deleteIcon.addEventListener('click', () => {
-                publishEvent('wordListViewWordDeleted', word);
-            });
+            this.wordToItemContainer[word] = newItemContainer;
+            this.wordListDiv.appendChild(newItemContainer);
 
-            this.wordListDiv.appendChild(newWordItemDiv);
+            if (this.isListItemSelectable) {
+                newItemContainer.classList.add('word-list__item__container-selectable');
+                this._setListItemClickedEvent(word);
+            };
+
+            if (this.isListItemDeleteable) {
+                this._setListItemDeleteClickedEvent(word);
+            };
         });
 
-        // Update words count
         this.wordListCountSpan.textContent = wordsSet.size;
-
-        // Update progress bar and coverage text
         this._updateProgress(wordsSet);
 
         publishEvent('wordListViewUpdated');
+    };
+
+    _setListItemClickedEvent(word) {
+        const itemContainer = this.wordToItemContainer[word];
+        const deleteIcon = itemContainer.querySelector('.word-list__item__delete-icon');
+
+        itemContainer.addEventListener('click', (e) => {
+            if (e.target === deleteIcon) { return; };
+
+            if (this.currSelectedWord === word) {
+                this._deselectListItem(word);
+            }
+            else if (!this.currSelectedWord) {
+                this._selectListItem(word);
+            }
+            else {
+                this._deselectListItem(this.currSelectedWord);
+                this._selectListItem(word);
+            };
+        });
+    };
+
+    _setListItemDeleteClickedEvent(word) {
+        const itemContainer = this.wordToItemContainer[word];
+        const deleteIcon = itemContainer.querySelector('.word-list__item__delete-icon');
+
+        deleteIcon.addEventListener('click', () => {
+            if (this.isListItemSelectable && this.currSelectedWord === word) {
+                this._deselectListItem(word);
+                publishEvent('wordListViewWordDeselected', word);
+            }
+
+            publishEvent('wordListViewWordDeleted', word);
+        });
+    };
+
+    _selectListItem(word) {
+        const itemContainer = this.wordToItemContainer[word];
+        itemContainer.classList.add('word-list__item__container-selected');
+        this.currSelectedWord = word;
+
+        publishEvent('wordListViewWordSelected', word);
+    };
+
+    _deselectListItem(word) {
+        const itemContainer = this.wordToItemContainer[word];
+        itemContainer.classList.remove('word-list__item__container-selected');
+        this.currSelectedWord = null;
+
+        publishEvent('wordListViewWordDeselected', word);
     };
 
     _updateProgress(wordsSet) {
@@ -198,11 +286,9 @@ class WordListView {
         if (coverage >= 23) { return HEX_COVERAGE_GREAT };
     };
 
-    displayWordListSection(words = new Set()) {
+    displayWordListSection() {
         const gameAreaSection = document.getElementById('gameArea');
         gameAreaSection.appendChild(this.wordListSection);
-
-        this._updateWordList(words);
     };
 
     removeWordListSection() {
