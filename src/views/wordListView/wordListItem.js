@@ -1,14 +1,15 @@
 /**
  * @class WordListItem
  * 
- * Represents an item in the Word List. This item shows the word,
+ * Represents an item in the Word List section. This item shows the word,
  * and can be selected and/or deleted.
  */
 class WordListItem {
     // TODO: add animation for this item
-    constructor(word, isListItemDeletable, isItemSelectable) {
+
+    constructor(word, isItemDeletable, isItemSelectable) {
         // Fixed configurations
-        this._isListItemDeletable = isListItemDeletable;
+        this._isItemDeletable = isItemDeletable;
         this._isItemSelectable = isItemSelectable;
 
         // Main HTML Element
@@ -24,7 +25,7 @@ class WordListItem {
 
         const wordText = this._createListItemWordText(word);
 
-        if (this._isListItemDeletable) {
+        if (this._isItemDeletable) {
             const deleteIcon = this._createListItemDeleteIcon();
             itemContainer.append(wordText, deleteIcon);
         }
@@ -40,7 +41,7 @@ class WordListItem {
     };
 
     /**
-     * Create HTML Element word text of the item
+     * Create HTML Element for the word text of the item
      */
     _createListItemWordText(word) {
         const wordText = document.createElement('p');

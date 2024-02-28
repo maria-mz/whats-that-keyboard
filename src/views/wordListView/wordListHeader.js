@@ -1,7 +1,7 @@
 /**
  * @class WordListHeader
  * 
- * Represents the display for the Header of the Word List.
+ * Represents the display for the header of the Word List section.
  * This includes the title and the count for the number of words in
  * the list.
  */
@@ -12,7 +12,7 @@ class WordListHeader {
     };
 
     /**
-     * Create HTML Element for the entire Header
+     * Create HTML Element for the entire header
      */
     _createListHeader() {
         const container = document.createElement('div');
@@ -49,7 +49,7 @@ class WordListHeader {
     };
 
     /**
-     * Set the count of items in the Header
+     * Set the count of items in the header
      * 
      * @param {number} newCount - The new count of items to display
      */
@@ -61,7 +61,7 @@ class WordListHeader {
     };
 
     /**
-     * Retrieve the Header HTML Element
+     * Retrieve the header HTML Element
      */
     get HTMLElement() {
         return this._wordListHeader;

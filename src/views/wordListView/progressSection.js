@@ -16,7 +16,7 @@ const COLOUR_PROGRESS_GREAT = '#178317'
  */
 class ProgressSection {
     constructor() {
-        // Actual HTML Element
+        // The main HTML Element
         this._progressSection = this._createProgressSection();
     };
 
