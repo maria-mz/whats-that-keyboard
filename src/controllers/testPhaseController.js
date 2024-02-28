@@ -1,4 +1,4 @@
-import WordListView from "../views/wordListView.js";
+import WordListSectionView from "../views/wordListView/wordListSectionView.js";
 import { GuessableKeyboardView, KeyHoverState } from "../views/guessableKeyboardView.js";
 import { GuessingKeysView } from "../views/guessingKeysView.js";
 import SubmitGuessBtnView from "../views/submitGuessBtnView.js";
@@ -47,7 +47,7 @@ class TestPhaseController {
         this.keyboardView = new GuessableKeyboardView(
             keysLayout, this.model.getKeyGuesses(), false
         );
-        this.wordListView = new WordListView(
+        this.wordListView = new WordListSectionView(
             this.model.getUserWordsSet(), false, false
         );
         // TODO: enable true or false depending on progress from model,

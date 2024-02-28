@@ -1,5 +1,5 @@
 import WordInputView from "../views/wordInputView.js";
-import WordListView from "../views/wordListView.js";
+import WordListSectionView from "../views/wordListView/wordListSectionView.js";
 import { KeyboardView } from "../views/keyboardView.js";
 import TestMeBtnView from "../views/testMeBtnView.js";
 
@@ -28,7 +28,7 @@ class ViewPhaseController {
         const keysLayout = getKeyLayout(todaysLetterList);
 
         this.wordInputView = new WordInputView();
-        this.wordListView = new WordListView(
+        this.wordListView = new WordListSectionView(
             this.model.getUserWordsSet(), true, true
         );
         this.keyboardView = new KeyboardView(keysLayout, true);
