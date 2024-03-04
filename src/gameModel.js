@@ -13,8 +13,9 @@ const NUM_LETTER_KEYS = 26
 class GameModel {
     constructor() {
         // TODO: if any words saved in local storage, get those 
-        this.userWordsSet = new Set();
-        this.todaysLetterList = this._genTodaysLetterList()
+        this.userWordsList = [];
+        this.todaysLetterList = this._genTodaysLetterList();
+        // this.todaysLetterList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
         this._initKeyGuesses();
     };
@@ -50,8 +51,8 @@ class GameModel {
         return this.todaysLetterList;
     };
 
-    getUserWordsSet() {
-        return this.userWordsSet;
+    getUserWords() {
+        return this.userWordsList;
     };
 
     getKeyGuesses() {
@@ -59,22 +60,35 @@ class GameModel {
     }
 
     addUserWord(word) {
-        if (word != '' && !this.userWordsSet.has(word)) {
-            this.userWordsSet.add(word);
+        if (word != '' && !this.userWordsList.includes(word)) {
+            this.userWordsList.push(word);
             // TODO: Save to local storage
 
-            publishEvent('wordListUpdated', this.userWordsSet);
+            publishEvent('wordListUpdated', this.userWordsList);
             return true;
         };
         return false;
     };
 
-    deleteUserWord(word) {
-        if (this.userWordsSet.has(word)) {
-            this.userWordsSet.delete(word)
+    isWordInWordList(word) {
+        return this.userWordsList.includes(word);
+    };
+
+    deleteUserWord(wordToDelete) {
+        if (this.userWordsList.includes(wordToDelete)) {
+            // Just make a new array to not include deleted word...
+            const newList = [];
+
+            this.userWordsList.forEach((word) => {
+                if (word !== wordToDelete) {
+                    newList.push(word);
+                };
+            });
+
+            this.userWordsList = [...newList];
             // TODO: Save to local storage
 
-            publishEvent('wordListUpdated', this.userWordsSet);
+            publishEvent('wordListUpdated', this.userWordsList);
             return true;
         };
         return false;

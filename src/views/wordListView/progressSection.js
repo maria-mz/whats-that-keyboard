@@ -1,7 +1,7 @@
-const COLOUR_PROGRESS_LOW = '#d1002d';
-const COLOUR_PROGRESS_OK = '#fdad0c';
-const COLOUR_PROGRESS_GOOD = '#8bdc83';
-const COLOUR_PROGRESS_GREAT = '#178317'
+const COLOUR_PROGRESS_LOW = '#ef999a';
+const COLOUR_PROGRESS_OK = '#f5b87f';
+const COLOUR_PROGRESS_GOOD = '#66d38e';
+const COLOUR_PROGRESS_GREAT = '#208e46'
 
 
 /**
@@ -55,7 +55,7 @@ class ProgressSection {
     _createProgressTextTitle() {
         const title = document.createElement('p');
         title.className = 'word-list__progress-text__title';
-        title.textContent = 'Keys Coverage';
+        title.textContent = 'Keys covered';
 
         return title;
     };
@@ -88,13 +88,13 @@ class ProgressSection {
     };
 
     /**
-     * Calculate the coverage of unique letters in the provided word set
+     * Calculate the coverage of unique letters in the provided words list
      * 
-     * @param {Set<string>} wordsSet - The set of words to analyze for letter coverage
-     * @returns {number} The number of unique letters covered in the word set
+     * @param {Array<string>} listWords - The list of words to analyze for letter coverage
+     * @returns {number} The number of unique letters covered in the words list
      */
-    _getLetterCoverage(wordsSet) {
-        const concatenatedWords = Array.from(wordsSet).join("").toLowerCase();
+    _getLetterCoverage(listWords) {
+        const concatenatedWords = listWords.join("").toLowerCase();
         const includedLetters = new Set()
 
         for (let i = 0; i < concatenatedWords.length; i++) {
@@ -145,13 +145,13 @@ class ProgressSection {
 
     /**
      * Update the progress display based on the coverage of letters in the
-     * provided word set
+     * provided words list
      * 
-     * @param {Set<string>} wordsSet - The set of words to analyze and translate
+     * @param {Array<string>} listWords - The list of words to analyze and translate
      *      to visual progress
      */
-    updateProgress(wordsSet) {
-        const coverage = this._getLetterCoverage(wordsSet);
+    updateProgress(listWords) {
+        const coverage = this._getLetterCoverage(listWords);
         const percentCoverage = (coverage / 26) * 100;
 
         this._updateProgressCoverageText(coverage);

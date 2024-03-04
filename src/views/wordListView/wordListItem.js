@@ -55,9 +55,8 @@ class WordListItem {
      * Create HTML Element for the delete icon of the item
      */
     _createListItemDeleteIcon() {
-        const deleteIcon = document.createElement('span');
-        deleteIcon.textContent = 'x';
-        deleteIcon.className = 'word-list__item__delete-icon';
+        const deleteIcon = document.createElement('i');
+        deleteIcon.classList.add('fa-solid', 'fa-trash', 'word-list__item__delete-icon');
 
         return deleteIcon;
     };

@@ -1,18 +1,18 @@
 const resultsProperties = {
     'poorScore': {
-        'scoreColour': '#d1002d',
+        'scoreColour': '#ef999a',
         'msg': 'There\'s room for improvement.'
     },
     'okScore': {
-        'scoreColour': '#fdad0c',
+        'scoreColour': '#f5b87f',
         'msg': 'Solid effort.'
     },
     'goodScore': {
-        'scoreColour': '#8bdc83',
+        'scoreColour': '#66d38e',
         'msg': 'Good job!'
     },
     'greatScore': {
-        'scoreColour': '#178317',
+        'scoreColour': '#208e46',
         'msg': 'Well done!'
     }
 };

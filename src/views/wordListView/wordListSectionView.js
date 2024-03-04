@@ -13,7 +13,7 @@ import { subscribeEvent, publishEvent } from '../../eventBus.js';
  * when `wordListUpdated` events are published.
  */
 class WordListSectionView {
-    constructor(wordsSet, areItemsDeletable, areItemsSelectable) {
+    constructor(listWords, areItemsDeletable, areItemsSelectable) {
         // Main HTML Element
         this._wordListSection = document.createElement('section');
         this._wordListSection.className = 'word-list__container';
@@ -21,7 +21,7 @@ class WordListSectionView {
         // Components
         this._listHeader = new WordListHeader();
         this._progressSection = new ProgressSection();
-        this._wordList = new WordList(wordsSet, areItemsDeletable, areItemsSelectable);
+        this._wordList = new WordList(listWords, areItemsDeletable, areItemsSelectable);
 
         // Build the element
         this._wordListSection.append(
@@ -31,6 +31,7 @@ class WordListSectionView {
         );
 
         this._subscribeToEvents();
+        this._updateWordListSection(listWords);
     };
 
     _subscribeToEvents() {
@@ -40,12 +41,21 @@ class WordListSectionView {
     };
 
     /**
-     * Update display of Word List section to reflect new `wordsSet`
+     * Update display of Word List section to reflect new `listWords`
      */
-    _updateWordListSection(wordsSet) {
-        this._listHeader.setListCount(wordsSet.size);
-        this._progressSection.updateProgress(wordsSet);
-        this._wordList.updateWordList(wordsSet);
+    _updateWordListSection(listWords) {
+        const numWords = listWords.length;
+
+        this._listHeader.setListCount(numWords);
+        this._progressSection.updateProgress(listWords);
+        this._wordList.updateWordList(listWords);
+
+        if (numWords === 0) {
+            this._wordList.setEmptyState();
+        }
+        else {
+            this._wordList.clearEmptyState();
+        }
 
         publishEvent('wordListViewUpdated');
     };

@@ -32,7 +32,7 @@ class WordListHeader {
     _createListTitle() {
         const listTitle = document.createElement('p');
         listTitle.className = 'word-list__header__title';
-        listTitle.textContent = 'Words';
+        listTitle.textContent = 'Golden Words';
 
         return listTitle;
     };

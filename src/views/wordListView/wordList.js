@@ -2,6 +2,11 @@ import WordListItem from "./wordListItem.js";
 import { publishEvent } from "../../eventBus.js";
 
 
+const EMPTY_STATE_TEXT = `<strong>Your list is empty.</strong> <br><br>To add a
+                          word, type one in the input field, and click the
+                          <strong>+</strong> button to add it to your list.`
+
+
 /**
  * @class WordList
  * 
@@ -10,9 +15,8 @@ import { publishEvent } from "../../eventBus.js";
  * are published to signal this.
  */
 class WordList {
-    // TODO: Handle animations when adding + deleting
-
-    constructor(wordsSet, areItemsDeletable, areItemsSelectable) {
+    // TODO: take empty state text as param
+    constructor(listWords, areItemsDeletable, areItemsSelectable) {
         // Fixed configurations
         this._areItemsDeletable = areItemsDeletable;
         this._areItemsSelectable = areItemsSelectable;
@@ -26,7 +30,7 @@ class WordList {
         // in the word list, so this is ok
         this._wordToListItem = {};
 
-        this.updateWordList(wordsSet);
+        this.updateWordList(listWords);
     };
 
     /**
@@ -34,9 +38,7 @@ class WordList {
      */
     _createWordList() {
         const wordList = document.createElement('div');
-        wordList.id = 'wordList';
         wordList.className = 'word-list';
-
         return wordList;
     };
 
@@ -83,8 +85,7 @@ class WordList {
         deleteIcon.addEventListener('click', () => {
             if (this._areItemsSelectable && this._currSelectedWord === word) {
                 this._deselectListItem(word);
-                publishEvent('wordListViewWordDeselected', word);
-            }
+            };
 
             publishEvent('wordListViewWordDeleted', word);
         });
@@ -118,10 +119,10 @@ class WordList {
      * Update the entire contents of the word list to showcase words
      * in `wordsSet`
      */
-    updateWordList(wordsSet) {
+    updateWordList(newListWords) {
         this._clearWordList();
 
-        wordsSet.forEach((word) => {
+        newListWords.forEach((word) => {
             const newItem = new WordListItem(
                 word, this._areItemsDeletable, this._areItemsSelectable
             );
@@ -130,6 +131,10 @@ class WordList {
 
             if (this._areItemsSelectable) {
                 this._setupListItemClickEvent(word);
+
+                if (this._currSelectedWord === word) {
+                    this._selectListItem(word);
+                };
             };
 
             if (this._areItemsDeletable) {
@@ -145,6 +150,21 @@ class WordList {
      */
     get HTMLElement() {
         return this._wordList;
+    };
+
+    setEmptyState() {
+        const emptyState = document.createElement('div');
+        emptyState.className = 'word-list__empty-state'
+        emptyState.innerHTML = EMPTY_STATE_TEXT;
+        this._wordList.append(emptyState);
+    };
+
+    clearEmptyState() {
+        const emptyState = this._wordList.querySelector('.word-list__empty-state');
+
+        if (emptyState) {
+            emptyState.remove();
+        };
     };
 };
 
