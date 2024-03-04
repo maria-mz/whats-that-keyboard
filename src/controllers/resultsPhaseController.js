@@ -7,10 +7,10 @@ import { subscribeEvent } from "../eventBus.js";
 
 
 // Colour constants
-const KEY_BG_HEX_CORRECT_GUESS = '#e4fde1';
-const KEY_BORDER_HEX_CORRECT_GUESS = '#a7dca5';
-const KEY_BG_HEX_WRONG_GUESS = '#ffeded';
-const KEY_BORDER_HEX_WRONG_GUESS = '#ffb5b7';
+const KEY_BG_HEX_CORRECT_GUESS = '#ddfbe9';
+const KEY_BORDER_HEX_CORRECT_GUESS = '#66d38e';
+const KEY_BG_HEX_WRONG_GUESS = '#f9e4e5';
+const KEY_BORDER_HEX_WRONG_GUESS = '#ef999a';
 
 
 /**

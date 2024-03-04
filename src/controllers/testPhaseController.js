@@ -48,7 +48,7 @@ class TestPhaseController {
             keysLayout, this.model.getKeyGuesses(), false
         );
         this.wordListView = new WordListSectionView(
-            this.model.getUserWordsSet(), false, false
+            this.model.getUserWords(), false, false
         );
         // TODO: enable true or false depending on progress from model,
         // for now assumes first-time view, no keys placed, so disable btn
@@ -70,24 +70,19 @@ class TestPhaseController {
      */
     _subscribeToTestPhaseEvents() {
         subscribeEvent(
-            'guessingKeyEnteredGuessableKey',
-            this._setGuessableKeyHover.bind(this)
+            'guessingKeyEnteredGuessableKey', this._setGuessableKeyHover.bind(this)
         );
         subscribeEvent(
-            'guessingKeyLeftGuessableKey',
-            this._removeGuessableKeyHover.bind(this)
+            'guessingKeyLeftGuessableKey', this._removeGuessableKeyHover.bind(this)
         );
         subscribeEvent(
-            'guessingKeyReleasedOnGuessableKey',
-            this._updateGuess.bind(this)
+            'guessingKeyReleasedOnGuessableKey', this._updateGuess.bind(this)
         );
         subscribeEvent(
-            'keyboardViewGuessRemoved',
-            this._removeKeyGuess.bind(this)
+            'keyboardViewGuessRemoved', this._removeKeyGuess.bind(this)
         );
         subscribeEvent(
-            'submitGuessBtnClicked',
-            this._concludeGame.bind(this)
+            'submitGuessBtnClicked', this._concludeGame.bind(this)
         );
     };
 
