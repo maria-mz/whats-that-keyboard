@@ -72,7 +72,7 @@ class PageNavigator {
     };
 
     _setNavTextPageNumber(navText, pageNumber) {
-        navText.textContent = `${pageNumber} of 5`;
+        navText.textContent = `${pageNumber} of ${this._maxPageNumber}`;
     }
 
     _setupNavBtnEvents() {

@@ -1,6 +1,7 @@
 import { getMappedLetter, isLetter } from '../utils.js';
 import { publishEvent } from '../eventBus.js';
 
+
 /**
  * @class KeyboardView
  * 
@@ -9,15 +10,17 @@ import { publishEvent } from '../eventBus.js';
 class KeyboardView {
     constructor(keysLayout, showAnimationOnDisplay) {
         this.letterToKeyDiv = {};
+        this.letterToIsHighlighed = {};
         this.keyToCanType = {};
         this.mapRegKeyLetter = getMappedLetter(keysLayout);
 
         this._initKeyboardDiv(keysLayout);
         this._initDefaultTyping();
+        this._initHighlightedState(keysLayout);
 
         if (showAnimationOnDisplay) {
             this._addKeysAnimation();
-        }
+        };
     };
 
     _initDefaultTyping() {
@@ -45,7 +48,7 @@ class KeyboardView {
 
         for (const [letter, { row, _ }] of Object.entries(keysLayout)) {
             if (!keyboardRowDivs.hasOwnProperty(row)) {
-                keyboardRowDivs[row] = this._createKeyboardRowDiv();
+                keyboardRowDivs[row] = this._createKeyboardRowDiv(row);
             };
 
             const keyDiv = this._createKeyDiv(letter);
@@ -57,9 +60,16 @@ class KeyboardView {
         return keyboardRowDivs;
     };
 
-    _createKeyboardRowDiv() {
+    _createKeyboardRowDiv(row) {
         const keyboardRowDiv = document.createElement('div');
         keyboardRowDiv.className = 'keyboard__row';
+
+        if (row == 1) {
+            keyboardRowDiv.classList.add('keyboard__row-second');
+        }
+        if (row == 2) {
+            keyboardRowDiv.classList.add('keyboard__row-third');
+        };
 
         return keyboardRowDiv;
     };
@@ -139,12 +149,30 @@ class KeyboardView {
 
     _pressKey(letter) {
         const keyDiv = this.letterToKeyDiv[letter];
-        keyDiv.classList.add('key-pressed');
+
+        if (this.letterToIsHighlighed[letter]) {
+            keyDiv.classList.add('key-pressed-highlighted');
+        }
+        else {
+            keyDiv.classList.add('key-pressed');
+        };
     };
 
     _releaseKey(letter) {
         const keyDiv = this.letterToKeyDiv[letter]
-        keyDiv.classList.remove('key-pressed');
+
+        if (this.letterToIsHighlighed[letter]) {
+            keyDiv.classList.remove('key-pressed-highlighted');
+        }
+        else {
+            keyDiv.classList.remove('key-pressed');
+        };
+    };
+
+    _initHighlightedState(keysLayout) {
+        for (const [letter, _] of Object.keys(keysLayout)) {
+            this.letterToIsHighlighed[letter] = false;
+        };
     };
 
     enableTypingKey(key) {
@@ -171,6 +199,32 @@ class KeyboardView {
         const keyDiv = this.letterToKeyDiv[letter];
         keyDiv.style.background = '';
         keyDiv.style.borderColor = '';
+    };
+
+    highlightWordOnKeyboard(word) {
+        for (let i = 0; i < word.length; i++) {
+            const letter = word[i].toUpperCase();
+
+            const keyDiv = this.letterToKeyDiv[letter];
+            keyDiv.classList.add('key-is-highlighted');
+
+            this.letterToIsHighlighed[letter] = true;
+        };
+    };
+
+    unHighlightWordOnKeyboard(word) {
+        for (let i = 0; i < word.length; i++) {
+            const letter = word[i].toUpperCase();
+
+            const keyDiv = this.letterToKeyDiv[letter];
+            keyDiv.classList.remove('key-is-highlighted');
+
+            this.letterToIsHighlighed[letter] = false;
+        };
+    };
+
+    get HTMLElement() {
+        return this.keyboardDiv;
     };
 };
 
