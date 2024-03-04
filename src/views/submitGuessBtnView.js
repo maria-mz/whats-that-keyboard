@@ -8,7 +8,7 @@ import { publishEvent } from "../eventBus.js";
 class SubmitGuessBtnView {
     constructor(isEnabled) {
         this.btn = document.createElement('div');
-        this.btn.textContent = 'Submit guess';
+        this.btn.textContent = 'Submit Guess';
         this.btn.classList.add('solid-btn', 'submit-guess-btn');
 
         if (isEnabled) {

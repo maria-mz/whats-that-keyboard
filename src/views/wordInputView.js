@@ -8,6 +8,7 @@ import { publishEvent } from "../eventBus.js";
 class WordInputView {
     constructor() {
         this._initWordInputSection();
+        this._updateButtonEnabledStatus();
     };
 
     _initWordInputSection() {
@@ -22,12 +23,22 @@ class WordInputView {
 
     _createInstrText() {
         const instrText = document.createElement('p');
-        instrText.textContent = 'What words can help you remember ' +
-                                'the placement of keys?';
-
         instrText.className = 'word-input__instr-text';
+        instrText.textContent = `What word can help you remember
+                              the placement of some keys?`;
+
+        const helpIcon = this._createHelpIcon();
+
+        instrText.append(helpIcon);
 
         return instrText;
+    };
+
+    _createWarningText() {
+        const warningText = document.createElement('p');
+        warningText.className = 'word-input__warning-text';
+
+        return warningText;
     };
 
     _createFieldContainer() {
@@ -36,23 +47,55 @@ class WordInputView {
 
         const inputFieldDiv = this._initInputFieldDiv();
 
-        const addWordBtn = this._createAddWordBtn();
-        addWordBtn.addEventListener('click', () => {
-            publishEvent('addWordBtnPressed');
-        });
+        this.addWordBtn = this._createAddWordBtn();
+        this.warningText = this._createWarningText();
 
-        fieldContainer.append(inputFieldDiv, addWordBtn);
+        fieldContainer.append(inputFieldDiv, this.addWordBtn, this.warningText);
 
         return fieldContainer;
     };
 
     _createAddWordBtn() {
         const addWordBtn = document.createElement('button');
-        addWordBtn.textContent = '+';
-        addWordBtn.id = 'addWordBtn';
-        addWordBtn.className = 'word-input__add-btn';
+        addWordBtn.classList.add('solid-btn', 'word-input__field-btn');
+
+        const addIcon = this._createAddWordBtnIcon();
+
+        addWordBtn.append(addIcon);
 
         return addWordBtn;
+    };
+
+    _createAddWordBtnIcon() {
+        const addIcon = document.createElement('i');
+        addIcon.classList.add('fa-solid', 'fa-plus');
+
+        return addIcon;
+    };
+
+    _createHelpIcon() {
+        const helpIcon = document.createElement('i');
+        helpIcon.classList.add('fa-regular', 'fa-circle-question', 'word-input__help-icon');
+
+        helpIcon.addEventListener('click', () => {
+            publishEvent('helpIconClicked');
+        });
+
+        return helpIcon;
+    };
+
+    _enableBtn() {
+        this.addWordBtn.classList.add('solid-btn-enabled');
+        this.addWordBtn.classList.remove('solid-btn-disabled');
+        this.addWordBtn.onclick = () => {
+            publishEvent('addWordBtnPressed');
+        };
+    };
+
+    _disableBtn() {
+        this.addWordBtn.classList.add('solid-btn-disabled');
+        this.addWordBtn.classList.remove('solid-btn-enabled');
+        this.addWordBtn.onclick = null;
     };
 
     _initInputFieldDiv() {
@@ -82,6 +125,20 @@ class WordInputView {
 
     setFieldText(text) {
         this.fieldText.textContent = text;
+        this._updateButtonEnabledStatus();
+    };
+
+    setWarningText(text) {
+        this.warningText.textContent = text;
+    };
+
+    _updateButtonEnabledStatus() {
+        if (this.fieldText.textContent.length === 0) {
+            this._disableBtn();
+        }
+        else {
+            this._enableBtn();
+        };
     };
 
     getFieldText() {

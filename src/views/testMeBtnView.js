@@ -9,7 +9,7 @@ class TestMeBtnView {
     constructor() {
         this.testMeBtn = document.createElement('div');
 
-        this.testMeBtn.textContent = 'Test me!';
+        this.testMeBtn.textContent = 'Test Me!';
         this.testMeBtn.classList.add('solid-btn', 'solid-btn-enabled', 'test-me-btn');
 
         this.testMeBtn.addEventListener('click', () => {
