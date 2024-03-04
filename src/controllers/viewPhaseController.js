@@ -7,10 +7,6 @@ import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
 
 
-const HEX_KEY_HIGHLIGHT_BG = '#ECE2EB';
-const HEX_KEY_HIGHLIGHT_BORDER = '#BAA5B6';
-
-
 /**
  * @class ViewPhaseController
  * 
@@ -27,9 +23,11 @@ class ViewPhaseController {
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
 
+        this.fieldHasWarningText = false;
+
         this.wordInputView = new WordInputView();
         this.wordListView = new WordListSectionView(
-            this.model.getUserWordsSet(), true, true
+            this.model.getUserWords(), true, true
         );
         this.keyboardView = new KeyboardView(keysLayout, true);
         this.testMeBtnView = new TestMeBtnView();
@@ -52,36 +50,28 @@ class ViewPhaseController {
      */
     _subscribeToEvents() {
         subscribeEvent(
-            'keyboardLetterPressed',
-            this._appendCharToField.bind(this)
+            'keyboardLetterPressed', this._appendCharToField.bind(this)
         );
         subscribeEvent(
-            'keyboardBackspacePressed',
-            this._deleteCharFromField.bind(this)
+            'keyboardBackspacePressed', this._deleteCharFromField.bind(this)
         );
         subscribeEvent(
-            'wordListViewWordSelected',
-            this._highlightWordOnKeyboard.bind(this)
+            'wordListViewWordSelected', this._highlightWordOnKeyboard.bind(this)
         );
         subscribeEvent(
-            'wordListViewWordDeselected',
-            this._unHighlightWordOnKeyboard.bind(this)
+            'wordListViewWordDeselected', this._unHighlightWordOnKeyboard.bind(this)
         )
         subscribeEvent(
-            'wordListViewWordDeleted',
-            this._deleteWordListWord.bind(this)
+            'wordListViewWordDeleted', this._deleteWordListWord.bind(this)
         );
         subscribeEvent(
-            'keyboardEnterPressed',
-            this._addWordListWord.bind(this)
+            'keyboardEnterPressed', this._addWordListWord.bind(this)
         );
         subscribeEvent(
-            'addWordBtnPressed',
-            this._addWordListWord.bind(this)
+            'addWordBtnPressed', this._addWordListWord.bind(this)
         );
         subscribeEvent(
-            'testMeBtnClicked',
-            this._clearViewPhase.bind(this)
+            'testMeBtnClicked', this._clearViewPhase.bind(this)
         );
     };
 
@@ -95,6 +85,10 @@ class ViewPhaseController {
         const newText = inputFieldText + char;
 
         this.wordInputView.setFieldText(newText);
+
+        if (this.fieldHasWarningText) {
+            this._clearFieldWarningText();
+        };
     };
 
     /**
@@ -105,22 +99,18 @@ class ViewPhaseController {
         const newText = inputFieldText.slice(0, -1);
 
         this.wordInputView.setFieldText(newText);
+
+        if (this.fieldHasWarningText) {
+            this._clearFieldWarningText();
+        };
     }
 
     _highlightWordOnKeyboard(word) {
-        for (let i = 0; i < word.length; i++) {
-            this.keyboardView.setKeyColour(
-                word[i].toUpperCase(),
-                HEX_KEY_HIGHLIGHT_BG,
-                HEX_KEY_HIGHLIGHT_BORDER
-            );
-        };
+        this.keyboardView.highlightWordOnKeyboard(word);
     };
 
     _unHighlightWordOnKeyboard(word) {
-        for (let i = 0; i < word.length; i++) {
-            this.keyboardView.resetKeyColour(word[i].toUpperCase());
-        };
+        this.keyboardView.unHighlightWordOnKeyboard(word);
     };
 
     /**
@@ -137,14 +127,24 @@ class ViewPhaseController {
      * If word goes through, clears the field
      */
     _addWordListWord() {
-        const inputFieldText = this.wordInputView.getFieldText();
+        const word = this.wordInputView.getFieldText();
 
-        if (this.model.addUserWord(inputFieldText)) {
-            this.wordInputView.setFieldText('')
+        if (this.model.isWordInWordList(word)) {
+            this.wordInputView.setWarningText('Word already in list');
+            this.fieldHasWarningText = true;
+            return;
         };
 
-        // TODO: Add view handling when word is not good, like show text:
-        // "Word not recognized", or "Word already in list"
+        // TODO: Add view handling when word is not good, with warning:
+        // "Word isn't valid in this game", 
+
+        if (this.model.addUserWord(word)) {
+            this.wordInputView.setFieldText('');
+
+            if (this.fieldHasWarningText) {
+                this._clearFieldWarningText();
+            };
+        };
     };
 
     /**
@@ -155,6 +155,11 @@ class ViewPhaseController {
         this.wordListView.removeWordListSection();
         this.keyboardView.removeKeyboard();
         this.testMeBtnView.removeTestMeBtn();
+    };
+
+    _clearFieldWarningText() {
+        this.wordInputView.setWarningText('');
+        this.fieldHasWarningText = false;
     }
 };
 
