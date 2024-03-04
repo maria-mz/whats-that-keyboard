@@ -1,0 +1,81 @@
+/*
+ * Styles for the Page Navigator
+ */
+
+
+.page-nav__container {
+  height: 2.5em;
+  width: 10em;
+
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+}
+
+
+/* *---------- Nav Button Styles ----------* */
+
+.page-nav__btn {
+  width: 25%;
+  height: 100%;
+
+  background-color: var(--clr-off-white);
+
+  border: 2px solid #c1c7c9;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: background 0.15s ease;
+}
+
+.page-nav__btn-hoverable:hover {
+  background-color: #dadedf;
+  cursor: pointer;
+}
+
+.page-nav__prev-btn {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-right: none;
+}
+
+.page-nav__next-btn {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-left: none;
+}
+
+/* Builds on fontawesome icon */
+.fa-angle-left, .fa-angle-right {
+  color: #c1c7c9;
+  transition: color 0.15s ease;
+}
+
+
+/* *---------- Nav Text Styles ----------* */
+
+.page-nav__text {
+  width: 50%;
+  height: 100%;
+
+  border-style: solid;
+  border-color: #c1c7c9;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+
+  background-color: var(--clr-off-white);
+  color: #555f61;
+
+  font-weight: 500;
+  font-family: 'Quicksand';
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+}

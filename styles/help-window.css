@@ -1,0 +1,139 @@
+/*
+ * Styles for the Help / How to Play window
+ */
+
+
+.help__window {
+  /* Center the window */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* Width by content */
+  width: 80ch;
+
+  background-color: var(--clr-off-white);
+
+  border-radius: 16px;
+
+  z-index: 1000;
+
+  /* Window shadow */
+  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.2);
+}
+
+
+/* *---------- Header Styles ----------* */
+
+.help__header {
+  display: flex;
+  flex-direction: column;
+}
+
+.help__header__title {
+  color: var(--clr-dark);
+
+  font-size: 1.5em;
+  font-family: 'Quicksand';
+  font-weight: 600;
+  text-align: center;
+
+  margin-bottom: 0;
+}
+
+/* Builds on fontawesome icon */
+.help__exit-icon {
+  align-self: flex-end;
+
+  margin-top: -1.5em;
+  margin-right: 2em;
+
+  color: #c1c7c9;
+
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  scale: 1.5;
+
+  /* For cricle background */
+  background-color: transparent;
+  padding: 0.25em 0.4em 0.25em 0.4em;
+  border-radius: 50%;
+}
+
+.help__exit-icon:hover {
+  color: white;
+  background-color: #dadedf;
+  cursor: pointer;
+}
+
+
+/* *---------- Content Styles ----------* */
+
+.help__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.help__panel {
+  margin: 0 2em 0 2em;
+}
+
+.help__subtitle {
+  color: #276dbc;
+
+  font-size: 1.25em;
+  font-family: 'Quicksand';
+  font-weight: 600;
+}
+
+.help__instr-text {
+  font-size: 1em;
+  font-family: 'Quicksand';
+  line-height: 1.5;
+}
+
+/* *---------- Content - Viewing Phase Panel Styles ----------* */
+
+.help__eg-words__container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1em;
+
+  /* margin-top: 2em;
+  margin-bottom: 2em; */
+}
+
+.help__eg-word {
+  font-size: 1em;
+  font-family: 'Space Mono';
+
+  color: var(--clr-dark);
+  background-color: transparent;
+
+  display: inline-block;
+
+  border-radius: 10px;
+
+  margin: 0;
+  padding: 0.5em 0.75em 0.5em 0.75em;
+
+  user-select: none;
+}
+
+.help__eg-word:hover {
+  cursor: pointer;
+  background-color: #ebebeb;
+}
+
+.help__eg-word-selected {
+  color: #1d5492;
+  background-color: #d5e6f2 !important;
+}
+
+.help__keyboard__container {
+  margin: 0;
+  padding: 0;
+}

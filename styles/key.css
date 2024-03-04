@@ -1,0 +1,122 @@
+/*
+ * Styles related to Keys
+ */
+
+
+/* *---------- Key Styles ----------* */
+
+.key {
+  /* TODO: use em */
+  width: 50px;
+  height: 50px;
+
+  font-size: 1.15rem;
+  font-family: 'Space Mono';
+
+  border-radius: 0.15rem;
+  border-width: 1px 2px 4px 2px; /* top right bottom ("shadow") left */
+  border-style: solid;
+  border-radius: 12px;
+
+  background: white;
+  border-color: var(--clr-silver);
+  color: var(--clr-dark);
+
+  user-select: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.key-is-highlighted {
+  background: #fcf1ce;
+  border-color: #f0c152;
+}
+
+.key-animation {
+  /* For key to appear to pop up, must be hidden first */
+  opacity: 0;
+  animation: pop-up 0.75s ease forwards;
+}
+
+@keyframes pop-up {
+  0% {
+    opacity: 1;
+    transform: scale(0.5, 0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05, 1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+.key-pressed, .key-pressed-highlighted {
+  /* Remove the "shadow" */
+  border-bottom-width: 2px;
+
+  /* Lower the key a bit */
+  position: relative;
+  top: 2px;
+}
+
+.key-pressed {
+  background-color: #E0E0E0;
+}
+
+.key-pressed-highlighted {
+  background-color: #f8dd8e;
+}
+
+.key-hidden-keycap {
+  background: #e7e7e7;
+  border: 1px solid var(--clr-silver);
+
+  /* Adjusted lengths for borders */
+  width: 52px;
+  height: 53px;
+}
+
+
+/* *---------- Keyboard Styles ----------* */
+
+.keyboard {
+  /* Center the rows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Space out the rows */
+  gap: 0.3em;
+}
+
+.keyboard__row {
+  /* Place keys side by side */
+  display: flex;
+  flex-direction: row;
+
+  /* Space out the individual keys */
+  gap: 0.3em;
+}
+
+.keyboard__row-second {
+  margin-right: 1.8em;
+}
+
+.keyboard__row-third {
+  margin-right: 4.8em;
+}
+
+
+/* *---------- Key Grid Styles ----------* */
+
+.key-grid {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5em;
+}

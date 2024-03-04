@@ -1,0 +1,176 @@
+/*
+ * Styles for the Word List
+ */
+
+
+.word-list__container {
+  width: 300px;
+
+  /* Position top right */
+  position: absolute;
+  right: 2em;
+  top: 2em;
+}
+
+
+/* *---------- Header Styles ----------* */
+
+.word-list__header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.word-list__header__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: 'Quicksand';
+
+  color: var(--clr-dark);
+
+  margin: 0;
+
+  user-select: none;
+}
+
+.word-list__header__count {
+  /* Center text inside */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'Quicksand';
+  font-size: 1rem;
+  font-weight: 600;
+
+  border-radius: 8px;
+
+  background: #ebebeb;
+  color: var(--clr-dark);
+
+  margin-left: 1em;
+
+  padding: 0.15em 0.5em;
+
+  user-select: none;
+}
+
+
+/* *---------- Progress Bar Styles ----------* */
+
+.word-list__progress-text__container {
+  width: 100%;
+
+  margin-top: 1.5em;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  user-select: none;
+}
+
+.word-list__progress-text__title, .word-list__progress-text__coverage {
+  font-family: 'Quicksand';
+  font-size: 1rem;
+
+  color: var(--clr-dark);
+
+  margin: 0;
+}
+
+.word-list__progress-text__title {
+  font-weight: 500;
+}
+
+.word-list__progress-bar__container {
+  width: 300px;
+  height: 15px;
+
+  border-radius: 10px;
+
+  background-color: #ededed;
+
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+.word-list__progress-bar {
+  height: 100%;
+  width: 0%;
+
+  border-radius: 10px;
+
+  transition: width 0.3s ease;
+}
+
+
+/* *---------- Word List Styles ----------* */
+
+.word-list {
+  position: relative;
+
+  padding: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.word-list__empty-state {
+  font-family: 'Quicksand';
+  font-size: 1rem;
+  color: #555f61;
+  text-align: center;
+}
+
+.word-list__item__container {
+  width: 100%;
+
+  padding: 0.5em 0.5em;
+
+  font-family: 'Space Mono';
+  font-size: 1rem;
+
+  border-radius: 8px;
+
+  color: var(--clr-dark);
+
+  user-select: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.word-list__item__container-selectable:hover {
+  background: #ebebeb;
+  cursor: pointer;
+}
+
+.word-list__item__container-selected {
+  color: #1d5492;
+  background: #d5e6f2 !important; /* To prevent hover effect */
+}
+
+/* *---------- Word List - Item Styles ----------* */
+
+.word-list__item__word {
+  margin: 0;
+}
+
+/* Builds on fontawesome icon */
+.word-list__item__delete-icon {
+  opacity: 0.5;
+
+  font-weight: 800;
+
+  margin-left: 0.75em;
+  margin-right: 0.25em;
+
+  transition: opacity 0.15s ease;
+}
+
+.word-list__item__delete-icon:hover {
+  opacity: 1;
+}

@@ -1,0 +1,83 @@
+/*
+ * Styles for the Word Input field
+ */
+
+
+.word-input__container {
+  width: 350px;
+}
+
+.word-input__instr-text, .word-input__warning-text {
+  color: var(--clr-dark);
+
+  font-size: 1rem;
+  font-family: 'Quicksand';
+  text-align: center;
+}
+
+/* Builds on fontawesome icon */
+.word-input__help-icon {
+  color: var(--clr-dark);
+  margin-left: 0.5em;
+}
+
+.word-input__help-icon:hover {
+  cursor: pointer;
+}
+
+.word-input__field-container {
+  height: 3em;
+  position: relative;
+  display: flex;
+}
+
+.word-input__warning-text {
+  color: #555f61;
+  font-style: italic;
+
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.word-input__field {
+  border-color: var(--clr-silver);
+  border-style: solid;
+  border-radius: 8px;
+  border-width: 1px;
+
+  background-color: white;
+  color: var(--clr-navy);
+
+  font-size: 1.15rem;
+  font-family: 'Space Mono';
+
+  padding: 0.5em;
+
+  overflow: hidden;
+
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.word-input__cursor {
+  animation: blink 2s infinite;
+  font-weight: 700;
+}
+
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 0;
+  }
+  25%, 75% {
+    opacity: 1;
+  }
+}
+
+/* Builds on solid-btn */
+.word-input__field-btn {
+  margin-left: 0.5em;
+  width: 3em;
+}

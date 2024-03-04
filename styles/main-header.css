@@ -1,0 +1,67 @@
+/*
+ * Styles for the Main game Header
+ */
+
+
+.header {
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: #fbfbf9;
+
+  border-bottom-color: #ebebe9;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+
+/* *---------- Title Styles ----------* */
+
+.header__game-title {
+  font-size: 1.5rem;
+  font-family: 'Quicksand';
+  font-weight: 500;
+
+  color: var(--clr-dark);
+
+  user-select: none;
+}
+
+.header__game-title:hover {
+  cursor: pointer;
+}
+
+
+/* *---------- Icon Styles ----------* */
+/* Builds on fontawesome icons */
+
+.header__help-icon, .header__settings-icon, .header__stats-icon {
+  scale: 1.5;
+  color: var(--clr-dark);
+}
+
+.header__help-icon {
+  margin-left: 2em;
+}
+
+.header__help-icon:hover {
+  cursor: pointer;
+}
+
+.header__stats-settings__container {
+  margin-right: 2em;
+  display: flex;
+  gap: 1.5em;
+}
+
+/* TODO */
+.header__stats-icon, .header__settings-icon {
+  color: var(--clr-silver);
+}
+
+.header__stats-icon:hover, .header__settings-icon:hover {
+  cursor: not-allowed;
+}
