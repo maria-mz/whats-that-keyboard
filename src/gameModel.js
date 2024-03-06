@@ -1,9 +1,9 @@
 import { publishEvent } from "./eventBus.js";
 
+
 // TODO: define this in one place
 const NO_GUESS_STR = ''
 
-const NUM_LETTER_KEYS = 26
 
 /**
  * @class GameModel
@@ -13,6 +13,7 @@ const NUM_LETTER_KEYS = 26
 class GameModel {
     constructor() {
         // TODO: if any words saved in local storage, get those 
+        this.dictionary = new Typo("en_US", false, false, { dictionaryPath: "ext/typo_js_dictionary" }),
         this.userWordsList = [];
         this.todaysLetterList = this._genTodaysLetterList();
         // this.todaysLetterList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
@@ -60,14 +61,19 @@ class GameModel {
     }
 
     addUserWord(word) {
-        if (word != '' && !this.userWordsList.includes(word)) {
-            this.userWordsList.push(word);
-            // TODO: Save to local storage
+        this.userWordsList.push(word);
+        // TODO: Save to local storage
 
-            publishEvent('wordListUpdated', this.userWordsList);
-            return true;
+        publishEvent('wordListUpdated', this.userWordsList);
+    };
+
+    isWordValid(word) {
+        // Don't allow single letters, not handled by typo.js
+        if (word.length === 1) {
+            return false;
         };
-        return false;
+
+        return this.dictionary.check(word);
     };
 
     isWordInWordList(word) {

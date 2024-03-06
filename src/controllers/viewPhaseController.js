@@ -135,15 +135,17 @@ class ViewPhaseController {
             return;
         };
 
-        // TODO: Add view handling when word is not good, with warning:
-        // "Word isn't valid in this game", 
+        if (!this.model.isWordValid(word)) {
+            this.wordInputView.setWarningText('Word isn\'t valid in this game');
+            this.fieldHasWarningText = true;
+            return;
+        }
 
-        if (this.model.addUserWord(word)) {
-            this.wordInputView.setFieldText('');
+        this.model.addUserWord(word)
+        this.wordInputView.setFieldText('');
 
-            if (this.fieldHasWarningText) {
-                this._clearFieldWarningText();
-            };
+        if (this.fieldHasWarningText) {
+            this._clearFieldWarningText();
         };
     };
 

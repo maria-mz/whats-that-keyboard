@@ -32,6 +32,8 @@
 }
 
 .word-input__warning-text {
+  width: 100%;
+
   color: #555f61;
   font-style: italic;
 
