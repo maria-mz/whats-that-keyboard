@@ -14,7 +14,7 @@ class ViewPhaseView {
         this._inputField = new WordInputView();
 
         // Create word list view, where words are selectable and deletable
-        this._wordListSection = new WordListSectionView(
+        this._wordList = new WordListSectionView(
             goldenWords, true, true
         );
 
@@ -32,7 +32,7 @@ class ViewPhaseView {
         // this view class should get their HTML element, and handle
         // appending to document.
         this._inputField.displayWordInputSection();
-        this._wordListSection.displayWordListSection();
+        this._wordList.displayWordListSection();
         this._keyboard.displayKeyboard();
         // Note, order matters here. Make sure to display button after
         // keyboard has been displayed.
@@ -43,7 +43,7 @@ class ViewPhaseView {
 
     removeView() {
         this._inputField.removeWordInputSection();
-        this._wordListSection.removeWordListSection();
+        this._wordList.removeWordListSection();
         this._keyboard.removeKeyboard();
         this._testBtn.removeTestMeBtn();
     };

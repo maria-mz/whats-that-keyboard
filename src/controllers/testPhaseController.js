@@ -1,7 +1,4 @@
-import WordListSectionView from "../views/wordListView/wordListSectionView.js";
-import { GuessableKeyboardView, KeyHoverState } from "../views/guessableKeyboardView.js";
-import { GuessingKeysView } from "../views/guessingKeysView.js";
-import SubmitGuessBtnView from "../views/submitGuessBtnView.js";
+import TestPhaseView from "../views/testPhaseView.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
@@ -14,15 +11,18 @@ const NO_GUESS_STR = ''
 /**
  * @class TestPhaseController
  * 
- * Controller for managing user input and view output during
- * the Test Phase of the game.
- * 
- * Listens for input events from views and responds accordingly,
- * which may involve updating the game model or view.
+ * Controller managing user input during the Test Phase of the game.
  */
 class TestPhaseController {
     constructor(gameModel) {
         this.model = gameModel;
+        
+        const todaysLetterList = this.model.getTodaysLetterList();
+        const keysLayout = getKeyLayout(todaysLetterList);
+
+        this.view = new TestPhaseView(
+            keysLayout, this.model.getKeyGuesses(), this.model.getUserWords()
+        );
 
         subscribeEvent(
             'testMeBtnClicked', this._beginTestPhase.bind(this)
@@ -30,59 +30,33 @@ class TestPhaseController {
     };
 
     _beginTestPhase() {
-        this._initViews();
-        this._displayViews();
+        this.view.displayView();
         this._subscribeToTestPhaseEvents();
     };
 
-    _initViews() {
-        const todaysLetterList = this.model.getTodaysLetterList();
-        const keysLayout = getKeyLayout(todaysLetterList);
-
-        // TODO: Display guessing keys aligned with model progress
-        this.guessingKeysView = new GuessingKeysView(
-            todaysLetterList, this.model.getKeyGuesses(), true
-        );
-        // TODO: Display keyboard aligned with model progress
-        this.keyboardView = new GuessableKeyboardView(
-            keysLayout, this.model.getKeyGuesses(), false
-        );
-        this.wordListView = new WordListSectionView(
-            this.model.getUserWords(), false, false
-        );
-        // TODO: enable true or false depending on progress from model,
-        // for now assumes first-time view, no keys placed, so disable btn
-        this.submitGuessBtnView = new SubmitGuessBtnView(true);
-    };
-
-    _displayViews() {
-        this.keyboardView.displayKeyboard();
-        this.keyboardView.enableTyping();
-        this.guessingKeysView.displayKeysGrid();
-        this.wordListView.displayWordListSection();
-        // Note, order matters here. Make sure to display button after
-        // keyboard has been displayed.
-        this.submitGuessBtnView.displayBtn();
-    };
-
     /**
-     * Subscribe to events transmitted by views during Test Phase
+     * Subscribe to events transmitted by components of Test Phase View
      */
     _subscribeToTestPhaseEvents() {
         subscribeEvent(
-            'guessingKeyEnteredGuessableKey', this._setGuessableKeyHover.bind(this)
+            'guessingKeyEnteredGuessableKey',
+            this._putHoverOnKeyboardKey.bind(this)
         );
         subscribeEvent(
-            'guessingKeyLeftGuessableKey', this._removeGuessableKeyHover.bind(this)
+            'guessingKeyLeftGuessableKey',
+            this._removeHoverOnKeyboardKey.bind(this)
         );
         subscribeEvent(
-            'guessingKeyReleasedOnGuessableKey', this._updateGuess.bind(this)
+            'guessingKeyReleasedOnGuessableKey',
+            this._updateGuess.bind(this)
         );
         subscribeEvent(
-            'keyboardViewGuessRemoved', this._removeKeyGuess.bind(this)
+            'keyboardViewGuessRemoved',
+            this._removeKeyGuess.bind(this)
         );
         subscribeEvent(
-            'submitGuessBtnClicked', this._concludeGame.bind(this)
+            'submitGuessBtnClicked',
+            () => { this.view.removeView(); }
         );
     };
 
@@ -94,10 +68,8 @@ class TestPhaseController {
      * @param {string} msg.letterOfGuessingKey
      * @param {string} msg.letterOfGuessableKey
      */
-    _setGuessableKeyHover(msg) {
-        this.keyboardView.setKeyHoverState(
-            msg.letterOfGuessableKey, KeyHoverState.ACTIVE
-        );
+    _putHoverOnKeyboardKey(msg) {
+        this.view.putHoverOnKeyboardKey(msg.letterOfGuessableKey);
     };
 
     /**
@@ -108,10 +80,8 @@ class TestPhaseController {
      * @param {string} msg.letterOfGuessingKey
      * @param {string} msg.letterOfGuessableKey
      */
-    _removeGuessableKeyHover(msg) {
-        this.keyboardView.setKeyHoverState(
-            msg.letterOfGuessableKey, KeyHoverState.INACTIVE
-        );
+    _removeHoverOnKeyboardKey(msg) {
+        this.view.removeHoverOnKeyboardKey(msg.letterOfGuessableKey);
     };
 
     /**
@@ -126,23 +96,23 @@ class TestPhaseController {
      * @param {string} msg.letterOfGuessableKey
      */
     _updateGuess(msg) {
-        this.keyboardView.setKeyHoverState(
-            msg.letterOfGuessableKey, KeyHoverState.INACTIVE
-        );
+        // Make sure hover is removed if it currently has the effect
+        this.view.removeHoverOnKeyboardKey(msg.letterOfGuessableKey);
 
-        this.model.updateKeyGuess(
-            msg.letterOfGuessableKey, msg.letterOfGuessingKey
-        );
+        const letterToGuess = msg.letterOfGuessableKey
+        const guess = msg.letterOfGuessingKey
+
+        this.model.updateKeyGuess(letterToGuess, guess);
 
         this._updateSubmitGuessBtn();
     };
 
     _updateSubmitGuessBtn() {
-        if (!this.model.isGameOver()) {
-            this.submitGuessBtnView.disableBtn();
+        if (this.model.isGameOver()) {
+            this.view.enableSubmitBtn();
         }
         else {
-            this.submitGuessBtnView.enableBtn();
+            this.view.disableSubmitBtn();
         };
     };
 
@@ -156,17 +126,6 @@ class TestPhaseController {
     _removeKeyGuess(letterOfGuessableKey) {
         this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
         this._updateSubmitGuessBtn();
-    };
-
-    /**
-     * Removes all elements involved in Test Phase
-     */
-    _concludeGame() {
-        this.keyboardView.removeKeyboard();
-        this.wordListView.removeWordListSection();
-        this.guessingKeysView.removeKeysGrid();
-        this.guessingKeysView.removeGuessingKeys();
-        this.submitGuessBtnView.removeBtn();
     };
 };
 

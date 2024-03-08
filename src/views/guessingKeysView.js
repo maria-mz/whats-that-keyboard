@@ -28,7 +28,7 @@ const NO_GUESS_STR = ''
  * 
  */
 class GuessingKeysView {
-    constructor(letters, keyGuesses, showAnimationOnGridDisplay) {
+    constructor(keyGuesses, showAnimationOnGridDisplay) {
         this.letterToKeyDiv = {};
         this.letterToKeyLoc = {};
         this.letterToIsUsedAsGuess = {};
@@ -37,7 +37,7 @@ class GuessingKeysView {
         // key is being moved
         this.currGuessableKey = null;
 
-        this._initGuessingKeys(letters);
+        this._initGuessingKeys();
         this._subscribeToEvents();
 
         this._updateGuessingKeys(keyGuesses);
@@ -47,13 +47,10 @@ class GuessingKeysView {
         }
     };
 
-    _initGuessingKeys(letters) {
-        // Need to copy letters.. otherwise modifies original
-        // TODO: initialize object with the copy instead?
-        const lettersCopy = [...letters];
-        const sortedLetters = sortArray(lettersCopy);
+    _initGuessingKeys() {
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
-        sortedLetters.forEach((letter) => {
+        letters.forEach((letter) => {
             const guessingKeyDiv = this._createGuessingKeyDiv(letter);
 
             this.letterToKeyDiv[letter] = guessingKeyDiv;

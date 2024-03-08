@@ -1,11 +1,11 @@
 import { publishEvent } from "../eventBus.js";
 
 /**
- * @class SubmitGuessBtnView
+ * @class SubmitGuessBtn
  * 
  * 
  */
-class SubmitGuessBtnView {
+class SubmitGuessBtn {
     constructor(isEnabled) {
         this.btn = document.createElement('div');
         this.btn.textContent = 'Submit Guess';
@@ -57,4 +57,4 @@ class SubmitGuessBtnView {
     };
 };
 
-export default SubmitGuessBtnView;
+export default SubmitGuessBtn;
