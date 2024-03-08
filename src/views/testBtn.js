@@ -1,11 +1,11 @@
 import { publishEvent } from "../eventBus.js";
 
 /**
- * @class TestMeBtnView
+ * @class TestBtn
  * 
  * 
  */
-class TestMeBtnView {
+class TestBtn {
     constructor() {
         this.testMeBtn = document.createElement('div');
 
@@ -27,4 +27,4 @@ class TestMeBtnView {
     };
 };
 
-export default TestMeBtnView;
+export default TestBtn;

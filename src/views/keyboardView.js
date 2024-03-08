@@ -201,7 +201,7 @@ class KeyboardView {
         keyDiv.style.borderColor = '';
     };
 
-    highlightWordOnKeyboard(word) {
+    highlightWord(word) {
         for (let i = 0; i < word.length; i++) {
             const letter = word[i].toUpperCase();
 
@@ -212,7 +212,7 @@ class KeyboardView {
         };
     };
 
-    unHighlightWordOnKeyboard(word) {
+    unHighlightWord(word) {
         for (let i = 0; i < word.length; i++) {
             const letter = word[i].toUpperCase();
 

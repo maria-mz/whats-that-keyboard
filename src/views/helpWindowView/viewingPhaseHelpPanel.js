@@ -83,7 +83,7 @@ class ViewingPhaseHelpPanel {
         // Used to get for example keyboard
         this._keyboardView = new KeyboardView(EXAMPLE_KEYBOARD_LAYOUT);
 
-        this._keyboardView.highlightWordOnKeyboard(DEFAULT_SELECTED_EXAMPLE_WORD);
+        this._keyboardView.highlightWord(DEFAULT_SELECTED_EXAMPLE_WORD);
 
         // Make the keyboard look a bit smaller
         this._keyboardView.HTMLElement.style.scale = '0.8';
@@ -132,7 +132,7 @@ class ViewingPhaseHelpPanel {
 
     _setupExampleWordEvent(exampleWord) {
         exampleWord.addEventListener('click', () => {
-            this._keyboardView.unHighlightWordOnKeyboard(
+            this._keyboardView.unHighlightWord(
                 this._currSelectedExampleWord.textContent
             );
 
@@ -140,7 +140,7 @@ class ViewingPhaseHelpPanel {
             this._selectExampleWord(exampleWord);
             this._updateExampleWordExplanation(exampleWord.textContent);
 
-            this._keyboardView.highlightWordOnKeyboard(exampleWord.textContent);
+            this._keyboardView.highlightWord(exampleWord.textContent);
         })
     };
 

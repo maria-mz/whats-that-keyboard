@@ -102,14 +102,14 @@ class WordInputView {
         const inputFieldDiv = document.createElement('div');
         inputFieldDiv.className = 'word-input__field';
 
-        this.fieldText = document.createElement('span');
-        this.fieldText.id = 'wordInputText';
+        this._fieldText = document.createElement('span');
+        this._fieldText.id = 'wordInputText';
 
         const fieldCursor = document.createElement('span');
         fieldCursor.textContent = '|';
         fieldCursor.className = 'word-input__cursor';
 
-        inputFieldDiv.append(this.fieldText, fieldCursor);
+        inputFieldDiv.append(this._fieldText, fieldCursor);
 
         return inputFieldDiv;
     };
@@ -123,8 +123,12 @@ class WordInputView {
         this.wordInputSection.remove();
     };
 
-    setFieldText(text) {
-        this.fieldText.textContent = text;
+    get fieldText() {
+        return this._fieldText.textContent;
+    };
+
+    set fieldText(text) {
+        this._fieldText.textContent = text;
         this._updateButtonEnabledStatus();
     };
 
@@ -133,16 +137,12 @@ class WordInputView {
     };
 
     _updateButtonEnabledStatus() {
-        if (this.fieldText.textContent.length === 0) {
+        if (this._fieldText.textContent.length === 0) {
             this._disableBtn();
         }
         else {
             this._enableBtn();
         };
-    };
-
-    getFieldText() {
-        return this.fieldText.textContent;
     };
 };
 

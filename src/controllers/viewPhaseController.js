@@ -1,7 +1,5 @@
-import WordInputView from "../views/wordInputView.js";
-import WordListSectionView from "../views/wordListView/wordListSectionView.js";
-import { KeyboardView } from "../views/keyboardView.js";
-import TestMeBtnView from "../views/testMeBtnView.js";
+
+import ViewPhaseView from "../views/viewPhaseView.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
@@ -10,11 +8,7 @@ import { subscribeEvent } from "../eventBus.js";
 /**
  * @class ViewPhaseController
  * 
- * Controller for managing user input and view output during
- * the View Phase of the game.
- * 
- * Listens for input events from views and responds accordingly,
- * which may involve updating the game model or view.
+ * Controller managing user input during the View Phase of the game.
  */
 class ViewPhaseController {
     constructor(gameModel) {
@@ -23,146 +17,95 @@ class ViewPhaseController {
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
 
-        this.fieldHasWarningText = false;
+        this.view = new ViewPhaseView(keysLayout, this.model.getUserWords());
 
-        this.wordInputView = new WordInputView();
-        this.wordListView = new WordListSectionView(
-            this.model.getUserWords(), true, true
-        );
-        this.keyboardView = new KeyboardView(keysLayout, true);
-        this.testMeBtnView = new TestMeBtnView();
+        this._subscribeToEvents();
 
-        // TODO: Display on event that starts the view phase. like 'Play' button click
-        this.wordInputView.displayWordInputSection();
-        this.wordListView.displayWordListSection();
-        this.keyboardView.displayKeyboard();
-        this.keyboardView.enableTyping();
-
-        // Note, order matters here. Make sure to display button after
-        // keyboard has been displayed.
-        this.testMeBtnView.displayTestMeBtn();
-
-        this._subscribeToEvents()
+        // TODO: Display on event that starts the view phase
+        this.view.displayView();
     };
 
     /**
-     * Subscribe to events transmitted by views during View Phase
+     * Subscribe to events transmitted by components of View Phase View
      */
     _subscribeToEvents() {
         subscribeEvent(
-            'keyboardLetterPressed', this._appendCharToField.bind(this)
+            'keyboardLetterPressed',
+            this._appendCharToField.bind(this)
         );
         subscribeEvent(
-            'keyboardBackspacePressed', this._deleteCharFromField.bind(this)
+            'keyboardBackspacePressed',
+            this._deleteCharFromField.bind(this)
         );
         subscribeEvent(
-            'wordListViewWordSelected', this._highlightWordOnKeyboard.bind(this)
+            'wordListViewWordSelected',
+            (word) => { this.view.highlightWordOnKeyboard(word); }
         );
         subscribeEvent(
-            'wordListViewWordDeselected', this._unHighlightWordOnKeyboard.bind(this)
+            'wordListViewWordDeselected',
+            (word) => { this.view.unHighlightWordOnKeyboard(word); }
         )
         subscribeEvent(
-            'wordListViewWordDeleted', this._deleteWordListWord.bind(this)
+            'wordListViewWordDeleted',
+            (word) => { this.model.deleteUserWord(word); }
         );
         subscribeEvent(
-            'keyboardEnterPressed', this._addWordListWord.bind(this)
+            'keyboardEnterPressed',
+            this._addWordListWord.bind(this)
         );
         subscribeEvent(
-            'addWordBtnPressed', this._addWordListWord.bind(this)
+            'addWordBtnPressed',
+            this._addWordListWord.bind(this)
         );
         subscribeEvent(
-            'testMeBtnClicked', this._clearViewPhase.bind(this)
+            'testMeBtnClicked',
+            () => { this.view.removeView(); }
         );
     };
 
-    /**
-     * Append a character to Word Input Field text
-     * 
-     * @param {string} char - the character to append
-     */
     _appendCharToField(char) {
-        const inputFieldText = this.wordInputView.getFieldText();
-        const newText = inputFieldText + char;
+        const fieldText = this.view.getFieldText();
+        const newText = fieldText + char;
 
-        this.wordInputView.setFieldText(newText);
+        this.view.setFieldText(newText)
 
-        if (this.fieldHasWarningText) {
-            this._clearFieldWarningText();
+        if (this.view.fieldShowsWarning()) {
+            this.view.clearFieldWarning()
         };
     };
 
-    /**
-     * Delete a character from Word Input Field text
-     */
     _deleteCharFromField() {
-        const inputFieldText = this.wordInputView.getFieldText();
-        const newText = inputFieldText.slice(0, -1);
+        const fieldText = this.view.getFieldText();
+        const newText = fieldText.slice(0, -1);
 
-        this.wordInputView.setFieldText(newText);
+        this.view.setFieldText(newText);
 
-        if (this.fieldHasWarningText) {
-            this._clearFieldWarningText();
+        if (this.view.fieldShowsWarning()) {
+            this.view.clearFieldWarning()
         };
-    }
-
-    _highlightWordOnKeyboard(word) {
-        this.keyboardView.highlightWordOnKeyboard(word);
     };
 
-    _unHighlightWordOnKeyboard(word) {
-        this.keyboardView.unHighlightWordOnKeyboard(word);
-    };
-
-    /**
-     * Delete a Word List word
-     * 
-     * @param {string} word - the word to delete
-     */
-    _deleteWordListWord(word) {
-        this.model.deleteUserWord(word);
-    };
-
-    /**
-     * Use current text of Word Input Field to add word to Word List.
-     * If word goes through, clears the field
-     */
     _addWordListWord() {
-        const word = this.wordInputView.getFieldText();
+        const word = this.view.getFieldText();
 
         if (this.model.isWordInWordList(word)) {
-            this.wordInputView.setWarningText('Word already in list');
-            this.fieldHasWarningText = true;
+            this.view.setFieldWarning('Word already in list');
             return;
         };
 
         if (!this.model.isWordValid(word)) {
-            this.wordInputView.setWarningText('Word isn\'t valid in this game');
-            this.fieldHasWarningText = true;
+            this.view.setFieldWarning('Word isn\'t valid in this game');
             return;
         }
 
-        this.model.addUserWord(word)
-        this.wordInputView.setFieldText('');
+        this.model.addUserWord(word);
 
-        if (this.fieldHasWarningText) {
-            this._clearFieldWarningText();
+        this.view.setFieldText('');
+
+        if (this.view.fieldShowsWarning()) {
+            this.view.clearFieldWarning();
         };
     };
-
-    /**
-     * Clear displays used during View phase
-     */
-    _clearViewPhase() {
-        this.wordInputView.removeWordInputSection();
-        this.wordListView.removeWordListSection();
-        this.keyboardView.removeKeyboard();
-        this.testMeBtnView.removeTestMeBtn();
-    };
-
-    _clearFieldWarningText() {
-        this.wordInputView.setWarningText('');
-        this.fieldHasWarningText = false;
-    }
 };
 
 export default ViewPhaseController;

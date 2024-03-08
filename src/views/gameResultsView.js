@@ -26,8 +26,8 @@ class GameResultsView {
     constructor(
         playerKeyboardElmt,
         correctKeyboardElmt,
-        numCorrectGuesses) 
-    {
+        numCorrectGuesses
+    ) {
         this._initView(
             playerKeyboardElmt, correctKeyboardElmt, numCorrectGuesses
         );
