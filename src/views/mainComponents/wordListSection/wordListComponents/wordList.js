@@ -1,5 +1,5 @@
 import WordListItem from "./wordListItem.js";
-import { publishEvent } from "../../eventBus.js";
+import { publishEvent } from "../../../../eventBus.js";
 
 
 const EMPTY_STATE_TEXT = `<strong>Your list is empty.</strong> <br><br>To add a

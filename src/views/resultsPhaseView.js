@@ -1,5 +1,5 @@
-import Keyboard from "./keyboard.js";
-import { GuessableKeyboard } from "./guessableKeyboard.js";
+import Keyboard from "./mainComponents/keyboard.js";
+import { GuessableKeyboard } from "./mainComponents/guessableKeyboard.js"
 
 
 const KEY_BG_HEX_CORRECT_GUESS = '#ddfbe9';

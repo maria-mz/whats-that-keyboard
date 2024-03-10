@@ -1,4 +1,4 @@
-import { publishEvent } from "../eventBus.js";
+import { publishEvent } from "../../eventBus.js";
 
 /**
  * @class WordInputField

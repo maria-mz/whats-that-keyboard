@@ -1,7 +1,7 @@
-import WordInputField from "./wordInputField.js";
-import WordListSection from "./wordListSection/wordListSection.js";
-import Keyboard from "./keyboard.js";
-import TestBtn from "./testBtn.js";
+import WordInputField from "./mainComponents/wordInputField.js";
+import WordListSection from "./mainComponents/wordListSection/wordListSection.js";
+import Keyboard from "./mainComponents/keyboard.js";
+import TestBtn from "./mainComponents/buttons/testBtn.js";
 
 
 /**

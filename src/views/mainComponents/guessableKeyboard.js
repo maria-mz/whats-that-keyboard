@@ -1,5 +1,5 @@
 import Keyboard from './keyboard.js';
-import { publishEvent, subscribeEvent } from '../eventBus.js';
+import { publishEvent, subscribeEvent } from '../../eventBus.js';
 
 
 /**

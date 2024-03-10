@@ -1,8 +1,8 @@
-import ProgressSection from './progressSection.js';
-import WordListHeader from './wordListHeader.js';
-import WordList from './wordList.js';
+import ProgressSection from './wordListComponents/progressSection.js';
+import WordListHeader from './wordListComponents/wordListHeader.js';
+import WordList from './wordListComponents/wordList.js';
 
-import { subscribeEvent, publishEvent } from '../../eventBus.js';
+import { subscribeEvent, publishEvent } from '../../../eventBus.js';
 
 
 /**

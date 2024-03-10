@@ -1,15 +1,17 @@
-import { publishEvent } from "../eventBus.js";
-
 /**
- * @class SubmitGuessBtn
+ * @class SolidBtn
  * 
  * 
  */
-class SubmitGuessBtn {
-    constructor(isEnabled) {
+class SolidBtn {
+    constructor(btnText, onBtnClickCallback, isEnabled = true) {
+        this.onBtnClickCallback = onBtnClickCallback;
+
         this.btn = document.createElement('div');
-        this.btn.textContent = 'Submit Guess';
-        this.btn.classList.add('solid-btn', 'submit-guess-btn');
+        this.btn.textContent = btnText;
+        this.btn.classList.add('solid-btn');
+
+        this.btnIsEnabled;
 
         if (isEnabled) {
             this._enableBtn();
@@ -22,9 +24,7 @@ class SubmitGuessBtn {
     _enableBtn() {
         this.btn.classList.add('solid-btn-enabled');
         this.btn.classList.remove('solid-btn-disabled');
-        this.btn.onclick = () => {
-            publishEvent('submitGuessBtnClicked');
-        };
+        this.btn.onclick = this.onBtnClickCallback;
         this.btnIsEnabled = true;
     };
 
@@ -52,4 +52,4 @@ class SubmitGuessBtn {
     };
 };
 
-export default SubmitGuessBtn;
+export default SolidBtn;

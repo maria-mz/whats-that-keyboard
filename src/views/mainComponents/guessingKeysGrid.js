@@ -3,9 +3,9 @@ import {
     getY,
     moveElmtTo,
     boundElmtInsideWindow
-} from "../utils.js";
+} from "../../utils.js";
 
-import { publishEvent, subscribeEvent } from '../eventBus.js';
+import { publishEvent, subscribeEvent } from '../../eventBus.js';
 
 
 /**

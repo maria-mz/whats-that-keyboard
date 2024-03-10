@@ -5,8 +5,6 @@
  * and can be selected and/or deleted.
  */
 class WordListItem {
-    // TODO: add animation for this item
-
     constructor(word, isItemDeletable, isItemSelectable) {
         // Fixed configurations
         this._isItemDeletable = isItemDeletable;

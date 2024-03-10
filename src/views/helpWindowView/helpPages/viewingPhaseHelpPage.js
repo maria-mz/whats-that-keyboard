@@ -1,19 +1,19 @@
-import Keyboard from "../keyboard.js";
-import { getKeyLayout } from "../../utils.js";
+import Keyboard from "../../mainComponents/keyboard.js";
+import { getKeyLayout } from "../../../utils.js";
 
 
-const PANEL_INSTRUCTIONS = `This is the <strong>first part of the game</strong>
-                            &mdash;where you see the layout.<br><br><strong>To
-                            help with memorizing</strong>, you're encouraged to
-                            think of <strong>words</strong> whose placement of
-                            letters on the keyboard make it easy for you to
-                            remember. We'll refer to these intentional words
-                            as <strong>Golden Words</strong>. <br><br><strong>
-                            To track these words</strong>, you can add them to
-                            the <strong>provided list</strong>. You'll be able
-                            to see this list in the Testing phase. <br><br>
-                            <strong>Examples of Golden Words</strong>, for a
-                            particular layout:`
+const PAGE_INSTRUCTIONS = `This is the <strong>first part of the game</strong>
+                           &mdash;where you see the layout.<br><br><strong>To
+                           help with memorizing</strong>, you're encouraged to
+                           think of <strong>words</strong> whose placement of
+                           letters on the keyboard make it easy for you to
+                           remember. We'll refer to these intentional words
+                           as <strong>Golden Words</strong>. <br><br><strong>
+                           To track these words</strong>, you can add them to
+                           the <strong>provided list</strong>. You'll be able
+                           to see this list in the Testing phase. <br><br>
+                           <strong>Examples of Golden Words</strong>, for a
+                           particular layout:`
 
 const EXAMPLE_POISE_EXPLANATION = `Can help place 5 keys. <strong>P</strong>,
                                    <strong>O</strong>, <strong>I</strong> are
@@ -44,24 +44,24 @@ const EXAMPLE_KEYBOARD_LAYOUT = getKeyLayout('POIUYTREWQLKJHGFDSAMNBVCXZ'.split(
 
 
 /**
- * @class ViewingPhaseHelpPanel
+ * @class ViewingPhaseHelpPage
  * 
  * 
  */
-class ViewingPhaseHelpPanel {
+class ViewingPhaseHelpPage {
     constructor() {
         this._keyboard;
         this._exampleWordExplanation;
         this._currSelectedExampleWord = null;
 
         // The main HTML Element
-        this._panel;
-        this._initPanel();
+        this._page;
+        this._initPage();
     };
 
-    _initPanel() {
-        this._panel = document.createElement('div');
-        this._panel.className = 'help__panel';
+    _initPage() {
+        this._page = document.createElement('div');
+        this._page.className = 'help__page';
 
         const subtitle = document.createElement('p');
         subtitle.className = 'help__subtitle';
@@ -69,11 +69,11 @@ class ViewingPhaseHelpPanel {
 
         const instrText = document.createElement('p');
         instrText.className = 'help__instr-text';
-        instrText.innerHTML = PANEL_INSTRUCTIONS;
+        instrText.innerHTML = PAGE_INSTRUCTIONS;
 
         const examplesContainer = this._createExamplesContainer();
 
-        this._panel.append(subtitle, instrText, examplesContainer);
+        this._page.append(subtitle, instrText, examplesContainer);
     };
 
     _createExamplesContainer() {
@@ -167,9 +167,9 @@ class ViewingPhaseHelpPanel {
     };
 
     get HTMLElement() {
-        return this._panel;
+        return this._page;
     };
 
 };
 
-export default ViewingPhaseHelpPanel;
+export default ViewingPhaseHelpPage;

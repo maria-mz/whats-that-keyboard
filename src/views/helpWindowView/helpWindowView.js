@@ -1,9 +1,9 @@
-import PageNavigator from "../pageNavigator.js";
-import ObjectiveHelpPanel from "./objectiveHelpPanel.js";
-import ViewingPhaseHelpPanel from "./viewingPhaseHelpPanel.js";
-import TestingPhaseHelpPanel from "./testingPhaseHelpPanel.js";
-import ScoringHelpPanel from "./scoringHelpPanel.js";
-import ClosingHelpPanel from "./closingHelpPanel.js";
+import PageNavigator from "../mainComponents/pageNavigator.js";
+import ObjectiveHelpPage from "./helpPages/objectiveHelpPage.js";
+import ViewingPhaseHelpPage from "./helpPages/viewingPhaseHelpPage.js";
+import TestingPhaseHelpPage from "./helpPages/testingPhaseHelpPage.js";
+import ScoringHelpPage from "./helpPages/scoringHelpPage.js";
+import ClosingHelpPage from "./helpPages/closingHelpPage.js";
 
 import { publishEvent } from "../../eventBus.js";
 
@@ -18,7 +18,7 @@ const DEFAULT_PAGE_NUMBER = 1
  */
 class HelpWindowView {
     constructor() {
-        this._initPanels();
+        this._initPages();
         this._initMainContent();
         this._initWindow();
 
@@ -26,14 +26,14 @@ class HelpWindowView {
         this._windowOverlay.className = 'popup-overlay';
     };
 
-    _initPanels() {
-        this._overviewPanel = new ObjectiveHelpPanel();
-        this._viewingPhasePanel = new ViewingPhaseHelpPanel();
-        this._testingPhasePanel = new TestingPhaseHelpPanel();
-        this._scoringPanel = new ScoringHelpPanel();
-        this._closingPanel = new ClosingHelpPanel();
+    _initPages() {
+        this._overviewPage = new ObjectiveHelpPage();
+        this._viewingPhasePage = new ViewingPhaseHelpPage();
+        this._testingPhasePage = new TestingPhaseHelpPage();
+        this._scoringPage = new ScoringHelpPage();
+        this._closingPage = new ClosingHelpPage();
 
-        this._currentPanel = null;
+        this._currentPage = null;
     };
 
     _initMainContent() {
@@ -41,11 +41,11 @@ class HelpWindowView {
         this._helpContent.className = 'help__content';
 
         const pageToCallback = {
-            1: () => { this._switchPanel(this._overviewPanel.HTMLElement); },
-            2: () => { this._switchPanel(this._viewingPhasePanel.HTMLElement); },
-            3: () => { this._switchPanel(this._testingPhasePanel.HTMLElement); },
-            4: () => { this._switchPanel(this._scoringPanel.HTMLElement); },
-            5: () => { this._switchPanel(this._closingPanel.HTMLElement); },
+            1: () => { this._switchPage(this._overviewPage.HTMLElement); },
+            2: () => { this._switchPage(this._viewingPhasePage.HTMLElement); },
+            3: () => { this._switchPage(this._testingPhasePage.HTMLElement); },
+            4: () => { this._switchPage(this._scoringPage.HTMLElement); },
+            5: () => { this._switchPage(this._closingPage.HTMLElement); },
         };
 
         this._navigator = new PageNavigator(1, 1, 5, pageToCallback);
@@ -99,12 +99,12 @@ class HelpWindowView {
         });
     };
 
-    _switchPanel(newPanel) {
-        if (this.currentPanel) {
-            this.currentPanel.remove();
+    _switchPage(newPage) {
+        if (this._currentPage) {
+            this._currentPage.remove();
         };
-        this._helpContent.insertBefore(newPanel, this._helpContent.firstChild);
-        this.currentPanel = newPanel;
+        this._helpContent.insertBefore(newPage, this._helpContent.firstChild);
+        this._currentPage = newPage;
     };
 
     displayWindow() {

@@ -1,5 +1,5 @@
-import { getMappedLetter, isLetter } from '../utils.js';
-import { publishEvent } from '../eventBus.js';
+import { getMappedLetter, isLetter } from '../../utils.js';
+import { publishEvent } from '../../eventBus.js';
 
 
 /**
