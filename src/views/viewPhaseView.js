@@ -1,6 +1,6 @@
 import WordInputView from "./wordInputView.js";
 import WordListSectionView from "./wordListView/wordListSectionView.js";
-import { KeyboardView } from "./keyboardView.js";
+import Keyboard from "./keyboard.js";
 import TestBtn from "./testBtn.js";
 
 
@@ -19,7 +19,7 @@ class ViewPhaseView {
         );
 
         // Create a keyboard that shows the pop-up animation when displayed
-        this._keyboard = new KeyboardView(keysLayout, true);
+        this._keyboard = new Keyboard(keysLayout, true);
 
         this._testBtn = new TestBtn();
 

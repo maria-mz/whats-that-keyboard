@@ -1,4 +1,4 @@
-import { KeyboardView } from "./keyboardView.js";
+import Keyboard from "./keyboard.js";
 import { GuessableKeyboardView } from "./guessableKeyboardView.js";
 
 
@@ -38,7 +38,7 @@ class ResultsPhaseView {
         this._keyGuesses = keyGuesses;
         this._numCorrectGuesses = numCorrectGuesses;
 
-        this._keyboardAnswer = new KeyboardView(keysLayout, true);
+        this._keyboardAnswer = new Keyboard(keysLayout, true);
         this._keyboardGuess = new GuessableKeyboardView(keysLayout, keyGuesses, true);
 
         this._colourKeyboardsByGuesses();

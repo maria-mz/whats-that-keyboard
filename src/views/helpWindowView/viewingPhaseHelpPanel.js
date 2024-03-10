@@ -1,4 +1,4 @@
-import { KeyboardView } from "../keyboardView.js";
+import Keyboard from "../keyboard.js";
 import { getKeyLayout } from "../../utils.js";
 
 
@@ -50,7 +50,7 @@ const EXAMPLE_KEYBOARD_LAYOUT = getKeyLayout('POIUYTREWQLKJHGFDSAMNBVCXZ'.split(
  */
 class ViewingPhaseHelpPanel {
     constructor() {
-        this._keyboardView;
+        this._keyboard;
         this._exampleWordExplanation;
         this._currSelectedExampleWord = null;
 
@@ -81,12 +81,12 @@ class ViewingPhaseHelpPanel {
         examplesContainer.className = 'help__keyboard__container';
         
         // Used to get for example keyboard
-        this._keyboardView = new KeyboardView(EXAMPLE_KEYBOARD_LAYOUT);
+        this._keyboard = new Keyboard(EXAMPLE_KEYBOARD_LAYOUT);
 
-        this._keyboardView.highlightWord(DEFAULT_SELECTED_EXAMPLE_WORD);
+        this._keyboard.highlightWord(DEFAULT_SELECTED_EXAMPLE_WORD);
 
         // Make the keyboard look a bit smaller
-        this._keyboardView.HTMLElement.style.scale = '0.8';
+        this._keyboard.HTMLElement.style.scale = '0.8';
 
         const exampleWordsContainer = this._createExampleWordsContainer();
 
@@ -97,7 +97,7 @@ class ViewingPhaseHelpPanel {
         examplesContainer.append(
             exampleWordsContainer,
             this._exampleWordExplanation,
-            this._keyboardView.HTMLElement
+            this._keyboard.HTMLElement
         );
 
         return examplesContainer;
@@ -132,7 +132,7 @@ class ViewingPhaseHelpPanel {
 
     _setupExampleWordEvent(exampleWord) {
         exampleWord.addEventListener('click', () => {
-            this._keyboardView.unHighlightWord(
+            this._keyboard.unHighlightWord(
                 this._currSelectedExampleWord.textContent
             );
 
@@ -140,7 +140,7 @@ class ViewingPhaseHelpPanel {
             this._selectExampleWord(exampleWord);
             this._updateExampleWordExplanation(exampleWord.textContent);
 
-            this._keyboardView.highlightWord(exampleWord.textContent);
+            this._keyboard.highlightWord(exampleWord.textContent);
         })
     };
 

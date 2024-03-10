@@ -1,4 +1,4 @@
-import { KeyboardView } from "./keyboardView.js";
+import Keyboard from './keyboard.js';
 import { publishEvent, subscribeEvent } from '../eventBus.js';
 
 
@@ -21,10 +21,10 @@ const KEY_HOVER_BG_HEX = '#cdcdcd';
 
 /**
  * @class GuessableKeyboardView
- * @extends KeyboardView
+ * @extends Keyboard
  * 
  */
-class GuessableKeyboardView extends KeyboardView {
+class GuessableKeyboardView extends Keyboard {
     constructor(keysLayout, keyGuesses, showAnimationOnDisplay) {
         super(keysLayout, showAnimationOnDisplay);
 

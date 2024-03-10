@@ -3,11 +3,11 @@ import { publishEvent } from '../eventBus.js';
 
 
 /**
- * @class KeyboardView
+ * @class Keyboard
  * 
  * 
  */
-class KeyboardView {
+class Keyboard {
     constructor(keysLayout, showAnimationOnDisplay) {
         this.letterToKeyDiv = {};
         this.letterToIsHighlighed = {};
@@ -228,4 +228,4 @@ class KeyboardView {
     };
 };
 
-export { KeyboardView };
+export default Keyboard;
