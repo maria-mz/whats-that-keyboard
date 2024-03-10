@@ -6,13 +6,13 @@ import { subscribeEvent, publishEvent } from '../../eventBus.js';
 
 
 /**
- * @class WordListSectionView
+ * @class WordListSection
  * 
  * Represents entire display for Word List. This includes the header, progress,
  *  and word list components. This View is responsible for updating the display
  * when `wordListUpdated` events are published.
  */
-class WordListSectionView {
+class WordListSection {
     constructor(listWords, areItemsDeletable, areItemsSelectable) {
         // Main HTML Element
         this._wordListSection = document.createElement('section');
@@ -65,4 +65,4 @@ class WordListSectionView {
     };
 };
 
-export default WordListSectionView;
+export default WordListSection;

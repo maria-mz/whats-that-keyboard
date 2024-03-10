@@ -2,8 +2,7 @@ import {
     getX,
     getY,
     moveElmtTo,
-    boundElmtInsideWindow,
-    sortArray
+    boundElmtInsideWindow
 } from "../utils.js";
 
 import { publishEvent, subscribeEvent } from '../eventBus.js';
@@ -24,10 +23,10 @@ const NO_GUESS_STR = ''
 
 
 /**
- * @class GuessingKeysView
+ * @class GuessingKeysGrid
  * 
  */
-class GuessingKeysView {
+class GuessingKeysGrid {
     constructor(keyGuesses, showAnimationOnGridDisplay) {
         this.letterToKeyDiv = {};
         this.letterToKeyLoc = {};
@@ -296,4 +295,4 @@ class GuessingKeysView {
     };
 };
 
-export { GuessingKeysView };
+export default GuessingKeysGrid;

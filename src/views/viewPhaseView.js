@@ -1,5 +1,5 @@
 import WordInputField from "./wordInputField.js";
-import WordListSectionView from "./wordListView/wordListSectionView.js";
+import WordListSection from "./wordListSection/wordListSection.js";
 import Keyboard from "./keyboard.js";
 import TestBtn from "./testBtn.js";
 
@@ -14,9 +14,7 @@ class ViewPhaseView {
         this._inputField = new WordInputField();
 
         // Create word list view, where words are selectable and deletable
-        this._wordList = new WordListSectionView(
-            goldenWords, true, true
-        );
+        this._wordList = new WordListSection(goldenWords, true, true);
 
         // Create a keyboard that shows the pop-up animation when displayed
         this._keyboard = new Keyboard(keysLayout, true);

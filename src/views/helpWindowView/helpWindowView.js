@@ -107,10 +107,6 @@ class HelpWindowView {
         this.currentPanel = newPanel;
     };
 
-    get HTMLElement() {
-        return this._helpWindow;
-    };
-
     displayWindow() {
         document.body.append(this._windowOverlay);
         document.body.append(this._helpWindow);

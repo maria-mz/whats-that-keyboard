@@ -17,10 +17,6 @@ class MainHeaderView {
 
         // TODO: Add events for stats, settings, and title click
     };
-
-    get HTMLElement() {
-        return this._header;
-    };
 };
 
 export default MainHeaderView;

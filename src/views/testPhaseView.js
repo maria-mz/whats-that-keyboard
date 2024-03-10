@@ -1,6 +1,6 @@
-import WordListSectionView from "./wordListView/wordListSectionView.js";
+import WordListSection from "./wordListSection/wordListSection.js";
 import { GuessableKeyboard, KeyHoverState } from "./guessableKeyboard.js";
-import { GuessingKeysView } from "./guessingKeysView.js";
+import GuessingKeysGrid from "./guessingKeysGrid.js";
 import SubmitGuessBtn from "./submitGuessBtn.js";
 
 
@@ -11,8 +11,8 @@ import SubmitGuessBtn from "./submitGuessBtn.js";
  */
 class TestPhaseView {
     constructor(keysLayout, keyGuesses, goldenWords) {
-        // Create guessing keys component that shows pop-up animation on display
-        this._guessingKeys = new GuessingKeysView(keyGuesses, true);
+        // Create guessing keys grid that shows pop-up animation on display
+        this._guessingKeysGrid = new GuessingKeysGrid(keyGuesses, true);
 
         // Create a guessable keyboard, that doesn't show the pop-up
         // animation on display
@@ -20,7 +20,7 @@ class TestPhaseView {
         this._keyboard = new GuessableKeyboard(keysLayout, keyGuesses, false);
 
         // Create word list view, where words cannot be selected nor deleted
-        this._wordList = new WordListSectionView(goldenWords, false, false);
+        this._wordList = new WordListSection(goldenWords, false, false);
 
         // TODO: enable true or false depending on progress from model,
         // for now assumes first-time view, no keys placed, so disable btn
@@ -32,7 +32,7 @@ class TestPhaseView {
         const gameArea = document.getElementById('gameArea');
         const gameInput = document.getElementById('gameInput');
 
-        gameArea.append(this._guessingKeys.HTMLElement, this._wordList.HTMLElement);
+        gameArea.append(this._guessingKeysGrid.HTMLElement, this._wordList.HTMLElement);
         gameInput.append(this._keyboard.HTMLElement, this._submitBtn.HTMLElement);
 
         // Enable typing only when view is displayed. Otherwise transmits events!
@@ -40,8 +40,8 @@ class TestPhaseView {
     };
 
     removeView() {
-        this._guessingKeys.HTMLElement.remove();
-        this._guessingKeys.removeGuessingKeys();
+        this._guessingKeysGrid.HTMLElement.remove();
+        this._guessingKeysGrid.removeGuessingKeys();
         this._keyboard.HTMLElement.remove();
         this._wordList.HTMLElement.remove();
         this._submitBtn.HTMLElement.remove();
