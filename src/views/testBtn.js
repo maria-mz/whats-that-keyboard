@@ -7,23 +7,18 @@ import { publishEvent } from "../eventBus.js";
  */
 class TestBtn {
     constructor() {
-        this.testMeBtn = document.createElement('div');
+        this.btn = document.createElement('div');
 
-        this.testMeBtn.textContent = 'Test Me!';
-        this.testMeBtn.classList.add('solid-btn', 'solid-btn-enabled', 'test-me-btn');
+        this.btn.textContent = 'Test Me!';
+        this.btn.classList.add('solid-btn', 'solid-btn-enabled', 'test-me-btn');
 
-        this.testMeBtn.addEventListener('click', () => {
+        this.btn.addEventListener('click', () => {
             publishEvent('testMeBtnClicked');
         });
     };
 
-    displayTestMeBtn() {
-        const gameInputSection = document.getElementById('gameInput');
-        gameInputSection.appendChild(this.testMeBtn);
-    };
-
-    removeTestMeBtn() {
-        this.testMeBtn.remove()
+    get HTMLElement() {
+        return this.btn;
     };
 };
 

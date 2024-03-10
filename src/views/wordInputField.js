@@ -1,11 +1,11 @@
 import { publishEvent } from "../eventBus.js";
 
 /**
- * @class WordInputView
+ * @class WordInputField
  * 
  * 
  */
-class WordInputView {
+class WordInputField {
     constructor() {
         this._initWordInputSection();
         this._updateButtonEnabledStatus();
@@ -114,15 +114,6 @@ class WordInputView {
         return inputFieldDiv;
     };
 
-    displayWordInputSection() {
-        const gameAreaSection = document.getElementById('gameArea');
-        gameAreaSection.appendChild(this.wordInputSection);
-    };
-
-    removeWordInputSection() {
-        this.wordInputSection.remove();
-    };
-
     get fieldText() {
         return this._fieldText.textContent;
     };
@@ -144,6 +135,10 @@ class WordInputView {
             this._enableBtn();
         };
     };
+
+    get HTMLElement() {
+        return this.wordInputSection;
+    };
 };
 
-export default WordInputView;
+export default WordInputField;

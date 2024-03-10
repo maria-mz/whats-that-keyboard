@@ -1,4 +1,4 @@
-import WordInputView from "./wordInputView.js";
+import WordInputField from "./wordInputField.js";
 import WordListSectionView from "./wordListView/wordListSectionView.js";
 import Keyboard from "./keyboard.js";
 import TestBtn from "./testBtn.js";
@@ -11,7 +11,7 @@ import TestBtn from "./testBtn.js";
  */
 class ViewPhaseView {
     constructor(keysLayout, goldenWords) {
-        this._inputField = new WordInputView();
+        this._inputField = new WordInputField();
 
         // Create word list view, where words are selectable and deletable
         this._wordList = new WordListSectionView(
@@ -28,24 +28,21 @@ class ViewPhaseView {
     };
 
     displayView() {
-        // TODO: these components should not handle displaying themselves.
-        // this view class should get their HTML element, and handle
-        // appending to document.
-        this._inputField.displayWordInputSection();
-        this._wordList.displayWordListSection();
-        this._keyboard.displayKeyboard();
-        // Note, order matters here. Make sure to display button after
-        // keyboard has been displayed.
-        this._testBtn.displayTestMeBtn();
+        const gameArea = document.getElementById('gameArea');
+        const gameInput = document.getElementById('gameInput');
 
+        gameArea.append(this._inputField.HTMLElement, this._wordList.HTMLElement);
+        gameInput.append(this._keyboard.HTMLElement, this._testBtn.HTMLElement);
+
+        // Enable typing only when view is displayed. Otherwise transmits events!
         this._keyboard.enableTyping();
     };
 
     removeView() {
-        this._inputField.removeWordInputSection();
-        this._wordList.removeWordListSection();
-        this._keyboard.removeKeyboard();
-        this._testBtn.removeTestMeBtn();
+        this._inputField.HTMLElement.remove();
+        this._wordList.HTMLElement.remove();
+        this._keyboard.HTMLElement.remove();
+        this._testBtn.HTMLElement.remove();
     };
 
     setFieldText(newText) {

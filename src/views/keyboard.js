@@ -105,15 +105,6 @@ class Keyboard {
         });
     };
 
-    displayKeyboard() {
-        const gameInputSection = document.getElementById('gameInput');
-        gameInputSection.appendChild(this.keyboardDiv);
-    };
-
-    removeKeyboard() {
-        this.keyboardDiv.remove();
-    };
-
     enableTyping() {
         document.addEventListener('keydown', (e) => {
             if (e.key == 'Backspace' && this.keyToCanType[e.key]) {

@@ -281,13 +281,8 @@ class GuessingKeysView {
         };
     };
 
-    displayKeysGrid() {
-        const gameAreaSection = document.getElementById('gameArea');
-        gameAreaSection.appendChild(this.keyGridDiv);
-    };
-
-    removeKeysGrid() {
-        this.keyGridDiv.remove();
+    get HTMLElement() {
+        return this.keyGridDiv;
     };
 
     removeGuessingKeys() {

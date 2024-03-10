@@ -29,25 +29,22 @@ class TestPhaseView {
     };
 
     displayView() {
-        // TODO: these components should not handle displaying themselves.
-        // this view class should get their HTML element, and handle
-        // appending to document.
-        this._guessingKeys.displayKeysGrid();
-        this._keyboard.displayKeyboard();
-        this._wordList.displayWordListSection();
-        // Note, order matters here. Make sure to display button after
-        // keyboard has been displayed.
-        this._submitBtn.displayBtn();
+        const gameArea = document.getElementById('gameArea');
+        const gameInput = document.getElementById('gameInput');
 
+        gameArea.append(this._guessingKeys.HTMLElement, this._wordList.HTMLElement);
+        gameInput.append(this._keyboard.HTMLElement, this._submitBtn.HTMLElement);
+
+        // Enable typing only when view is displayed. Otherwise transmits events!
         this._keyboard.enableTyping();
     };
 
     removeView() {
-        this._guessingKeys.removeKeysGrid();
+        this._guessingKeys.HTMLElement.remove();
         this._guessingKeys.removeGuessingKeys();
-        this._keyboard.removeKeyboard();
-        this._wordList.removeWordListSection();
-        this._submitBtn.removeBtn();
+        this._keyboard.HTMLElement.remove();
+        this._wordList.HTMLElement.remove();
+        this._submitBtn.HTMLElement.remove();
     };
 
     enableSubmitBtn() {

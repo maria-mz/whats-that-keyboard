@@ -60,13 +60,8 @@ class WordListSectionView {
         publishEvent('wordListViewUpdated');
     };
 
-    displayWordListSection() {
-        const gameAreaSection = document.getElementById('gameArea');
-        gameAreaSection.appendChild(this._wordListSection);
-    };
-
-    removeWordListSection() {
-        this._wordListSection.remove();
+    get HTMLElement() {
+        return this._wordListSection;
     };
 };
 

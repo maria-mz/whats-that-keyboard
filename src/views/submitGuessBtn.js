@@ -47,13 +47,8 @@ class SubmitGuessBtn {
         };
     };
 
-    displayBtn() {
-        const gameInputSection = document.getElementById('gameInput');
-        gameInputSection.appendChild(this.btn);
-    };
-
-    removeBtn() {
-        this.btn.remove();
+    get HTMLElement() {
+        return this.btn;
     };
 };
 
