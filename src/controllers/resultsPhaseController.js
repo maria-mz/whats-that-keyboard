@@ -1,16 +1,7 @@
-import { KeyboardView } from "../views/keyboardView.js";
-import { GuessableKeyboardView } from "../views/guessableKeyboardView.js";
-import GameResultsView from "../views/gameResultsView.js";
+import ResultsPhaseView from "../views/resultsPhaseView.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
-
-
-// Colour constants
-const KEY_BG_HEX_CORRECT_GUESS = '#ddfbe9';
-const KEY_BORDER_HEX_CORRECT_GUESS = '#66d38e';
-const KEY_BG_HEX_WRONG_GUESS = '#f9e4e5';
-const KEY_BORDER_HEX_WRONG_GUESS = '#ef999a';
 
 
 /**
@@ -21,56 +12,26 @@ const KEY_BORDER_HEX_WRONG_GUESS = '#ef999a';
 class ResultsPhaseController {
     constructor(gameModel) {
         this.model = gameModel;
+        this.view;
 
         subscribeEvent(
-            'submitGuessBtnClicked', this._beginResultsPhase.bind(this)
+            'submitGuessBtnClicked', this._onSubmitGuess.bind(this)
         );
     };
 
-    _beginResultsPhase() {
-        this._initViews();
-        this._colourKeyboards();
-        this.gameEndResultsView.displayView();
+    _onSubmitGuess() {
+        this._initView();
+        this.view.displayView();
+        // TODO: Save results in model
     };
 
-    _initViews() {
+    _initView() {
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
         const keyGuesses = this.model.getKeyGuesses();
+        const numCorrectGuesses = this.model.getNumCorrectGuesses();
 
-        this.playerKeyboard = new GuessableKeyboardView(keysLayout, keyGuesses, true);
-        this.correctKeyboard = new KeyboardView(keysLayout, true);
-        this.gameEndResultsView = new GameResultsView(
-            this.playerKeyboard.keyboardDiv,
-            this.correctKeyboard.keyboardDiv,
-            this.model.getNumCorrectGuesses()
-        );
-    };
-
-    _colourKeyboards() {
-        const keyGuesses = this.model.getKeyGuesses();
-
-        for (const [letter, guess] of Object.entries(keyGuesses)) {
-            if (letter === guess) {
-                this.playerKeyboard.setKeyColour(
-                    letter,
-                    KEY_BG_HEX_CORRECT_GUESS,
-                    KEY_BORDER_HEX_CORRECT_GUESS
-                );
-                this.correctKeyboard.setKeyColour(
-                    letter,
-                    KEY_BG_HEX_CORRECT_GUESS,
-                    KEY_BORDER_HEX_CORRECT_GUESS
-                );
-            }
-            else {
-                this.playerKeyboard.setKeyColour(
-                    letter,
-                    KEY_BG_HEX_WRONG_GUESS,
-                    KEY_BORDER_HEX_WRONG_GUESS
-                );
-            };
-        };
+        this.view = new ResultsPhaseView(keysLayout, keyGuesses, numCorrectGuesses);
     }
 };
 
