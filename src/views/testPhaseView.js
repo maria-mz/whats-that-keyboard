@@ -1,5 +1,5 @@
 import WordListSectionView from "./wordListView/wordListSectionView.js";
-import { GuessableKeyboardView, KeyHoverState } from "./guessableKeyboardView.js";
+import { GuessableKeyboard, KeyHoverState } from "./guessableKeyboard.js";
 import { GuessingKeysView } from "./guessingKeysView.js";
 import SubmitGuessBtn from "./submitGuessBtn.js";
 
@@ -17,7 +17,7 @@ class TestPhaseView {
         // Create a guessable keyboard, that doesn't show the pop-up
         // animation on display
         // TODO: Display keyboard aligned with model progress
-        this._keyboard = new GuessableKeyboardView(keysLayout, keyGuesses, false);
+        this._keyboard = new GuessableKeyboard(keysLayout, keyGuesses, false);
 
         // Create word list view, where words cannot be selected nor deleted
         this._wordList = new WordListSectionView(goldenWords, false, false);

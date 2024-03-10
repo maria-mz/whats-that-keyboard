@@ -1,5 +1,5 @@
 import Keyboard from "./keyboard.js";
-import { GuessableKeyboardView } from "./guessableKeyboardView.js";
+import { GuessableKeyboard } from "./guessableKeyboard.js";
 
 
 const KEY_BG_HEX_CORRECT_GUESS = '#ddfbe9';
@@ -39,7 +39,7 @@ class ResultsPhaseView {
         this._numCorrectGuesses = numCorrectGuesses;
 
         this._keyboardAnswer = new Keyboard(keysLayout, true);
-        this._keyboardGuess = new GuessableKeyboardView(keysLayout, keyGuesses, true);
+        this._keyboardGuess = new GuessableKeyboard(keysLayout, keyGuesses, true);
 
         this._colourKeyboardsByGuesses();
 

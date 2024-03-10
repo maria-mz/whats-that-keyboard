@@ -24,7 +24,7 @@ const KEY_HOVER_BG_HEX = '#cdcdcd';
  * @extends Keyboard
  * 
  */
-class GuessableKeyboardView extends Keyboard {
+class GuessableKeyboard extends Keyboard {
     constructor(keysLayout, keyGuesses, showAnimationOnDisplay) {
         super(keysLayout, showAnimationOnDisplay);
 
@@ -105,4 +105,4 @@ class GuessableKeyboardView extends Keyboard {
     };
 };
 
-export { GuessableKeyboardView, KeyHoverState };
+export { GuessableKeyboard, KeyHoverState };
