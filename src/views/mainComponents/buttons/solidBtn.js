@@ -4,6 +4,8 @@
  * 
  */
 class SolidBtn {
+    // TODO: Make generic to support different colours.
+    // Supply styles for when btn is enabled, hovered, disabled etc.
     constructor(btnText, onBtnClickCallback, isEnabled = true) {
         this.onBtnClickCallback = onBtnClickCallback;
 

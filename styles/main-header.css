@@ -21,17 +21,14 @@
 /* *---------- Title Styles ----------* */
 
 .header__game-title {
-  font-size: 1.5rem;
-  font-family: 'Quicksand';
-  font-weight: 500;
+  font-size: 2rem;
+  font-family: 'Neuton';
 
   color: var(--clr-dark);
 
   user-select: none;
-}
 
-.header__game-title:hover {
-  cursor: pointer;
+  margin: 0;
 }
 
 
