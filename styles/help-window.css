@@ -63,7 +63,7 @@
 
 .help__exit-icon:hover {
   color: white;
-  background-color: #dadedf;
+  background-color: var(--clr-dark);
   cursor: pointer;
 }
 
@@ -136,4 +136,18 @@
 .help__keyboard__container {
   margin: 0;
   padding: 0;
+}
+
+
+/* *---------- Animations ----------* */
+
+.window-slide-up-anim {
+  opacity: 0;
+  animation: windowSlideUp 0.5s ease forwards;
+}
+
+@keyframes windowSlideUp {
+  0% { opacity: 0; transform: translateY(-25%) translateX(-50%); }
+  50% { opacity: 1; }
+  100% { opacity: 1; transform: translateY(-50%) translateX(-50%); }
 }

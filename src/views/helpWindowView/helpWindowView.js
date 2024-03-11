@@ -58,32 +58,32 @@ class HelpWindowView {
     };
 
     _initWindow() {
-        const header = this._createWindowHeader();
+        const windowHeader = this._createWindowHeader();
 
         // The main HTML Element
         this._helpWindow = document.createElement('section');
         this._helpWindow.className = 'help__window';
-        this._helpWindow.append(header, this._helpContent);;
-    }
+        this._helpWindow.append(windowHeader, this._helpContent);
+    };
 
     _createWindowHeader() {
         const title = this._createWindowTitle();
         const exitIcon = this._createExitIcon();
         this._setupExitIconEvent(exitIcon);
 
-        const header = document.createElement('div');
-        header.className = 'help__header'
-        header.append(title, exitIcon);
+        const windowHeader = document.createElement('div');
+        windowHeader.className = 'help__header'
+        windowHeader.append(title, exitIcon);
 
-        return header;
+        return windowHeader;
     };
 
     _createWindowTitle() {
-        const title = document.createElement('p');
-        title.className = 'help__header__title';
-        title.textContent = 'How to Play';
+        const windowTitle = document.createElement('p');
+        windowTitle.className = 'help__header__title';
+        windowTitle.textContent = 'How to Play';
 
-        return title;
+        return windowTitle;
     };
 
     _createExitIcon() {
@@ -108,11 +108,13 @@ class HelpWindowView {
     };
 
     displayWindow() {
+        this._helpWindow.classList.add('window-slide-up-anim');
         document.body.append(this._windowOverlay);
         document.body.append(this._helpWindow);
     };
 
     removeWindow() {
+        this._helpWindow.classList.remove('window-slide-up-anim');
         this._windowOverlay.remove();
         this._helpWindow.remove();
     };
