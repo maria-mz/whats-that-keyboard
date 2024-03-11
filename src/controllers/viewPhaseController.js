@@ -19,9 +19,13 @@ class ViewPhaseController {
 
         this.view = new ViewPhaseView(keysLayout, this.model.getUserWords());
 
-        this._subscribeToEvents();
+        subscribeEvent(
+            'playBtnClicked', this._beginViewPhase.bind(this)
+        );
+    };
 
-        // TODO: Display on event that starts the view phase
+    _beginViewPhase() {
+        this._subscribeToEvents();
         this.view.displayView();
     };
 

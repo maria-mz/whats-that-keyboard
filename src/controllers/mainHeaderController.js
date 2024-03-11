@@ -19,6 +19,10 @@ class MainHeaderController {
 
         this._subscribeToHeaderEvents();
         this._subscribeToWindowEvents();
+
+        subscribeEvent(
+            'playBtnClicked', () => { this.mainHeaderView.displayView(); }
+        );
     };
 
     _subscribeToHeaderEvents() {

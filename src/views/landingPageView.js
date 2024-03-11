@@ -116,7 +116,7 @@ class LandingPageView {
         return key;
     };
 
-    _initFadingKeyEffect(key, lettersToIterate, animationDelay, isLast = false) {
+    _initFadingKeyEffect(key, lettersToIterate, animationDelay, isLast) {
         key.classList.add('fade-in-anim');
         key.textContent = lettersToIterate[0];
         key.style.animationDelay = `${animationDelay}s`;
