@@ -74,6 +74,7 @@ class ViewPhaseController {
         this.view.setFieldText(newText)
 
         if (this.view.fieldShowsWarning()) {
+            this.view.enableAddWordBtn();
             this.view.clearFieldWarning()
         };
     };
@@ -93,12 +94,14 @@ class ViewPhaseController {
         const word = this.view.getFieldText();
 
         if (this.model.isWordInWordList(word)) {
-            this.view.setFieldWarning('Word already in list');
+            this.view.setFieldWarning('That word is already in the list');
+            this.view.disableAddWordBtn();
             return;
         };
 
         if (!this.model.isWordValid(word)) {
-            this.view.setFieldWarning('Word isn\'t valid in this game');
+            this.view.setFieldWarning('Hmm... that word isn\'t valid in this game');
+            this.view.disableAddWordBtn();
             return;
         }
 

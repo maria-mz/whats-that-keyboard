@@ -5,6 +5,21 @@
 
 .word-input__container {
   width: 350px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 2.5em;
+}
+
+.word-input__instr-text__title {
+  color: var(--clr-dark);
+
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: 'Neuton';
+  text-align: center;
 }
 
 .word-input__instr-text, .word-input__warning-text {
@@ -25,48 +40,44 @@
   cursor: pointer;
 }
 
-.word-input__field-container {
-  height: 3em;
-  position: relative;
-  display: flex;
-}
-
 .word-input__warning-text {
-  width: 100%;
+  width: inherit;
+  text-align: center;
 
   color: #555f61;
-  font-style: italic;
 
   position: absolute;
-  top: 120%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 80%;
 }
 
 .word-input__field {
-  border-color: var(--clr-silver);
-  border-style: solid;
-  border-radius: 8px;
-  border-width: 1px;
+  color: #404040;
 
-  background-color: white;
-  color: var(--clr-navy);
+  font-size: 2rem;
+  font-family: 'Roboto Mono';
+  letter-spacing: 0.1em;
 
-  font-size: 1.15rem;
-  font-family: 'Space Mono';
+  height: 3em;
 
-  padding: 0.5em;
-
-  overflow: hidden;
-
-  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  user-select: none;
 }
 
 .word-input__cursor {
+  width: 0.075em;
+  height: 2rem; /* Same height as text of input field */
+
+  background-color: #404040;
+
+  border-radius: 0.5em;
+
+  position: absolute;
+
   animation: blink 2s infinite;
-  font-weight: 700;
+  transition: transform 0.2s ease;
 }
 
 @keyframes blink {
@@ -78,8 +89,48 @@
   }
 }
 
-/* Builds on solid-btn */
 .word-input__field-btn {
+  border-bottom: 2px solid transparent;
+
+  color: var(--clr-dark);
+  background-color: transparent;
+
+  font-size: 1rem;
+  font-family: 'Quicksand';
+  font-weight: 500;
+
+  transition: border 0.15s ease, color 0.15s ease;
+
   margin-left: 0.5em;
-  width: 3em;
+  padding: 0.25em;
+
+  user-select: none;
+}
+
+.word-input__field-btn-enabled:hover {
+  border-bottom: 2px solid #276dbc;
+  color: #276dbc;
+  cursor: pointer;
+}
+
+.word-input__field-btn-disabled {
+  color: var(--clr-shadow);
+}
+
+.word-input__field-btn-disabled:hover {
+  cursor: not-allowed;
+}
+
+.word-input__btn-icon {
+  margin-left: 0.5em;
+}
+
+.word-input__btn-container {
+  /* Keeps button to the right */
+  display: flex;
+  justify-content: end;
+  width: 100%;
+
+  /* Needed to position warning text correctly */
+  position: relative;
 }

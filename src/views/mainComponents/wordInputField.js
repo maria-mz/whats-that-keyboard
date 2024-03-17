@@ -12,23 +12,45 @@ class WordInputField {
     };
 
     _initWordInputSection() {
-        this.wordInputSection = document.createElement('section');
-        this.wordInputSection.className = 'word-input__container';
+        this._wordInputSection = document.createElement('section');
+        this._wordInputSection.className = 'word-input__container';
 
+        const instrTextContainer = this._createInstrTextContainer();
+        const inputFieldDiv = this._initInputFieldDiv();
+
+        const addWordBtnContainer = this._initAddWordBtnContainer();
+
+        this._wordInputSection.append(
+            instrTextContainer, inputFieldDiv, addWordBtnContainer
+        );
+    };
+
+    _createInstrTextContainer() {
+        const instrTextContainer = document.createElement('div');
+
+        const instrTextTitle = this._createInstrTextTitle();
         const instrText = this._createInstrText();
-        const fieldContainer = this._createFieldContainer();
+        instrTextContainer.append(instrTextTitle, instrText)
 
-        this.wordInputSection.append(instrText, fieldContainer);
+        return instrTextContainer;
+    };
+
+    _createInstrTextTitle() {
+        const instrTextTitle = document.createElement('p');
+        instrTextTitle.className = 'word-input__instr-text__title'
+        instrTextTitle.textContent = 'Memorize the keyboard.'
+
+        return instrTextTitle;
     };
 
     _createInstrText() {
         const instrText = document.createElement('p');
         instrText.className = 'word-input__instr-text';
-        instrText.textContent = `What word can help you remember
-                              the placement of some keys?`;
-
+        instrText.textContent = `Here, you can see the letters as you type them.
+                                 Use this to practice your memory,
+                                 or add a new Golden Word...`;
+        
         const helpIcon = this._createHelpIcon();
-
         instrText.append(helpIcon);
 
         return instrText;
@@ -41,26 +63,24 @@ class WordInputField {
         return warningText;
     };
 
-    _createFieldContainer() {
-        const fieldContainer = document.createElement('div');
-        fieldContainer.className = 'word-input__field-container';
+    _initAddWordBtnContainer() {
+        const addWordBtnContainer = document.createElement('div');
+        addWordBtnContainer.className = 'word-input__btn-container';
 
-        const inputFieldDiv = this._initInputFieldDiv();
+        this._addWordBtn = this._createAddWordBtn();
+        this._warningText = this._createWarningText();
 
-        this.addWordBtn = this._createAddWordBtn();
-        this.warningText = this._createWarningText();
+        addWordBtnContainer.append(this._addWordBtn, this._warningText);
 
-        fieldContainer.append(inputFieldDiv, this.addWordBtn, this.warningText);
-
-        return fieldContainer;
+        return addWordBtnContainer;
     };
 
     _createAddWordBtn() {
-        const addWordBtn = document.createElement('button');
-        addWordBtn.classList.add('solid-btn', 'word-input__field-btn');
+        const addWordBtn = document.createElement('div');
+        addWordBtn.classList.add('word-input__field-btn');
+        addWordBtn.textContent = 'Add word';
 
         const addIcon = this._createAddWordBtnIcon();
-
         addWordBtn.append(addIcon);
 
         return addWordBtn;
@@ -68,14 +88,18 @@ class WordInputField {
 
     _createAddWordBtnIcon() {
         const addIcon = document.createElement('i');
-        addIcon.classList.add('fa-solid', 'fa-plus');
+        addIcon.classList.add(
+            'fa-solid', 'fa-arrow-right', 'word-input__btn-icon'
+        );
 
         return addIcon;
     };
 
     _createHelpIcon() {
         const helpIcon = document.createElement('i');
-        helpIcon.classList.add('fa-regular', 'fa-circle-question', 'word-input__help-icon');
+        helpIcon.classList.add(
+            'fa-regular', 'fa-circle-question', 'word-input__help-icon'
+        );
 
         helpIcon.addEventListener('click', () => {
             publishEvent('helpIconClicked');
@@ -85,17 +109,17 @@ class WordInputField {
     };
 
     _enableBtn() {
-        this.addWordBtn.classList.add('solid-btn-enabled');
-        this.addWordBtn.classList.remove('solid-btn-disabled');
-        this.addWordBtn.onclick = () => {
+        this._addWordBtn.classList.add('word-input__field-btn-enabled');
+        this._addWordBtn.classList.remove('word-input__field-btn-disabled');
+        this._addWordBtn.onclick = () => {
             publishEvent('addWordBtnPressed');
         };
     };
 
     _disableBtn() {
-        this.addWordBtn.classList.add('solid-btn-disabled');
-        this.addWordBtn.classList.remove('solid-btn-enabled');
-        this.addWordBtn.onclick = null;
+        this._addWordBtn.classList.add('word-input__field-btn-disabled');
+        this._addWordBtn.classList.remove('word-input__field-btn-enabled');
+        this._addWordBtn.onclick = null;
     };
 
     _initInputFieldDiv() {
@@ -105,11 +129,10 @@ class WordInputField {
         this._fieldText = document.createElement('span');
         this._fieldText.id = 'wordInputText';
 
-        const fieldCursor = document.createElement('span');
-        fieldCursor.textContent = '|';
-        fieldCursor.className = 'word-input__cursor';
+        this._cursor = document.createElement('div');
+        this._cursor.className = 'word-input__cursor';
 
-        inputFieldDiv.append(this._fieldText, fieldCursor);
+        inputFieldDiv.append(this._fieldText, this._cursor);
 
         return inputFieldDiv;
     };
@@ -120,11 +143,15 @@ class WordInputField {
 
     set fieldText(text) {
         this._fieldText.textContent = text;
+
+        const newWidth = this._fieldText.offsetWidth;
+        this._cursor.style.transform = `translateX(${newWidth / 2}px)`;
+
         this._updateButtonEnabledStatus();
     };
 
     setWarningText(text) {
-        this.warningText.textContent = text;
+        this._warningText.textContent = text;
     };
 
     _updateButtonEnabledStatus() {
@@ -137,7 +164,7 @@ class WordInputField {
     };
 
     get HTMLElement() {
-        return this.wordInputSection;
+        return this._wordInputSection;
     };
 };
 
