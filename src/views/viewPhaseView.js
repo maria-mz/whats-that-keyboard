@@ -77,6 +77,14 @@ class ViewPhaseView {
     unHighlightWordOnKeyboard(word) {
         this._keyboard.unHighlightWord(word);
     };
+
+    enableAddWordBtn() {
+        this._inputField._enableBtn();
+    };
+
+    disableAddWordBtn() {
+        this._inputField._disableBtn();
+    };
 };
 
 export default ViewPhaseView;
