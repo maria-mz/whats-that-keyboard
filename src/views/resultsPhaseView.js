@@ -166,7 +166,7 @@ class ResultsPhaseView {
     _createScoreSubtitle(msg) {
         const scoreSubtitle = document.createElement('p');
         scoreSubtitle.className = 'results__score-subtitle';
-        scoreSubtitle.innerHTML = `${msg}<br>Thanks for playing :-)`;
+        scoreSubtitle.innerHTML = `<strong>${msg}</strong><br>Thanks for playing :-)`;
 
         return scoreSubtitle;
     };
