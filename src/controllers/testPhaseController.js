@@ -103,17 +103,6 @@ class TestPhaseController {
         const guess = msg.letterOfGuessingKey
 
         this.model.updateKeyGuess(letterToGuess, guess);
-
-        this._updateSubmitGuessBtn();
-    };
-
-    _updateSubmitGuessBtn() {
-        if (this.model.isGameOver()) {
-            this.view.enableSubmitBtn();
-        }
-        else {
-            this.view.disableSubmitBtn();
-        };
     };
 
     /**
@@ -125,7 +114,6 @@ class TestPhaseController {
      */
     _removeKeyGuess(letterOfGuessableKey) {
         this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
-        this._updateSubmitGuessBtn();
     };
 };
 

@@ -58,7 +58,7 @@ class GuessingKeysGrid {
             this._enableDragging(letter);
         });
 
-        this.keyGridDiv = this._createKeyGridDiv()
+        this._initKeyGridContainer();
     };
 
     _addKeysAnimation() {
@@ -87,6 +87,28 @@ class GuessingKeysGrid {
         guessingKeyDiv.textContent = letter;
 
         return guessingKeyDiv;
+    };
+
+    _initKeyGridContainer() {
+        const keyGridContainer = document.createElement('div');
+        keyGridContainer.className = 'key-grid__container';
+
+        const keyGridTitle = this._createKeyGridTitle();
+        const keyGridDiv = this._createKeyGridDiv();
+
+        keyGridContainer.append(keyGridTitle);
+        keyGridContainer.append(keyGridDiv);
+
+        this.keyGridContainer = keyGridContainer;
+        this.keyGridDiv = keyGridDiv;
+    };
+
+    _createKeyGridTitle() {
+        const keyGridTitle = document.createElement('p');
+        keyGridTitle.className = 'key-grid__title';
+        keyGridTitle.textContent = 'Make your guess!';
+
+        return keyGridTitle;
     };
 
     _createKeyGridDiv() {
@@ -281,7 +303,7 @@ class GuessingKeysGrid {
     };
 
     get HTMLElement() {
-        return this.keyGridDiv;
+        return this.keyGridContainer;
     };
 
     removeGuessingKeys() {

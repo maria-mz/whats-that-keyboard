@@ -11,8 +11,7 @@
   height: 50px;
 
   font-size: 1.15rem;
-  font-family: 'Quicksand';
-  font-weight: 500;
+  font-family: 'Roboto Mono';
 
   border-radius: 0.15rem;
   border-width: 1px 2px 4px 2px; /* top right bottom ("shadow") left */
@@ -27,7 +26,7 @@
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
 }
 
 .key-is-highlighted {
@@ -115,9 +114,25 @@
 
 /* *---------- Key Grid Styles ----------* */
 
+.key-grid__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.key-grid__title {
+  color: var(--clr-dark);
+
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: 'Neuton';
+  text-align: center;
+}
+
 .key-grid {
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: repeat(7, 1fr);
   gap: 0.5em;
+
+  margin-bottom: 2em;
 }

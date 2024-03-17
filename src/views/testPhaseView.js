@@ -22,9 +22,6 @@ class TestPhaseView {
         // Create word list view, where words cannot be selected nor deleted
         this._wordList = new WordListSection(goldenWords, false, false);
 
-        // TODO: enable true or false depending on progress from model,
-        // for now assumes first-time view, no keys placed, so disable btn
-        // (true for dev)
         this._submitBtn = new SubmitGuessBtn(true);
     };
 
