@@ -10,21 +10,29 @@
   position: absolute;
   right: 2em;
   top: 2em;
+
+  border: solid 2px #ebebe9;
+  background-color: #fbfbf9;
+  border-radius: 6px;
+
+  padding: 1em;
 }
 
 
 /* *---------- Header Styles ----------* */
 
 .word-list__header__container {
+  width: inherit;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .word-list__header__title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  font-family: 'Quicksand';
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: 'Neuton';
 
   color: var(--clr-dark);
 
@@ -34,23 +42,15 @@
 }
 
 .word-list__header__count {
-  /* Center text inside */
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-family: 'Quicksand';
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: 'Neuton';
+  font-size: 1.5rem;
+  font-weight: 500;
 
-  border-radius: 8px;
-
-  background: #ebebeb;
   color: var(--clr-dark);
-
-  margin-left: 1em;
-
-  padding: 0.15em 0.5em;
 
   user-select: none;
 }
@@ -84,7 +84,7 @@
 }
 
 .word-list__progress-bar__container {
-  width: 300px;
+  width: 100%;
   height: 15px;
 
   border-radius: 10px;
@@ -115,6 +115,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
+
+  /* Enable vertical scrolling at a certain point */
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .word-list__empty-state {
@@ -129,9 +133,10 @@
 
   padding: 0.5em 0.5em;
 
-  font-family: 'Space Mono';
+  font-family: 'Roboto Mono';
   font-size: 1rem;
 
+  border: 1px solid transparent;
   border-radius: 8px;
 
   color: var(--clr-dark);
@@ -141,16 +146,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .word-list__item__container-selectable:hover {
-  background: #ebebeb;
+  border-color: #f0c152;
+  background: rgb(252, 241, 206, 0.25);
   cursor: pointer;
 }
 
 .word-list__item__container-selected {
-  color: #1d5492;
-  background: #d5e6f2 !important; /* To prevent hover effect */
+  background: #fcf1ce !important;
+  border-color: #f0c152;
+  color: var(--clr-dark);
 }
 
 /* *---------- Word List - Item Styles ----------* */
@@ -173,4 +182,24 @@
 
 .word-list__item__delete-icon:hover {
   opacity: 1;
+}
+
+
+/* *---------- Media Queries ----------* */
+
+@media (max-width: 1350px) {
+  .word-list__container  {
+    width: 250px;
+  }
+}
+
+@media (max-width: 1240px) {
+  .word-list__container  {
+    display: none;
+  }
+
+  /*
+   * TODO: Display some kind of openable/closeable side panel
+   * that shows the word list
+   */
 }

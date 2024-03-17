@@ -3,8 +3,9 @@ import { publishEvent } from "../../../../eventBus.js";
 
 
 const EMPTY_STATE_TEXT = `<strong>Your list is empty.</strong> <br><br>To add a
-                          word, type one in the input field, and click the
-                          <strong>+</strong> button to add it to your list.`
+                          Golden Word to your list, type it using the keyboard,
+                          then click <strong>Add word</strong> or press the 
+                          <strong>Enter</strong> key.`
 
 
 /**
