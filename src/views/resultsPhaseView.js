@@ -1,6 +1,6 @@
 import Keyboard from "./mainComponents/keyboard.js";
 import { GuessableKeyboard } from "./mainComponents/guessableKeyboard.js"
-
+import DayCountDownText from "./mainComponents/dayCountDownText.js";
 
 const KEY_BG_HEX_CORRECT_GUESS = '#ddfbe9';
 const KEY_BORDER_HEX_CORRECT_GUESS = '#66d38e';
@@ -40,6 +40,7 @@ class ResultsPhaseView {
 
         this._keyboardAnswer = new Keyboard(keysLayout, true);
         this._keyboardGuess = new GuessableKeyboard(keysLayout, keyGuesses, true);
+        this._dayCountDownText = new DayCountDownText();
 
         this._colourKeyboardsByGuesses();
 
@@ -79,8 +80,11 @@ class ResultsPhaseView {
 
         const answersContainer = this._createAnswersContainer();
         const scoreContainer = this._createScoreContainer();
+        const timeLeftText = this._createTimeLeftText();
 
-        this._resultsContainer.append(answersContainer, scoreContainer);
+        this._resultsContainer.append(
+            answersContainer, scoreContainer, timeLeftText
+        );
     };
 
     _createAnswersContainer() {
@@ -171,12 +175,23 @@ class ResultsPhaseView {
         return scoreSubtitle;
     };
 
+    _createTimeLeftText() {
+        const timeLeftText = document.createElement('p');
+        timeLeftText.className = 'results__time-left-text';
+        timeLeftText.innerHTML = 'Time to Next Challenge: '
+        timeLeftText.append(this._dayCountDownText.HTMLElement);
+        
+        return timeLeftText;
+    };
+
     displayView() {
+        this._dayCountDownText.startCountDown();
         const gameAreaSection = document.getElementById('gameArea');
         gameAreaSection.appendChild(this._resultsContainer);
     };
 
     removeView() {
+        this._dayCountDownText.stopCountDown();
         this._resultsContainer.remove();
     };
 };
