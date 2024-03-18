@@ -24,7 +24,7 @@ class ScoringHelpPage {
 
         const subtitle = document.createElement('p');
         subtitle.className = 'help__subtitle';
-        subtitle.textContent = '4. Scoring'
+        subtitle.textContent = 'Scoring'
 
         const instrText = document.createElement('p');
         instrText.className = 'help__instr-text';

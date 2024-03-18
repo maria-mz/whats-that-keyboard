@@ -1,9 +1,9 @@
 import PageNavigator from "../mainComponents/pageNavigator.js";
-import ObjectiveHelpPage from "./helpPages/objectiveHelpPage.js";
-import ViewingPhaseHelpPage from "./helpPages/viewingPhaseHelpPage.js";
-import TestingPhaseHelpPage from "./helpPages/testingPhaseHelpPage.js";
+import OverviewHelpPage from "./helpPages/overviewHelpPage.js";
+import StructureHelpPage from "./helpPages/structureHelpPage.js";
+import GoldenWordsHelpPage from "./helpPages/goldenWordsHelpPage.js";
+import GoldenWordExamplesHelpPage from "./helpPages/goldenWordExamplesHelpPage.js";
 import ScoringHelpPage from "./helpPages/scoringHelpPage.js";
-import ClosingHelpPage from "./helpPages/closingHelpPage.js";
 
 import { publishEvent } from "../../eventBus.js";
 
@@ -27,11 +27,11 @@ class HelpWindowView {
     };
 
     _initPages() {
-        this._overviewPage = new ObjectiveHelpPage();
-        this._viewingPhasePage = new ViewingPhaseHelpPage();
-        this._testingPhasePage = new TestingPhaseHelpPage();
+        this._overviewPage = new OverviewHelpPage();
+        this._structurePage = new StructureHelpPage();
+        this._goldenWordsPage = new GoldenWordsHelpPage();
+        this._goldenWordExamplesPage = new GoldenWordExamplesHelpPage();
         this._scoringPage = new ScoringHelpPage();
-        this._closingPage = new ClosingHelpPage();
 
         this._currentPage = null;
     };
@@ -42,10 +42,10 @@ class HelpWindowView {
 
         const pageToCallback = {
             1: () => { this._switchPage(this._overviewPage.HTMLElement); },
-            2: () => { this._switchPage(this._viewingPhasePage.HTMLElement); },
-            3: () => { this._switchPage(this._testingPhasePage.HTMLElement); },
-            4: () => { this._switchPage(this._scoringPage.HTMLElement); },
-            5: () => { this._switchPage(this._closingPage.HTMLElement); },
+            2: () => { this._switchPage(this._structurePage.HTMLElement); },
+            3: () => { this._switchPage(this._goldenWordsPage.HTMLElement); },
+            4: () => { this._switchPage(this._goldenWordExamplesPage.HTMLElement); },
+            5: () => { this._switchPage(this._scoringPage.HTMLElement); }
         };
 
         this._navigator = new PageNavigator(1, 1, 5, pageToCallback);

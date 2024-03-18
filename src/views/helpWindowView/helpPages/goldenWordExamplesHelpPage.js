@@ -2,40 +2,32 @@ import Keyboard from "../../mainComponents/keyboard.js";
 import { getKeyLayout } from "../../../utils.js";
 
 
-const PAGE_INSTRUCTIONS = `This is the <strong>first part of the game</strong>
-                           &mdash;where you see the layout.<br><br><strong>To
-                           help with memorizing</strong>, you're encouraged to
-                           think of <strong>words</strong> whose placement of
-                           letters on the keyboard make it easy for you to
-                           remember. We'll refer to these intentional words
-                           as <strong>Golden Words</strong>. <br><br><strong>
-                           To track these words</strong>, you can add them to
-                           the <strong>provided list</strong>. You'll be able
-                           to see this list in the Testing phase. <br><br>
-                           <strong>Examples of Golden Words</strong>, for a
-                           particular layout:`
+const PAGE_INSTRUCTIONS = `Some examples of Golden Words, for a particular layout:`
 
-const EXAMPLE_POISE_EXPLANATION = `Can help place 5 keys. <strong>P</strong>,
-                                   <strong>O</strong>, <strong>I</strong> are
-                                   in sequence in the corner. <strong>S</strong>,
-                                   <strong>E</strong> are close together at the
-                                   other end.`;
+const EXAMPLE_POISE_EXPLANATION = `The word, <strong>poise</strong>, could help
+                                   place <strong>5 keys.</strong> The first
+                                   three letters are next to each other starting
+                                   at the corner, and the rest are close at the
+                                   other end.
+                                   <br><br>`;
 
-const EXAMPLE_PLUM_EXPLANATION = `Can help place 4 keys. <strong>P</strong>,
-                                  <strong>L</strong>, <strong>M</strong> are in
-                                  sequence diagonally. <strong>U</strong> is next
-                                  to <strong>I</strong> (which can be determined
-                                  from <strong>POISE</strong>, for example).`;
+const EXAMPLE_READ_EXPLANATION = `The word, <strong>read</strong>, could help
+                                  place <strong>4 keys.</strong> The letters are
+                                  close to each other at one end. See that other
+                                  words may help determine others. We could've
+                                  located <strong>E</strong> from <strong>poise
+                                  </strong>, for example.`;
 
-const EXAMPLE_TREE_EXPLANATION = `Can help place 3 keys. Working backwards from
-                                  <strong>E</strong> (which can be determined from
-                                  <strong>POISE</strong>, for example), <strong>R
-                                  </strong> is next to <strong>T</strong>.`;
+const EXAMPLE_SUN_EXPLANATION = `The word, <strong>sun</strong>, could help
+                                 place <strong>3 keys.</strong> However, this
+                                 may not be the best Golden Word. Each key is
+                                 far away from each other, which may make it
+                                 hard to remember.`;
 
 const WORD_TO_EXPLANATION = {
     'POISE': EXAMPLE_POISE_EXPLANATION,
-    'PLUM': EXAMPLE_PLUM_EXPLANATION,
-    'TREE': EXAMPLE_TREE_EXPLANATION
+    'READ': EXAMPLE_READ_EXPLANATION,
+    'SUN': EXAMPLE_SUN_EXPLANATION
 };
 
 const DEFAULT_SELECTED_EXAMPLE_WORD = 'POISE'
@@ -48,7 +40,7 @@ const EXAMPLE_KEYBOARD_LAYOUT = getKeyLayout('POIUYTREWQLKJHGFDSAMNBVCXZ'.split(
  * 
  * 
  */
-class ViewingPhaseHelpPage {
+class GoldenWordExamplesHelpPage {
     constructor() {
         this._keyboard;
         this._exampleWordExplanation;
@@ -65,7 +57,7 @@ class ViewingPhaseHelpPage {
 
         const subtitle = document.createElement('p');
         subtitle.className = 'help__subtitle';
-        subtitle.textContent = '2. Viewing phase';
+        subtitle.textContent = 'Golden Words: Examples';
 
         const instrText = document.createElement('p');
         instrText.className = 'help__instr-text';
@@ -79,14 +71,16 @@ class ViewingPhaseHelpPage {
     _createExamplesContainer() {
         const examplesContainer = document.createElement('div');
         examplesContainer.className = 'help__keyboard__container';
-        
+
         // Used to get for example keyboard
         this._keyboard = new Keyboard(EXAMPLE_KEYBOARD_LAYOUT);
 
         this._keyboard.highlightWord(DEFAULT_SELECTED_EXAMPLE_WORD);
 
-        // Make the keyboard look a bit smaller
-        this._keyboard.HTMLElement.style.scale = '0.8';
+        // Adjust keyboard styles to fit well in the window
+        this._keyboard.HTMLElement.style.scale = '0.95';
+        this._keyboard.HTMLElement.style.marginTop = '1.5em';
+        this._keyboard.HTMLElement.style.marginBottom = '1em';
 
         const exampleWordsContainer = this._createExampleWordsContainer();
 
@@ -108,8 +102,8 @@ class ViewingPhaseHelpPage {
         exampleWordsContainer.className = 'help__eg-words__container';
 
         const exampleWordPOISE = this._createExampleWord('POISE');
-        const exampleWordPLUM = this._createExampleWord('PLUM');
-        const exampleWordTREE = this._createExampleWord('TREE');
+        const exampleWordPLUM = this._createExampleWord('READ');
+        const exampleWordTREE = this._createExampleWord('SUN');
 
         this._setupExampleWordEvent(exampleWordPOISE);
         this._setupExampleWordEvent(exampleWordPLUM);
@@ -172,4 +166,4 @@ class ViewingPhaseHelpPage {
 
 };
 
-export default ViewingPhaseHelpPage;
+export default GoldenWordExamplesHelpPage;

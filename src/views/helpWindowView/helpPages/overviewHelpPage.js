@@ -1,17 +1,22 @@
-const PAGE_INSTRUCTIONS = `<strong>Welcome to the game!</strong><br><br>
-                           You'll be shown an illustrated keyboard with a
+const PAGE_INSTRUCTIONS = `You'll be shown an illustrated keyboard with a
                            <strong>randomized layout.</strong> Unlike the
                            typical QWERTY layout you may be used to seeing.
-                           <br><br> Your objective: <strong>memorize</strong>
-                           the entire layout&mdash;<strong>all the keys.</strong>`
+                           <br><br>
+                           Your challenge is to <strong>memorize</strong> the
+                           entire layout&mdash;<strong>all the keys.</strong>
+                           <br><br>
+                           Each day will feature a brand new layout, so you
+                           can hopefully test your memory in a unique way.
+                           The game is designed to be done <strong>once per
+                           day.</strong> So give it your best try!`
 
 
 /**
- * @class ObjectiveHelpPage
+ * @class OverviewHelpPage
  * 
  * 
  */
-class ObjectiveHelpPage {
+class OverviewHelpPage {
     constructor() {
         // The main HTML Element
         this._page;
@@ -24,7 +29,7 @@ class ObjectiveHelpPage {
 
         const subtitle = document.createElement('p');
         subtitle.className = 'help__subtitle';
-        subtitle.textContent = '1. Objective'
+        subtitle.textContent = 'Overview'
 
         const instrText = document.createElement('p');
         instrText.className = 'help__instr-text';
@@ -39,4 +44,4 @@ class ObjectiveHelpPage {
 
 };
 
-export default ObjectiveHelpPage;
+export default OverviewHelpPage;
