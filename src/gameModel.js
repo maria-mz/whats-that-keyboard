@@ -90,7 +90,7 @@ class GameModel {
 
         if (!stage) {
             console.error(
-                'Error: Failed to load game stage, using default of `Landing`'
+                'Error: Failed to load game stage, using default of `Memorize`'
             );
             this._stage = GameStage.MEMORIZE
         }
@@ -147,7 +147,6 @@ class GameModel {
     };
 
     isValidGoldenWord(word) {
-        // Return `false` for single letters, as typo.js allows them
         if (word.length === 1) {
             return false;
         };

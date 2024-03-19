@@ -2,7 +2,8 @@ import Keyboard from "../../mainComponents/keyboard.js";
 import { getKeyLayout } from "../../../utils.js";
 
 
-const PAGE_INSTRUCTIONS = `Some examples of Golden Words, for a particular layout:`
+const PAGE_INSTRUCTIONS = `Here is a possible keyboard layout, with some
+                           examples of Golden Words:`
 
 const EXAMPLE_POISE_EXPLANATION = `The word, <strong>poise</strong>, could help
                                    place <strong>5 keys.</strong> The first
@@ -13,10 +14,10 @@ const EXAMPLE_POISE_EXPLANATION = `The word, <strong>poise</strong>, could help
 
 const EXAMPLE_READ_EXPLANATION = `The word, <strong>read</strong>, could help
                                   place <strong>4 keys.</strong> The letters are
-                                  close to each other at one end. See that other
+                                  close to each other at one end. See, other
                                   words may help determine others. We could've
-                                  located <strong>E</strong> from <strong>poise
-                                  </strong>, for example.`;
+                                  located <strong>E</strong> from
+                                  <strong>poise</strong>, for example.`;
 
 const EXAMPLE_SUN_EXPLANATION = `The word, <strong>sun</strong>, could help
                                  place <strong>3 keys.</strong> However, this

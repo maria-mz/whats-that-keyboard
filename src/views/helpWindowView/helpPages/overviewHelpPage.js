@@ -7,8 +7,8 @@ const PAGE_INSTRUCTIONS = `You'll be shown an illustrated keyboard with a
                            <br><br>
                            Each day will feature a brand new layout, so you
                            can hopefully test your memory in a unique way.
-                           The game is designed to be done <strong>once per
-                           day.</strong> So give it your best try!`
+                           The game is designed to be completed
+                           <strong>once.</strong> So give it your best try!`
 
 
 /**

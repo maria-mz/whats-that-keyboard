@@ -16,6 +16,7 @@ class DayCountDownText {
         };
 
         this._dayToCountDownFrom = new Date().toDateString();
+        this._updateCountDownText();
         this._intervalId = setInterval(this._updateCountDownText.bind(this), 1000);
     };
 

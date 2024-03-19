@@ -37,7 +37,7 @@ class GuessableKeyboard extends Keyboard {
     _setupGuessableKeys() {
         for (const [letter, keyDiv] of Object.entries(this.letterToKeyDiv)) {
             // 1. Add event listener for removing a guess
-            keyDiv.addEventListener('click', () => {
+            keyDiv.addEventListener('mousedown', () => {
                 if (this._keyHasGuess(letter)) {
                     publishEvent('keyboardViewGuessRemoved', letter);
                 };
