@@ -21,7 +21,7 @@ class TestPhaseController {
         const keysLayout = getKeyLayout(todaysLetterList);
 
         this.view = new TestPhaseView(
-            keysLayout, this.model.getKeyGuesses(), this.model.getUserWords()
+            keysLayout, this.model.getKeyGuesses(), this.model.getGoldenWords()
         );
 
         subscribeEvent(

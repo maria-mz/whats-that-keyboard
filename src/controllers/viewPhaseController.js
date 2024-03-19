@@ -17,7 +17,7 @@ class ViewPhaseController {
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
 
-        this.view = new ViewPhaseView(keysLayout, this.model.getUserWords());
+        this.view = new ViewPhaseView(keysLayout, this.model.getGoldenWords());
 
         subscribeEvent(
             'playBtnClicked', this._beginViewPhase.bind(this)
@@ -51,7 +51,7 @@ class ViewPhaseController {
         )
         subscribeEvent(
             'wordListViewWordDeleted',
-            (word) => { this.model.deleteUserWord(word); }
+            (word) => { this.model.deleteGoldenWord(word); }
         );
         subscribeEvent(
             'keyboardEnterPressed',
@@ -93,19 +93,19 @@ class ViewPhaseController {
     _addWordListWord() {
         const word = this.view.getFieldText();
 
-        if (this.model.isWordInWordList(word)) {
+        if (this.model.hasGoldenWord(word)) {
             this.view.setFieldWarning('That word is already in the list');
             this.view.disableAddWordBtn();
             return;
         };
 
-        if (!this.model.isWordValid(word)) {
+        if (!this.model.isValidGoldenWord(word)) {
             this.view.setFieldWarning('Hmm... that word isn\'t valid in this game');
             this.view.disableAddWordBtn();
             return;
         }
 
-        this.model.addUserWord(word);
+        this.model.addGoldenWord(word);
 
         this.view.setFieldText('');
 
