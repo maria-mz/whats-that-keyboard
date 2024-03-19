@@ -1,9 +1,24 @@
 import { publishEvent } from "./eventBus.js";
+import {
+    getStoredGameProgress,
+    getStoredGoldenWords,
+    getStoredKeyGuesses,
+    getStoredStage,
+    setStoredGameProgress,
+    setStoredGoldenWords,
+    setStoredKeyGuesses,
+    setStoredStage
+} from "./gameProgressUtils.js"
 
 
 // TODO: define this in one place
 const NO_GUESS_STR = ''
 
+const GameStage = {
+    MEMORIZE: 'Memorize',
+    GUESS: 'Guess',
+    RESULTS: 'Results'
+}
 
 /**
  * @class GameModel
@@ -12,23 +27,86 @@ const NO_GUESS_STR = ''
  */
 class GameModel {
     constructor() {
-        // TODO: if any words saved in local storage, get those 
-        this.dictionary = new Typo("en_US", false, false, { dictionaryPath: "ext/typo_js_dictionary" }),
-        this.userWordsList = [];
-        this.todaysLetterList = this._genTodaysLetterList();
-        // this.todaysLetterList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+        this._todaysDate = new Date().toDateString();
+        this._todaysLetterList = this._genTodaysLetterList();
 
+        this._dictionary = new Typo(
+            "en_US", false, false, { dictionaryPath: "external/typo" }
+        );
+
+        this._goldenWords;
+        this._keyGuesses;
+        this._stage;
+        this._initGameProgress();
+    };
+
+    _initGameProgress() {
+        const gameProgress = getStoredGameProgress();
+
+        if (!gameProgress || gameProgress.date !== this._todaysDate) {
+            setStoredGameProgress(
+                this._todaysDate,
+                [],
+                this._getEmptyKeyGuesses(),
+                GameStage.MEMORIZE
+            );
+        };
+
+        this._initGoldenWords();
         this._initKeyGuesses();
+        this._initStage();
+    };
+
+    _initGoldenWords() {
+        const goldenWords = getStoredGoldenWords();
+
+        if (!goldenWords) {
+            console.error(
+                'Error: Failed to load golden words, using default of empty list'
+            );
+            this._goldenWords = [];
+        }
+        else {
+            this._goldenWords = goldenWords;
+        };
     };
 
     _initKeyGuesses() {
-        this.keyGuesses = {};
+        const keyGuesses = getStoredKeyGuesses();
 
-        // TODO: Get values from local storage, if not, start by
-        // having no guess for each letter
-        this.todaysLetterList.forEach((letter) => {
-            this.keyGuesses[letter] = NO_GUESS_STR;
+        if (!keyGuesses) {
+            console.error(
+                'Error: Failed to load key guesses, using default of no guesses'
+            );
+            this._keyGuesses = this._getEmptyKeyGuesses();
+        }
+        else {
+            this._keyGuesses = keyGuesses;
+        };
+    };
+
+    _initStage() {
+        const stage = getStoredStage();
+
+        if (!stage) {
+            console.error(
+                'Error: Failed to load game stage, using default of `Landing`'
+            );
+            this._stage = GameStage.MEMORIZE
+        }
+        else {
+            this._stage = stage
+        };
+    };
+
+    _getEmptyKeyGuesses() {
+        const keyGuesses = {};
+
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((letter) => {
+            keyGuesses[letter] = NO_GUESS_STR;
         });
+
+        return keyGuesses;
     };
 
     /**
@@ -39,9 +117,7 @@ class GameModel {
      * This ensures that all players get the same layout on any given day.
      */
     _genTodaysLetterList() {
-        const todaysSeed = new Date().toDateString();
-
-        const rng = new Math.seedrandom(todaysSeed);
+        const rng = new Math.seedrandom(this._todaysDate);
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         const todaysLetterList = letters.sort(() => { return rng() - 0.5; });
 
@@ -49,70 +125,68 @@ class GameModel {
     };
 
     getTodaysLetterList() {
-        return this.todaysLetterList;
+        return this._todaysLetterList;
     };
 
-    getUserWords() {
-        return this.userWordsList;
+    getGoldenWords() {
+        return this._goldenWords;
     };
 
     getKeyGuesses() {
-        return this.keyGuesses;
-    }
-
-    addUserWord(word) {
-        this.userWordsList.push(word);
-        // TODO: Save to local storage
-
-        publishEvent('wordListUpdated', this.userWordsList);
+        return this._keyGuesses;
     };
 
-    isWordValid(word) {
-        // Don't allow single letters, not handled by typo.js
+    getStage() {
+        return this._stage;
+    };
+
+    addGoldenWord(word) {
+        this._goldenWords.push(word);
+        setStoredGoldenWords([...this._goldenWords]);
+        publishEvent('wordListUpdated', [...this._goldenWords]);
+    };
+
+    isValidGoldenWord(word) {
+        // Return `false` for single letters, as typo.js allows them
         if (word.length === 1) {
             return false;
         };
 
-        return this.dictionary.check(word);
+        return this._dictionary.check(word);
     };
 
-    isWordInWordList(word) {
-        return this.userWordsList.includes(word);
+    hasGoldenWord(word) {
+        return this._goldenWords.includes(word);
     };
 
-    deleteUserWord(wordToDelete) {
-        if (this.userWordsList.includes(wordToDelete)) {
-            // Just make a new array to not include deleted word...
-            const newList = [];
-
-            this.userWordsList.forEach((word) => {
-                if (word !== wordToDelete) {
-                    newList.push(word);
-                };
-            });
-
-            this.userWordsList = [...newList];
-            // TODO: Save to local storage
-
-            publishEvent('wordListUpdated', this.userWordsList);
-            return true;
+    deleteGoldenWord(wordToDelete) {
+        if (!this._goldenWords.includes(wordToDelete)) {
+            return;
         };
-        return false;
+
+        const newList = [];
+
+        this._goldenWords.forEach((word) => {
+            if (word !== wordToDelete) {
+                newList.push(word);
+            };
+        });
+
+        this._goldenWords = [...newList];
+        setStoredGoldenWords([...this._goldenWords]);
+        publishEvent('wordListUpdated', [...this._goldenWords]);
     };
 
     updateKeyGuess(keyLetter, newGuess) {
-        // TODO: Check if key is a valid word
-
-        this.keyGuesses[keyLetter] = newGuess;
-        // TODO: Save to local storage
-
-        publishEvent('keyGuessesUpdated', this.keyGuesses);
+        this._keyGuesses[keyLetter] = newGuess;
+        setStoredKeyGuesses({...this._keyGuesses});
+        publishEvent('keyGuessesUpdated', {...this._keyGuesses});
     };
 
     getNumCorrectGuesses() {
         let numCorrectGuesses = 0;
 
-        for (const [letter, guess] of Object.entries(this.keyGuesses)) {
+        for (const [letter, guess] of Object.entries(this._keyGuesses)) {
             if (letter === guess) {
                 numCorrectGuesses++;
             };
@@ -122,9 +196,15 @@ class GameModel {
     };
 
     isGameOver() {
-        const guesses = Object.values(this.keyGuesses);
+        const guesses = Object.values(this._keyGuesses);
         return !(guesses.includes(NO_GUESS_STR));
     };
+
+    setStage(stage) {
+        this._stage = stage;
+        setStoredStage(this._stage);
+    };
+
 };
 
 export default GameModel;
