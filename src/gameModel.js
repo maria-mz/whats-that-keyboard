@@ -7,8 +7,8 @@ import {
     setStoredGameProgress,
     setStoredGoldenWords,
     setStoredKeyGuesses,
-    setStoredStage
-} from "./gameProgressUtils.js"
+    setStoredStage,
+} from "./utils/localStorageUtils/gameProgressUtils.js"
 
 
 // TODO: define this in one place
@@ -48,7 +48,8 @@ class GameModel {
                 this._todaysDate,
                 [],
                 this._getEmptyKeyGuesses(),
-                GameStage.MEMORIZE
+                GameStage.MEMORIZE,
+                {}
             );
         };
 

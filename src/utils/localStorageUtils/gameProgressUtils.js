@@ -7,6 +7,7 @@
  *      - `goldenWords`
  *      - `keyGuesses`
  *      - `stage`
+ *      - `resultsSnapshot`
  */
 
 
@@ -26,22 +27,22 @@ function getStoredGameProgress() {
 
 function getStoredGoldenWords() {
     const gameProgress = getStoredGameProgress();
-    return gameProgress ? gameProgress.goldenWords : null
+    return gameProgress ? gameProgress.goldenWords : null;
 };
 
 function getStoredKeyGuesses() {
     const gameProgress = getStoredGameProgress();
-    return gameProgress ? gameProgress.keyGuesses : null
-};
-
-function getStoredDate() {
-    const gameProgress = getStoredGameProgress();
-    return gameProgress ? gameProgress.date : null
+    return gameProgress ? gameProgress.keyGuesses : null;
 };
 
 function getStoredStage() {
     const gameProgress = getStoredGameProgress();
-    return gameProgress ? gameProgress.stage : null
+    return gameProgress ? gameProgress.stage : null;
+};
+
+function getResultsSnapshot() {
+    const gameProgress = getStoredGameProgress();
+    return gameProgress ? gameProgress.resultsSnapshot : null;
 };
 
 
@@ -51,9 +52,19 @@ function getStoredStage() {
  * 
  */
 
-function setStoredGameProgress(date, goldenWords, keyGuesses, stage) {
-    if (!date || !goldenWords || !keyGuesses || !stage) {
-        throw new Error('Failed to set Game Progress: Some values are missing.');
+function setStoredGameProgress(
+    date, goldenWords, keyGuesses, stage, resultsSnapshot
+) {
+    if (
+        date === undefined ||
+        goldenWords === undefined ||
+        keyGuesses === undefined ||
+        stage === undefined ||
+        resultsSnapshot === undefined
+    ) {
+        throw new Error(
+            'Failed to set Game Progress: Some arguments are missing.'
+        );
     };
 
     localStorage.setItem(
@@ -62,7 +73,8 @@ function setStoredGameProgress(date, goldenWords, keyGuesses, stage) {
             'date': date,
             'goldenWords': goldenWords,
             'keyGuesses': keyGuesses,
-            'stage': stage
+            'stage': stage,
+            'resultsSnapshot': resultsSnapshot
         })
     );
 };
@@ -71,14 +83,15 @@ function setStoredGoldenWords(goldenWords) {
     const gameProgress = getStoredGameProgress();
 
     if (!gameProgress) {
-        throw new Error(`Failed to set Golden Words: ${SET_ERR_MSG}`);
+        throw new Error(`Failed to set 'goldenWords' ${SET_ERR_MSG}`);
     };
 
     setStoredGameProgress(
         gameProgress.date,
         goldenWords,    // The new value
         gameProgress.keyGuesses,
-        gameProgress.stage
+        gameProgress.stage,
+        gameProgress.resultsSnapshot
     );
 };
 
@@ -86,14 +99,15 @@ function setStoredKeyGuesses(keyGuesses) {
     const gameProgress = getStoredGameProgress();
 
     if (!gameProgress) {
-        throw new Error(`Failed to set Key Guesses: ${SET_ERR_MSG}`);
+        throw new Error(`Failed to set 'keyGuesses': ${SET_ERR_MSG}`);
     };
 
     setStoredGameProgress(
         gameProgress.date,
         gameProgress.goldenWords,
         keyGuesses,    // The new value
-        gameProgress.stage
+        gameProgress.stage,
+        gameProgress.resultsSnapshot
     );
 };
 
@@ -101,14 +115,31 @@ function setStoredStage(stage) {
     const gameProgress = getStoredGameProgress();
 
     if (!gameProgress) {
-        throw new Error(`Failed to set Stage: ${SET_ERR_MSG}`);
+        throw new Error(`Failed to set 'stage': ${SET_ERR_MSG}`);
     };
 
     setStoredGameProgress(
         gameProgress.date,
         gameProgress.goldenWords,
         gameProgress.keyGuesses,
-        stage    // The new value
+        stage,    // The new value,
+        gameProgress.resultsSnapshot
+    );
+};
+
+function setResultsSnapshot(resultsSnapshot) {
+    const gameProgress = getStoredGameProgress();
+
+    if (!gameProgress) {
+        throw new Error(`Failed to set 'resultsSnapshot': ${SET_ERR_MSG}`);
+    };
+
+    setStoredGameProgress(
+        gameProgress.date,
+        gameProgress.goldenWords,
+        gameProgress.keyGuesses,
+        gameProgress.stage,
+        resultsSnapshot    // The new value
     );
 };
 
@@ -117,10 +148,11 @@ export {
     getStoredGameProgress,
     getStoredGoldenWords,
     getStoredKeyGuesses,
-    getStoredDate,
     getStoredStage,
+    getResultsSnapshot,
     setStoredGameProgress,
     setStoredGoldenWords,
     setStoredKeyGuesses,
-    setStoredStage
+    setStoredStage,
+    setResultsSnapshot
 };
