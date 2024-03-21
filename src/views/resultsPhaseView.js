@@ -34,9 +34,9 @@ const resultsProperties = {
  * 
  */
 class ResultsPhaseView {
-    constructor(keysLayout, keyGuesses, numCorrectGuesses) {
+    constructor(keysLayout, keyGuesses, gameScore) {
         this._keyGuesses = keyGuesses;
-        this._numCorrectGuesses = numCorrectGuesses;
+        this._gameScore = gameScore;
 
         this._keyboardAnswer = new Keyboard(keysLayout, true);
         this._keyboardGuess = new GuessableKeyboard(keysLayout, keyGuesses, true);
@@ -131,16 +131,16 @@ class ResultsPhaseView {
     };
 
     _getResultsProperty() {
-        if (this._numCorrectGuesses < 10) { 
+        if (this._gameScore < 10) { 
             return resultsProperties.poorScore;
         };
-        if (this._numCorrectGuesses >= 10 && this._numCorrectGuesses < 20) { 
+        if (this._gameScore >= 10 && this._gameScore < 20) { 
             return resultsProperties.okScore;
         };
-        if (this._numCorrectGuesses >= 20 && this._numCorrectGuesses < 23) { 
+        if (this._gameScore >= 20 && this._gameScore < 23) { 
             return resultsProperties.goodScore;
         };
-        if (this._numCorrectGuesses >= 23) {
+        if (this._gameScore >= 23) {
             return resultsProperties.greatScore;
         };
     };
@@ -159,7 +159,7 @@ class ResultsPhaseView {
         scoreTotal.textContent = ' / 26';
 
         const score = document.createElement('span');
-        score.textContent = this._numCorrectGuesses;
+        score.textContent = this._gameScore;
         score.style.color = colour;
 
         scoreTotal.insertBefore(score, scoreTotal.firstChild);
@@ -170,7 +170,7 @@ class ResultsPhaseView {
     _createScoreSubtitle(msg) {
         const scoreSubtitle = document.createElement('p');
         scoreSubtitle.className = 'results__score-subtitle';
-        scoreSubtitle.innerHTML = `<strong>${msg}</strong><br>Thanks for playing :-)`;
+        scoreSubtitle.innerHTML = `<strong>${msg}</strong><br>Thanks for playing today :-)`;
 
         return scoreSubtitle;
     };

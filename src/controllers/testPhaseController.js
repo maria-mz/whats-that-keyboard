@@ -1,11 +1,8 @@
 import TestPhaseView from "../views/testPhaseView.js";
+import { NO_GUESS_STR, GameStage } from "../gameModel.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
-
-
-// TODO: define this in one place
-const NO_GUESS_STR = ''
 
 
 /**
@@ -24,9 +21,16 @@ class TestPhaseController {
             keysLayout, this.model.getKeyGuesses(), this.model.getGoldenWords()
         );
 
-        subscribeEvent(
-            'testMeBtnClicked', this._beginTestPhase.bind(this)
-        );
+        if (this.model.getStage() === GameStage.GUESS) {
+            subscribeEvent(
+                'playBtnClicked', this._beginTestPhase.bind(this)
+            );
+        }
+        else {
+            subscribeEvent(
+                'testMeBtnClicked', this._beginTestPhase.bind(this)
+            );
+        }
     };
 
     _beginTestPhase() {
@@ -56,7 +60,7 @@ class TestPhaseController {
         );
         subscribeEvent(
             'submitGuessBtnClicked',
-            () => { this.view.removeView(); }
+            this._concludeTestPhase.bind(this)
         );
     };
 
@@ -115,6 +119,12 @@ class TestPhaseController {
     _removeKeyGuess(letterOfGuessableKey) {
         this.model.updateKeyGuess(letterOfGuessableKey, NO_GUESS_STR);
     };
+
+    _concludeTestPhase() {
+        this.model.saveGameScore();
+        this.model.setStage(GameStage.RESULTS);
+        this.view.removeView();
+    }
 };
 
 export default TestPhaseController;

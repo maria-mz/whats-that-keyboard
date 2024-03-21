@@ -1,5 +1,5 @@
-
 import ViewPhaseView from "../views/viewPhaseView.js";
+import { GameStage } from "../gameModel.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
@@ -19,9 +19,11 @@ class ViewPhaseController {
 
         this.view = new ViewPhaseView(keysLayout, this.model.getGoldenWords());
 
-        subscribeEvent(
-            'playBtnClicked', this._beginViewPhase.bind(this)
-        );
+        if (this.model.getStage() === GameStage.MEMORIZE) {
+            subscribeEvent(
+                'playBtnClicked', this._beginViewPhase.bind(this)
+            );
+        };
     };
 
     _beginViewPhase() {
@@ -62,8 +64,7 @@ class ViewPhaseController {
             this._addWordListWord.bind(this)
         );
         subscribeEvent(
-            'testMeBtnClicked',
-            () => { this.view.removeView(); }
+            'testMeBtnClicked', this._concludeViewPhase.bind(this)
         );
     };
 
@@ -112,6 +113,11 @@ class ViewPhaseController {
         if (this.view.fieldShowsWarning()) {
             this.view.clearFieldWarning();
         };
+    };
+
+    _concludeViewPhase() {
+        this.model.setStage(GameStage.GUESS); // Set to next phase
+        this.view.removeView();
     };
 };
 

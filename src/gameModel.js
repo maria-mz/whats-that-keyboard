@@ -4,14 +4,20 @@ import {
     getStoredGoldenWords,
     getStoredKeyGuesses,
     getStoredStage,
+    getStoredIsScoreSaved,
     setStoredGameProgress,
     setStoredGoldenWords,
     setStoredKeyGuesses,
     setStoredStage,
-} from "./utils/localStorageUtils/gameProgressUtils.js"
+    setStoredIsScoreSaved
+} from "./utils/localStorageUtils/gameProgressUtils.js";
+import {
+    initStoredGameScoreCounts,
+    getStoredGameScoreCounts,
+    incStoredGameCount
+} from "./utils/localStorageUtils/gameScoreCountsUtils.js"
 
 
-// TODO: define this in one place
 const NO_GUESS_STR = ''
 
 const GameStage = {
@@ -20,6 +26,7 @@ const GameStage = {
     RESULTS: 'Results'
 }
 
+
 /**
  * @class GameModel
  * 
@@ -27,17 +34,24 @@ const GameStage = {
  */
 class GameModel {
     constructor() {
+        // TODO: pass game date to constructor, call `gameDate` instead of `todaysDate`
         this._todaysDate = new Date().toDateString();
         this._todaysLetterList = this._genTodaysLetterList();
 
+        // TODO: create class / func for validating words instead?
         this._dictionary = new Typo(
             "en_US", false, false, { dictionaryPath: "external/typo" }
         );
 
+        // TODO: create class for 'GameProgress' ?
         this._goldenWords;
         this._keyGuesses;
         this._stage;
         this._initGameProgress();
+
+        if (!getStoredGameScoreCounts()) {
+            initStoredGameScoreCounts();
+        };
     };
 
     _initGameProgress() {
@@ -49,7 +63,7 @@ class GameModel {
                 [],
                 this._getEmptyKeyGuesses(),
                 GameStage.MEMORIZE,
-                {}
+                false
             );
         };
 
@@ -129,22 +143,48 @@ class GameModel {
         return this._todaysLetterList;
     };
 
-    getGoldenWords() {
-        return this._goldenWords;
-    };
-
     getKeyGuesses() {
         return this._keyGuesses;
+    };
+
+    updateKeyGuess(keyLetter, newGuess) {
+        this._keyGuesses[keyLetter] = newGuess;
+        setStoredKeyGuesses({...this._keyGuesses});
+        publishEvent('keyGuessesUpdated', {...this._keyGuesses});
     };
 
     getStage() {
         return this._stage;
     };
 
-    addGoldenWord(word) {
-        this._goldenWords.push(word);
-        setStoredGoldenWords([...this._goldenWords]);
-        publishEvent('wordListUpdated', [...this._goldenWords]);
+    setStage(stage) {
+        this._stage = stage;
+        setStoredStage(this._stage);
+    };
+
+    getGameScore() {
+        let correctGuessCount = 0;
+
+        for (const [letter, guess] of Object.entries(this._keyGuesses)) {
+            if (letter === guess) {
+                correctGuessCount++;
+            };
+        };
+
+        return correctGuessCount;
+    };
+
+    saveGameScore() {
+        const isScoreSaved = getStoredIsScoreSaved();
+
+        if (isScoreSaved === false) {
+            incStoredGameCount(this.getGameScore());
+            setStoredIsScoreSaved(true);
+        };
+    };
+
+    getGoldenWords() {
+        return this._goldenWords;
     };
 
     isValidGoldenWord(word) {
@@ -157,6 +197,12 @@ class GameModel {
 
     hasGoldenWord(word) {
         return this._goldenWords.includes(word);
+    };
+
+    addGoldenWord(word) {
+        this._goldenWords.push(word);
+        setStoredGoldenWords([...this._goldenWords]);
+        publishEvent('wordListUpdated', [...this._goldenWords]);
     };
 
     deleteGoldenWord(wordToDelete) {
@@ -176,35 +222,6 @@ class GameModel {
         setStoredGoldenWords([...this._goldenWords]);
         publishEvent('wordListUpdated', [...this._goldenWords]);
     };
-
-    updateKeyGuess(keyLetter, newGuess) {
-        this._keyGuesses[keyLetter] = newGuess;
-        setStoredKeyGuesses({...this._keyGuesses});
-        publishEvent('keyGuessesUpdated', {...this._keyGuesses});
-    };
-
-    getNumCorrectGuesses() {
-        let numCorrectGuesses = 0;
-
-        for (const [letter, guess] of Object.entries(this._keyGuesses)) {
-            if (letter === guess) {
-                numCorrectGuesses++;
-            };
-        };
-
-        return numCorrectGuesses;
-    };
-
-    isGameOver() {
-        const guesses = Object.values(this._keyGuesses);
-        return !(guesses.includes(NO_GUESS_STR));
-    };
-
-    setStage(stage) {
-        this._stage = stage;
-        setStoredStage(this._stage);
-    };
-
 };
 
-export default GameModel;
+export { GameModel, GameStage, NO_GUESS_STR };

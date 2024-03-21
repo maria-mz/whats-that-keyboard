@@ -1,4 +1,5 @@
 import ResultsPhaseView from "../views/resultsPhaseView.js";
+import { GameStage } from "../gameModel.js";
 
 import { getKeyLayout } from "../utils.js";
 import { subscribeEvent } from "../eventBus.js";
@@ -14,25 +15,30 @@ class ResultsPhaseController {
         this.model = gameModel;
         this.view;
 
-        subscribeEvent(
-            'submitGuessBtnClicked', this._onSubmitGuess.bind(this)
-        );
+        if (this.model.getStage() === GameStage.RESULTS) {
+            subscribeEvent(
+                'playBtnClicked', this._beginResultsPhase.bind(this)
+            );
+        } else {
+            subscribeEvent(
+                'submitGuessBtnClicked', this._beginResultsPhase.bind(this)
+            );
+        };
     };
 
-    _onSubmitGuess() {
+    _beginResultsPhase() {
         this._initView();
         this.view.displayView();
-        // TODO: Save results in model
     };
 
     _initView() {
         const todaysLetterList = this.model.getTodaysLetterList();
         const keysLayout = getKeyLayout(todaysLetterList);
         const keyGuesses = this.model.getKeyGuesses();
-        const numCorrectGuesses = this.model.getNumCorrectGuesses();
+        const gameScore = this.model.getGameScore();
 
-        this.view = new ResultsPhaseView(keysLayout, keyGuesses, numCorrectGuesses);
-    }
+        this.view = new ResultsPhaseView(keysLayout, keyGuesses, gameScore);
+    };
 };
 
 export default ResultsPhaseController;
