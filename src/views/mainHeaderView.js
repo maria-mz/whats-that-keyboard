@@ -77,7 +77,8 @@ class MainHeaderView {
     };
 
     displayView() {
-        document.body.insertBefore(this._header, document.body.firstChild);
+        const contentDiv = document.querySelector('.content')
+        contentDiv.insertBefore(this._header, contentDiv.firstChild);
     };
 
     removeView() {

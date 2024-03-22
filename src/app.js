@@ -4,8 +4,7 @@ import ViewPhaseController from "./controllers/viewPhaseController.js";
 import TestPhaseController from "./controllers/testPhaseController.js";
 import ResultsPhaseController from "./controllers/resultsPhaseController.js";
 
-import GameModel from "./gameModel.js";
-
+import { GameModel } from "./gameModel.js";
 
 /**
  * @class App

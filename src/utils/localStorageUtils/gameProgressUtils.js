@@ -1,5 +1,5 @@
 /**
- * Utility functions for working with locally stored `gameProgress`
+ * Functions for working with locally stored `gameProgress`
  * 
  * Assumes the value of `gameProgress` is an object that must
  * always have these four keys:

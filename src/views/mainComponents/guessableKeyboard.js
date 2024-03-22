@@ -12,7 +12,7 @@ const KeyHoverState = {
     INACTIVE: 'inactive'
 };
 
-// TODO: define this in one place
+// TODO: define this in one place, maybe pass to constructor?
 const NO_GUESS_STR = ''
 
 // Colour constants

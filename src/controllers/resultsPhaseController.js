@@ -1,7 +1,7 @@
 import ResultsPhaseView from "../views/resultsPhaseView.js";
 import { GameStage } from "../gameModel.js";
 
-import { getKeyLayout } from "../utils.js";
+import { getKeyLayout } from "../utils/keyboardUtils.js";
 import { subscribeEvent } from "../eventBus.js";
 
 

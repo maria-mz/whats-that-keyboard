@@ -1,7 +1,7 @@
 import TestPhaseView from "../views/testPhaseView.js";
 import { NO_GUESS_STR, GameStage } from "../gameModel.js";
 
-import { getKeyLayout } from "../utils.js";
+import { getKeyLayout } from "../utils/keyboardUtils.js";
 import { subscribeEvent } from "../eventBus.js";
 
 

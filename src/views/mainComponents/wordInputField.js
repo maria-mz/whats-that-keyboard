@@ -150,8 +150,13 @@ class WordInputField {
         this._updateButtonEnabledStatus();
     };
 
-    setWarningText(text) {
-        this._warningText.textContent = text;
+    setWarningText(text, word = '') {
+        if (word !== '') {
+            this._warningText.innerHTML = `<strong>${word}</strong> ${text}`
+        }
+        else {
+            this._warningText.textContent = text;
+        };
     };
 
     _updateButtonEnabledStatus() {

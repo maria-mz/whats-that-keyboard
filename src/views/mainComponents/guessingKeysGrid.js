@@ -3,7 +3,7 @@ import {
     getY,
     moveElmtTo,
     boundElmtInsideWindow
-} from "../../utils.js";
+} from "../../utils/DOMUtils.js";
 
 import { publishEvent, subscribeEvent } from '../../eventBus.js';
 

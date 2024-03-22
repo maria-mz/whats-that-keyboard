@@ -178,7 +178,7 @@ class ResultsPhaseView {
     _createTimeLeftText() {
         const timeLeftText = document.createElement('p');
         timeLeftText.className = 'results__time-left-text';
-        timeLeftText.innerHTML = 'Time to Next Challenge: '
+        timeLeftText.innerHTML = 'Next game in: '
         timeLeftText.append(this._dayCountDownText.HTMLElement);
         
         return timeLeftText;

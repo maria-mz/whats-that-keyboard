@@ -10,7 +10,7 @@ class DayCountDownText {
     };
 
     startCountDown() {
-        if (this._intervalId) {
+        if (this._intervalId !== null) {
             // Countdown already started, do nothing
             return;
         };
@@ -21,7 +21,7 @@ class DayCountDownText {
     };
 
     stopCountDown() {
-        if (this._intervalId) {
+        if (this._intervalId !== null) {
             clearInterval(this._intervalId);
             this._intervalId = null;
         };
@@ -34,13 +34,13 @@ class DayCountDownText {
         const minutesLeft = this._getMinutesLeft(dateNow);
         const secondsLeft = this._getSecondsLeft(dateNow);
 
-        const text = `${hoursLeft}:${minutesLeft}:${secondsLeft}`;
+        const text = `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
 
         this._countDownText.textContent = text;
 
         if (this._isDayOver(dateNow)) {
             this._dayToCountDownFrom = null;
-            this._countDownText.textContent = `00:00:00`;
+            this._countDownText.textContent = `00h 00m 00s`;
             this.stopCountDown();
         };
     };

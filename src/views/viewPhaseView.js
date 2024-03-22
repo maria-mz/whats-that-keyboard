@@ -56,13 +56,13 @@ class ViewPhaseView {
         this._fieldShowsWarningText = false;
     };
 
-    setFieldWarning(warningText) {
+    setFieldWarning(warningText, word = '') {
         if (warningText === '') {
             this.clearFieldWarning();
             return;
-        }
+        };
 
-        this._inputField.setWarningText(warningText);
+        this._inputField.setWarningText(warningText, word);
         this._fieldShowsWarningText = true;
     };
 

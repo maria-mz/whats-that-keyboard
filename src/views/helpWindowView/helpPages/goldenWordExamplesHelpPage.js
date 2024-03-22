@@ -1,5 +1,5 @@
 import Keyboard from "../../mainComponents/keyboard.js";
-import { getKeyLayout } from "../../../utils.js";
+import { getKeyLayout } from "../../../utils/keyboardUtils.js";
 
 
 const PAGE_INSTRUCTIONS = `Here is a possible keyboard layout, with some

@@ -1,7 +1,7 @@
 import ViewPhaseView from "../views/viewPhaseView.js";
 import { GameStage } from "../gameModel.js";
 
-import { getKeyLayout } from "../utils.js";
+import { getKeyLayout } from "../utils/keyboardUtils.js";
 import { subscribeEvent } from "../eventBus.js";
 
 
@@ -95,13 +95,13 @@ class ViewPhaseController {
         const word = this.view.getFieldText();
 
         if (this.model.hasGoldenWord(word)) {
-            this.view.setFieldWarning('That word is already in the list');
+            this.view.setFieldWarning('is already in the list', word);
             this.view.disableAddWordBtn();
             return;
         };
 
         if (!this.model.isValidGoldenWord(word)) {
-            this.view.setFieldWarning('Hmm... that word isn\'t valid in this game');
+            this.view.setFieldWarning('isn\'t a valid word in this game', word);
             this.view.disableAddWordBtn();
             return;
         }

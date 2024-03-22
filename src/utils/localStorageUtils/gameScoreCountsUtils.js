@@ -1,5 +1,5 @@
 /**
- * Utility functions for working with locally stored `gameScoreCounts`
+ * Functions for working with locally stored `gameScoreCounts`
  */
 
 
@@ -38,6 +38,7 @@ function incStoredGameCount(score) {
         _setGameScoreCounts(scoreCounts);
     };
 };
+
 
 export {
     initStoredGameScoreCounts,
