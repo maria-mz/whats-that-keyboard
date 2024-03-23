@@ -4,6 +4,12 @@ import Keyboard from "./mainComponents/keyboard.js";
 import TestBtn from "./mainComponents/buttons/testBtn.js";
 
 
+const EMPTY_STATE_TEXT = `<strong>Your list is empty.</strong> <br><br>To add a
+                          Golden Word to your list, type it using the keyboard,
+                          then click <strong>Add word</strong> or press your 
+                          <strong>Enter</strong> key.`
+
+
 /**
  * @class ViewPhaseView
  * 
@@ -13,8 +19,9 @@ class ViewPhaseView {
     constructor(keysLayout, goldenWords) {
         this._inputField = new WordInputField();
 
-        // Create word list view, where words are selectable and deletable
-        this._wordList = new WordListSection(goldenWords, true, true);
+        // Create word list view, where words are selectable and deletable,
+        // and chosen empty text is shown
+        this._wordList = new WordListSection(goldenWords, true, true, EMPTY_STATE_TEXT);
 
         // Create a keyboard that shows the pop-up animation when displayed
         this._keyboard = new Keyboard(keysLayout, true);

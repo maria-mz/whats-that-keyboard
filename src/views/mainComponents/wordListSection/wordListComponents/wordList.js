@@ -2,12 +2,6 @@ import WordListItem from "./wordListItem.js";
 import { publishEvent } from "../../../../eventBus.js";
 
 
-const EMPTY_STATE_TEXT = `<strong>Your list is empty.</strong> <br><br>To add a
-                          Golden Word to your list, type it using the keyboard,
-                          then click <strong>Add word</strong> or press your 
-                          <strong>Enter</strong> key.`
-
-
 /**
  * @class WordList
  * 
@@ -17,10 +11,16 @@ const EMPTY_STATE_TEXT = `<strong>Your list is empty.</strong> <br><br>To add a
  */
 class WordList {
     // TODO: take empty state text as param
-    constructor(listWords, areItemsDeletable, areItemsSelectable) {
+    constructor(
+        listWords,
+        areItemsDeletable,
+        areItemsSelectable,
+        emptyStateHTMLText = ''
+    ) {
         // Fixed configurations
         this._areItemsDeletable = areItemsDeletable;
         this._areItemsSelectable = areItemsSelectable;
+        this._emptyStateHTMLText = emptyStateHTMLText;
 
         // Main HTML Element
         this._wordList = this._createWordList();
@@ -155,8 +155,8 @@ class WordList {
 
     setEmptyState() {
         const emptyState = document.createElement('div');
-        emptyState.className = 'word-list__empty-state'
-        emptyState.innerHTML = EMPTY_STATE_TEXT;
+        emptyState.className = 'word-list__empty-state';
+        emptyState.innerHTML = this._emptyStateHTMLText;
         this._wordList.append(emptyState);
     };
 

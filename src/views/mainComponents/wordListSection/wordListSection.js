@@ -13,7 +13,12 @@ import { subscribeEvent, publishEvent } from '../../../eventBus.js';
  * when `wordListUpdated` events are published.
  */
 class WordListSection {
-    constructor(listWords, areItemsDeletable, areItemsSelectable) {
+    constructor(
+        listWords,
+        areItemsDeletable,
+        areItemsSelectable,
+        emptyStateHTMLText = ''
+    ) {
         // Main HTML Element
         this._wordListSection = document.createElement('section');
         this._wordListSection.className = 'word-list__container';
@@ -21,7 +26,12 @@ class WordListSection {
         // Components
         this._listHeader = new WordListHeader();
         this._progressSection = new ProgressSection();
-        this._wordList = new WordList(listWords, areItemsDeletable, areItemsSelectable);
+        this._wordList = new WordList(
+            listWords,
+            areItemsDeletable,
+            areItemsSelectable,
+            emptyStateHTMLText
+        );
 
         // Build the element
         this._wordListSection.append(

@@ -19,8 +19,9 @@ class TestPhaseView {
         // TODO: Display keyboard aligned with model progress
         this._keyboard = new GuessableKeyboard(keysLayout, keyGuesses, false);
 
-        // Create word list view, where words cannot be selected nor deleted
-        this._wordList = new WordListSection(goldenWords, false, false);
+        // Create word list view, where words cannot be selected nor deleted,
+        // and no empty state text is shown
+        this._wordList = new WordListSection(goldenWords, false, false, '');
 
         this._submitBtn = new SubmitGuessBtn(true);
     };
