@@ -1,19 +1,21 @@
 import { isLetter } from '../../utils/miscUtils.js';
-import { getMappedLetter } from '../../utils/keyboardUtils.js';
+import { getQWERTYLetterMapFunc } from '../../utils/keyboardUtils.js';
 import { publishEvent } from '../../eventBus.js';
 
 
 /**
+ * Represents a keyboard component with interactive features.
+ * 
  * @class Keyboard
- * 
- * 
+ * @param {string[]} keysLayout - The layout of keys the keyboard will show
+ * @param {boolean} showAnimationOnDisplay - Whether to show pop-up animation
  */
 class Keyboard {
     constructor(keysLayout, showAnimationOnDisplay) {
         this.letterToKeyDiv = {};
         this.letterToIsHighlighed = {};
         this.keyToCanType = {};
-        this.mapRegKeyLetter = getMappedLetter(keysLayout);
+        this.mapQWERTYKeyToKeyboardKey = getQWERTYLetterMapFunc(keysLayout);
 
         this._initKeyboardDiv(keysLayout);
         this._initDefaultTyping();
@@ -120,7 +122,7 @@ class Keyboard {
 
             if (!isLetter(e.key)) return;
 
-            const letter = this.mapRegKeyLetter(e.key.toUpperCase());
+            const letter = this.mapQWERTYKeyToKeyboardKey(e.key.toUpperCase());
 
             if (this.keyToCanType[letter]) {
                 this._pressKey(letter);
@@ -131,7 +133,7 @@ class Keyboard {
         document.addEventListener('keyup', (e) => {
             if (!isLetter(e.key)) return;
 
-            const letter = this.mapRegKeyLetter(e.key.toUpperCase());
+            const letter = this.mapQWERTYKeyToKeyboardKey(e.key.toUpperCase());
 
             if (this.keyToCanType[letter]) {
                 this._releaseKey(letter);
