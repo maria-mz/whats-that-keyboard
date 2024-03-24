@@ -12,8 +12,8 @@
  *      on the keyboard
  * @example
  * const letters = [
- *      'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', P', 'A', 'S', 'D', 'F',
- *      'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'
+ *      'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', P', 'A', 'S', 'D',
+ *      'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'
  * ];
  * 
  * const layout = getKeyLayout(letters);
@@ -112,9 +112,9 @@ function getLetterMap(keyLayoutSrc, keyLayoutDst) {
  *     ...
  * };
  * 
- * const mapFunc = getMappedLetter(keyLayout);
+ * const mapFunc = getQWERTYLetterMapFunc(keyLayout);
  * 
- * const mappedLetter = mapFunction('Q');
+ * const mappedLetter = mapFunc('Q');
  * console.log(mappedLetter);
  * // Logs: 'P'
  */

@@ -1,15 +1,10 @@
-import { 
-    getX,
-    getY,
-    moveElmtTo,
-    boundElmtInsideWindow
-} from "../../utils/DOMUtils.js";
-
+import {  getX, getY, moveElmtTo, boundElmtInsideWindow } from "../../utils/DOMUtils.js";
 import { publishEvent, subscribeEvent } from '../../eventBus.js';
+import { NO_GUESS_STR } from "../../constants.js";
 
 
 /**
- * Represents the current general location of a guessing key
+ * Represents the current general location of a guessing key.
  * 
  * @const {object} GuessingKeyLocation
  */
@@ -18,22 +13,33 @@ const GuessingKeyLocation = {
     DOCUMENT: "document"
 };
 
-// TODO: define this in one place
-const NO_GUESS_STR = ''
-
 
 /**
- * @class GuessingKeysGrid
+ * Represents the HTML component for the grid of guessing keys.
  * 
+ * Guessing keys are draggable keys, used to make guesses for keys on the
+ * keyboard. Those keys are referred to as 'guessable' keys.
+ * 
+ * Initially, all guessing keys belong to a grid, but they can be picked up
+ * by the user, and moved freely anywhere in the document. Once used as a
+ * guess, the guessing key becomes hidden.
  */
 class GuessingKeysGrid {
-    constructor(keyGuesses, showAnimationOnGridDisplay) {
+    /**
+     * Constructs a new `GuessingKeysGrid` HTML component.
+     * 
+     * @param {Object} keyGuesses - The initial set of guesses. A letter to guess
+     *      mapping. If a guess has been made for a key, the corresponding guessing
+     *      key will appear hidden. Otherwise, it will be made visible.
+     * @param {boolean} showAnim - To show pop-up animation on grid display or not
+     */
+    constructor(keyGuesses, showAnim) {
         this.letterToKeyDiv = {};
         this.letterToKeyLoc = {};
         this.letterToIsUsedAsGuess = {};
 
-        // The guessable key element under the cursor while a guessing
-        // key is being moved
+        // The guessable key currently under the cursor that is holding a
+        // guessing key.
         this.currGuessableKey = null;
 
         this._initGuessingKeys();
@@ -41,11 +47,16 @@ class GuessingKeysGrid {
 
         this._updateGuessingKeys(keyGuesses);
 
-        if (showAnimationOnGridDisplay) {
+        if (showAnim) {
             this._addKeysAnimation();
-        }
+        };
     };
 
+    /**
+     * Initializes the guessing key HTML elements of the grid.
+     * 
+     * By default, no keys have been used as a guess yet.
+     */
     _initGuessingKeys() {
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
@@ -61,6 +72,9 @@ class GuessingKeysGrid {
         this._initKeyGridContainer();
     };
 
+    /**
+     * Sets up pop-up animation for the guessing keys of the grid.
+     */
     _addKeysAnimation() {
         // Setup allows the animation to start at the top left
         // key then propagate diagonally across the grid
@@ -89,6 +103,9 @@ class GuessingKeysGrid {
         return guessingKeyDiv;
     };
 
+    /**
+     * Initializes the main, grid container HTML element.
+     */
     _initKeyGridContainer() {
         const keyGridContainer = document.createElement('div');
         keyGridContainer.className = 'key-grid__container';
@@ -111,6 +128,9 @@ class GuessingKeysGrid {
         return keyGridTitle;
     };
 
+    /**
+     * Creates the grid HTML element, and appends all guessing keys to it.
+     */
     _createKeyGridDiv() {
         const keyGridDiv = document.createElement('div');
         keyGridDiv.classList.add('key-grid');
@@ -135,6 +155,12 @@ class GuessingKeysGrid {
         );
     };
 
+    /**
+     * Enables dragging functionality for the specified guessing key.
+     * Note, this only takes effect if the key is visible.
+     * 
+     * @param {string} letter - The letter of the key to enable dragging for
+     */
     _enableDragging(letter) {
         const guessingKeyDiv = this.letterToKeyDiv[letter];
 
@@ -168,6 +194,10 @@ class GuessingKeysGrid {
                 this.letterToKeyLoc[letter] = GuessingKeyLocation.DOCUMENT;
             };
 
+            // Append to document, this ensures that the currently held key
+            // appears above all the other moved keys
+            document.body.append(guessingKeyDiv);
+
             // These shifts ensure that when the element moves, it stays where it
             // was picked up by the cursor. Otherwise it will jump to be centered
             // under the cursor
@@ -179,6 +209,12 @@ class GuessingKeysGrid {
         };
     };
 
+    /**
+     * Sets up the document `mousemove` event.
+     * This handles the movement of a guessing key.
+     * 
+     * @param {string} letterOfGuessingKey - the letter of the key to handle
+     */
     _initOnDocMouseMove(letterOfGuessingKey, shiftX, shiftY) {
         const guessingKeyDiv = this.letterToKeyDiv[letterOfGuessingKey];
 
@@ -216,25 +252,38 @@ class GuessingKeysGrid {
         };
     };
 
-    _getElementBelow(elmt, x, y) {
-        elmt.style.display = 'none';
+    _getElementBelow(elem, x, y) {
+        elem.style.display = 'none';
         const elmtBelow = document.elementFromPoint(x, y);
-        elmt.style.display = '';
+        elem.style.display = '';
 
         return elmtBelow;
-    }
+    };
 
+    /**
+     * Publishes an interaction between a guessing key and a guessable key
+     * to the global Event Bus.
+     * 
+     * @param {string} eventType - The type of interaction event to publish
+     * @param {string} letterOfGuessingKey - The guessing key letter
+     */
     _publishInteraction(eventType, letterOfGuessingKey) {
         if (!this.currGuessableKey) return;
 
         const msg = {
-            letterOfGuessingKey: letterOfGuessingKey,
-            letterOfGuessableKey: this.currGuessableKey.getAttribute('key-face-letter')
+            'letterOfGuessingKey': letterOfGuessingKey,
+            'letterOfGuessableKey': this.currGuessableKey.getAttribute('key-face-letter')
         };
 
         publishEvent(eventType, msg);
     };
 
+    /**
+     * Sets up the document `mouseup` event.
+     * This handles the release of a guessing key.
+     * 
+     * @param {string} letterOfGuessingKey - the letter of the key to handle
+     */
     _initOnDocMouseUp(letterOfGuessingKey) {
         // `mouseup` event needs to be on document, not on the key, because
         // sometimes when key is picked up outside its edge, its `mouseup`
@@ -255,22 +304,20 @@ class GuessingKeysGrid {
     };
 
     _useGuess(letter) {
-        const guessingKeyDiv = this.letterToKeyDiv[letter];
-        guessingKeyDiv.style.display = 'none';
-
-        // Note, while the guessing key is hidden, it cannot be picked up
-        // and moved around
-
+        this.letterToKeyDiv[letter].style.display = 'none';
         this.letterToIsUsedAsGuess[letter] = true;
     };
 
     _restoreGuess(letter) {
-        const guessingKeyDiv = this.letterToKeyDiv[letter];
-        guessingKeyDiv.style.display = '';
-
+        this.letterToKeyDiv[letter].style.display = '';
         this.letterToIsUsedAsGuess[letter] = false;
-    }
+    };
 
+    /**
+     * Returns a guessing key to its original grid position.
+     * 
+     * @param {string} letter - The letter of the guessing key to return
+     */
     _returnKeyToGrid(letter) {
         const guessingKeyDiv = this.letterToKeyDiv[letter];
         // Remove any 'absolute' positioning
@@ -282,6 +329,11 @@ class GuessingKeysGrid {
         this.letterToKeyLoc[letter] = GuessingKeyLocation.GRID;
     };
 
+    /**
+     * Updates the display of guessing keys to reflect the key guesses.
+     * 
+     * @param {Object} keyGuesses - The letter to guess mapping
+     */
     _updateGuessingKeys(keyGuesses) {
         const guesses = Object.values(keyGuesses);
 
@@ -302,10 +354,21 @@ class GuessingKeysGrid {
         };
     };
 
+    /**
+     * Retrieves the HTML element of the grid. Note, only guessing keys
+     * that belong to the grid at the time of the call will show up in
+     * the grid.
+     * 
+     * @returns {HTMLElement} - The HTML element representing the grid.
+     */
     get HTMLElement() {
         return this.keyGridContainer;
     };
 
+    /**
+     * Removes all guessing keys from the display, regardless of their
+     * current location.
+     */
     removeGuessingKeys() {
         for (const [letter, keyDiv] of Object.entries(this.letterToKeyDiv)) {
             // For simplicity make sure to return the key back to the grid
