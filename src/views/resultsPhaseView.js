@@ -2,49 +2,55 @@ import Keyboard from "./mainComponents/keyboard.js";
 import { GuessableKeyboard } from "./mainComponents/guessableKeyboard.js"
 import DayCountDownText from "./mainComponents/dayCountDownText.js";
 
+
 const KEY_BG_HEX_CORRECT_GUESS = '#ddfbe9';
 const KEY_BORDER_HEX_CORRECT_GUESS = '#66d38e';
 const KEY_BG_HEX_WRONG_GUESS = '#f9e4e5';
 const KEY_BORDER_HEX_WRONG_GUESS = '#ef999a';
 
-
 const resultsProperties = {
     'poorScore': {
-        'scoreColour': '#ef999a',
+        'colour': '#ef999a',
         'msg': 'There\'s room for improvement.'
     },
     'okScore': {
-        'scoreColour': '#f5b87f',
+        'colour': '#f5b87f',
         'msg': 'Solid effort.'
     },
     'goodScore': {
-        'scoreColour': '#66d38e',
+        'colour': '#66d38e',
         'msg': 'Good job!'
     },
     'greatScore': {
-        'scoreColour': '#208e46',
+        'colour': '#208e46',
         'msg': 'Well done!'
     }
 };
 
 
 /**
- * @class ResultsPhaseView
- * 
- * 
+ * Display for the Results Phase of the game.
  */
 class ResultsPhaseView {
+    /**
+     * Creates an instance of `TestPhaseView`.
+     * 
+     * @param {object} keysLayout - The layout of keys for the keyboard
+     * @param {object} keyGuesses - The final letter to guess mapping
+     * @param {number} gameScore - The score of the game, i.e. the number
+     *      of keys guessed correctly.
+     */
     constructor(keysLayout, keyGuesses, gameScore) {
         this._keyGuesses = keyGuesses;
         this._gameScore = gameScore;
 
         this._keyboardAnswer = new Keyboard(keysLayout, true);
         this._keyboardGuess = new GuessableKeyboard(keysLayout, keyGuesses, true);
-        this._dayCountDownText = new DayCountDownText();
-
         this._colourKeyboardsByGuesses();
 
-        // The main HTML elemnt
+        this._dayCountDownText = new DayCountDownText();
+
+        // The main HTML element
         this._resultsContainer;
 
         this._initView();
@@ -54,21 +60,15 @@ class ResultsPhaseView {
         for (const [letter, guess] of Object.entries(this._keyGuesses)) {
             if (letter === guess) {
                 this._keyboardGuess.setKeyColour(
-                    letter,
-                    KEY_BG_HEX_CORRECT_GUESS,
-                    KEY_BORDER_HEX_CORRECT_GUESS
+                    letter, KEY_BG_HEX_CORRECT_GUESS, KEY_BORDER_HEX_CORRECT_GUESS
                 );
                 this._keyboardAnswer.setKeyColour(
-                    letter,
-                    KEY_BG_HEX_CORRECT_GUESS,
-                    KEY_BORDER_HEX_CORRECT_GUESS
+                    letter, KEY_BG_HEX_CORRECT_GUESS, KEY_BORDER_HEX_CORRECT_GUESS
                 );
             }
             else {
                 this._keyboardGuess.setKeyColour(
-                    letter,
-                    KEY_BG_HEX_WRONG_GUESS,
-                    KEY_BORDER_HEX_WRONG_GUESS
+                    letter, KEY_BG_HEX_WRONG_GUESS, KEY_BORDER_HEX_WRONG_GUESS
                 );
             };
         };
@@ -92,10 +92,10 @@ class ResultsPhaseView {
         answersContainer.className = 'results__answers__container';
 
         const playerAnswerContainer = this._createAnswerContainer(
-            'Your Answer', this._keyboardGuess.HTMLElement
+            'Your Answer', this._keyboardGuess.HTMLElem
         );
         const correctAnswerContainer = this._createAnswerContainer(
-            'Correct Answer', this._keyboardAnswer.HTMLElement
+            'Correct Answer', this._keyboardAnswer.HTMLElem
         );
 
         answersContainer.append(playerAnswerContainer, correctAnswerContainer);
@@ -122,7 +122,7 @@ class ResultsPhaseView {
         const resultsProperty = this._getResultsProperty();
 
         const scoreTitle = this._createScoreTitle();
-        const scoreText = this._createScoreText(resultsProperty.scoreColour);
+        const scoreText = this._createScoreText(resultsProperty.colour);
         const scoreSubtitle = this._createScoreSubtitle(resultsProperty.msg);
 
         container.append(scoreTitle, scoreText, scoreSubtitle);

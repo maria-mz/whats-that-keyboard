@@ -2,7 +2,7 @@
  * Functions for working with locally stored `gameProgress`
  * 
  * Assumes the value of `gameProgress` is an object that must
- * always have these four keys:
+ * always have these five keys:
  *      - `date`
  *      - `goldenWords`
  *      - `keyGuesses`

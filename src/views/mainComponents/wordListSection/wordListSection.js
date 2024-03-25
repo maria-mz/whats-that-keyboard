@@ -6,42 +6,42 @@ import { subscribeEvent, publishEvent } from '../../../eventBus.js';
 
 
 /**
- * @class WordListSection
- * 
- * Represents entire display for Word List. This includes the header, progress,
- *  and word list components. This View is responsible for updating the display
- * when `wordListUpdated` events are published.
+ * Represents the HTML component for the word list section.
  */
 class WordListSection {
+    /**
+     * Create a new `WordListSection` component.
+     * 
+     * @param {string[]} goldenWords - The initial list of Golden Words to display
+     * @param {boolean} areItemsDeletable - Whether items in the list are deletable
+     * @param {boolean} areItemsSelectable - Whether items in the list are selectable
+     * @param {string} emptyStateHTMLText - The HTML to display when the list is empty
+     */
     constructor(
-        listWords,
-        areItemsDeletable,
-        areItemsSelectable,
-        emptyStateHTMLText = ''
+        goldenWords, areItemsDeletable, areItemsSelectable, emptyStateHTMLText = ''
     ) {
-        // Main HTML Element
-        this._wordListSection = document.createElement('section');
-        this._wordListSection.className = 'word-list__container';
+        this._wordListSection;
 
-        // Components
         this._listHeader = new WordListHeader();
         this._progressSection = new ProgressSection();
         this._wordList = new WordList(
-            listWords,
-            areItemsDeletable,
-            areItemsSelectable,
-            emptyStateHTMLText
+            goldenWords, areItemsDeletable, areItemsSelectable, emptyStateHTMLText
         );
 
-        // Build the element
-        this._wordListSection.append(
-            this._listHeader.HTMLElement,
-            this._progressSection.HTMLElement,
-            this._wordList.HTMLElement
-        );
+        this._initWordListSection();
 
         this._subscribeToEvents();
-        this._updateWordListSection(listWords);
+        this._updateWordListSection(goldenWords);
+    };
+
+    _initWordListSection() {
+        this._wordListSection = document.createElement('section');
+        this._wordListSection.className = 'word-list__container';
+
+        this._wordListSection.append(
+            this._listHeader.HTMLElement, this._progressSection.HTMLElement,
+            this._wordList.HTMLElement
+        );
     };
 
     _subscribeToEvents() {
@@ -65,11 +65,16 @@ class WordListSection {
         }
         else {
             this._wordList.clearEmptyState();
-        }
+        };
 
         publishEvent('wordListViewUpdated');
     };
 
+    /**
+     * Retrieves the HTML element of the word list section.
+     * 
+     * @returns {HTMLElement} - The word list section HTML element
+     */
     get HTMLElement() {
         return this._wordListSection;
     };

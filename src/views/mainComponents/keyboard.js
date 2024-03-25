@@ -8,9 +8,9 @@ import { publishEvent } from '../../eventBus.js';
  */
 class Keyboard {
     /**
-     * Constructs a new `Keyboard` HTML component.
+     * Creates a new `Keyboard` component.
      * 
-     * @param {Object} keysLayout - The layout of keys for the keyboard
+     * @param {object} keysLayout - The layout of keys for the keyboard
      * @param {boolean} showAnim - To show pop-up animation on display or not
      */
     constructor(keysLayout, showAnim) {
@@ -43,9 +43,9 @@ class Keyboard {
     };
 
     /**
-     * Initializes the keyboard HTML element.
+     * Initializes the main, keyboard HTML element.
      * 
-     * @param {Object} keysLayout - The layout of keys for the keyboard
+     * @param {object} keysLayout - The layout of keys for the keyboard
      */
     _initKeyboardDiv(keysLayout) {
         this.keyboardDiv = document.createElement('div');
@@ -127,7 +127,7 @@ class Keyboard {
      * Enables typing for enabled keys.
      * 
      * This means listening for user `keydown` and `keyup` events, visually
-     * updating the keybaord, and publishing corresponding events via the
+     * updating the keyboard, and publishing corresponding events via the
      * global Event Bus.
      */
     enableTyping() {
@@ -257,7 +257,7 @@ class Keyboard {
     /**
      * Highlights the keys corresponding to the letters in the specified word.
      * 
-     * @param {string} word - The word to highlight on the keyboard.
+     * @param {string} word - The word to highlight on the keyboard
      */
     highlightWord(word) {
         for (let i = 0; i < word.length; i++) {
@@ -274,7 +274,7 @@ class Keyboard {
      * Removes highlighting from the keys corresponding to the letters in the
      * specified word.
      * 
-     * @param {string} word - The word to unhighlight on the keyboard.
+     * @param {string} word - The word to unhighlight on the keyboard
      */
     unHighlightWord(word) {
         for (let i = 0; i < word.length; i++) {
@@ -290,7 +290,7 @@ class Keyboard {
     /**
      * Retrieves the HTML element of the keyboard.
      * 
-     * @returns {HTMLElement} - The HTML element representing the keyboard.
+     * @returns {HTMLElement} - The keyboard HTML element
      */
     get HTMLElement() {
         return this.keyboardDiv;

@@ -1,9 +1,10 @@
 import Keyboard from './keyboard.js';
 import { publishEvent, subscribeEvent } from '../../eventBus.js';
+import { NO_GUESS_STR } from '../../constants.js';
 
 
 /**
- * Represents the hover state of a key
+ * Represents the hover state of a key.
  * 
  * @const {object} KeyHoverState
  */
@@ -12,21 +13,25 @@ const KeyHoverState = {
     INACTIVE: 'inactive'
 };
 
-// TODO: define this in one place, maybe pass to constructor?
-const NO_GUESS_STR = ''
-
-// Colour constants
 const KEY_HOVER_BG_HEX = '#cdcdcd';
 
 
 /**
- * @class GuessableKeyboardView
- * @extends Keyboard
+ * Represents a guessable keyboard HTML component.
  * 
+ * A `GuessableKeyboard` is a `Keyboard`, but is hoverable and its keys can
+ * be 'guessed'. Keys with a guess are shown, otherwise they are hidden.
  */
 class GuessableKeyboard extends Keyboard {
-    constructor(keysLayout, keyGuesses, showAnimationOnDisplay) {
-        super(keysLayout, showAnimationOnDisplay);
+    /**
+     * Creates a new `GuessableKeyboard` component.
+     * 
+     * @param {object} keysLayout - The layout of keys for the keyboard
+     * @param {object} keyGuesses - The letter to guess mapping
+     * @param {boolean} showAnim - To show pop-up animation on display or not
+     */
+    constructor(keysLayout, keyGuesses, showAnim) {
+        super(keysLayout, showAnim);
 
         this._setupGuessableKeys();
         this._subscribeToEvents();
@@ -34,16 +39,18 @@ class GuessableKeyboard extends Keyboard {
         this._updateKeyboard(keyGuesses);
     };
 
+    /**
+     * Sets up the keys of the keyboard to be 'guessable' keys.
+     */
     _setupGuessableKeys() {
         for (const [letter, keyDiv] of Object.entries(this.letterToKeyDiv)) {
-            // 1. Add event listener for removing a guess
             keyDiv.addEventListener('mousedown', () => {
                 if (this._keyHasGuess(letter)) {
                     publishEvent('keyboardViewGuessRemoved', letter);
                 };
             });
 
-            // 2. Add relevant class name
+            // This helps guessing keys target these elements
             keyDiv.classList.add('guessable-key');
         };
     };
@@ -58,6 +65,11 @@ class GuessableKeyboard extends Keyboard {
         );
     };
 
+    /**
+     * Updates the display of the keyboard to reflect the key guesses.
+     * 
+     * @param {object} keyGuesses - The letter to guess mapping
+     */
     _updateKeyboard(keyGuesses) {
         for (const [letter, guess] of Object.entries(keyGuesses)) {
             this._setKeyGuess(letter, guess);
@@ -90,6 +102,12 @@ class GuessableKeyboard extends Keyboard {
         this.enableTypingKey(letter);
     };
 
+    /**
+     * Sets the hover state for the specified key.
+     * 
+     * @param {string} letter - The letter of the key
+     * @param {string} state - The hover state to set
+     */
     setKeyHoverState(letter, state) {
         const keyDiv = this.letterToKeyDiv[letter];
 

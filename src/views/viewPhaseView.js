@@ -4,28 +4,26 @@ import Keyboard from "./mainComponents/keyboard.js";
 import TestBtn from "./mainComponents/buttons/testBtn.js";
 
 
-const EMPTY_STATE_TEXT = `<strong>Your list is empty.</strong> <br><br>To add a
-                          Golden Word to your list, type it using the keyboard,
+const LIST_EMPTY_STATE = `<strong>Your list is empty.</strong> <br><br>To add a
+                          Golden Word to the list, type it using the keyboard,
                           then click <strong>Add word</strong> or press your 
                           <strong>Enter</strong> key.`
 
 
 /**
- * @class ViewPhaseView
- * 
- * Display for the View Phase part of the game.
+ * Display for the View Phase of the game.
  */
 class ViewPhaseView {
+    /**
+     * Creates an instance of `ViewPhaseView`.
+     * 
+     * @param {object} keysLayout - The layout of keys for the keyboard
+     * @param {string[]} goldenWords - The list of Golden Words
+     */
     constructor(keysLayout, goldenWords) {
         this._inputField = new WordInputField();
-
-        // Create word list view, where words are selectable and deletable,
-        // and chosen empty text is shown
-        this._wordList = new WordListSection(goldenWords, true, true, EMPTY_STATE_TEXT);
-
-        // Create a keyboard that shows the pop-up animation when displayed
+        this._wordList = new WordListSection(goldenWords, true, true, LIST_EMPTY_STATE);
         this._keyboard = new Keyboard(keysLayout, true);
-
         this._testBtn = new TestBtn();
 
         // Whether word input field currently shows warning text
@@ -86,11 +84,11 @@ class ViewPhaseView {
     };
 
     enableAddWordBtn() {
-        this._inputField._enableBtn();
+        this._inputField.enableBtn();
     };
 
     disableAddWordBtn() {
-        this._inputField._disableBtn();
+        this._inputField.disableBtn();
     };
 };
 

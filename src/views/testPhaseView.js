@@ -5,24 +5,20 @@ import SubmitGuessBtn from "./mainComponents/buttons/submitGuessBtn.js";
 
 
 /**
- * @class TestPhaseView
- * 
- * Display for the View Phase part of the game.
+ * Display for the Test Phase of the game.
  */
 class TestPhaseView {
+    /**
+     * Creates an instance of `TestPhaseView`.
+     * 
+     * @param {object} keysLayout - The layout of keys for the keyboard
+     * @param {object} keyGuesses - The inital letter to guess mapping
+     * @param {string[]} goldenWords - The list of Golden Words
+     */
     constructor(keysLayout, keyGuesses, goldenWords) {
-        // Create guessing keys grid that shows pop-up animation on display
         this._guessingKeysGrid = new GuessingKeysGrid(keyGuesses, true);
-
-        // Create a guessable keyboard, that doesn't show the pop-up
-        // animation on display
-        // TODO: Display keyboard aligned with model progress
         this._keyboard = new GuessableKeyboard(keysLayout, keyGuesses, false);
-
-        // Create word list view, where words cannot be selected nor deleted,
-        // and no empty state text is shown
         this._wordList = new WordListSection(goldenWords, false, false, '');
-
         this._submitBtn = new SubmitGuessBtn(true);
     };
 
@@ -60,7 +56,6 @@ class TestPhaseView {
     removeHoverOnKeyboardKey(letter) {
         this._keyboard.setKeyHoverState(letter, KeyHoverState.INACTIVE);
     };
-
 };
 
 export default TestPhaseView;

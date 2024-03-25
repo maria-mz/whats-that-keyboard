@@ -2,15 +2,11 @@ import Keyboard from "../../mainComponents/keyboard.js";
 import { getKeyLayout } from "../../../utils/keyboardUtils.js";
 
 
-const PAGE_INSTRUCTIONS = `Here is a possible keyboard layout, with some
-                           examples of Golden Words:`
-
 const EXAMPLE_POISE_EXPLANATION = `The word, <strong>poise</strong>, could help
                                    place <strong>5 keys.</strong> The first
                                    three letters are next to each other starting
                                    at the corner, and the rest are close at the
-                                   other end.
-                                   <br><br>`;
+                                   other end.`;
 
 const EXAMPLE_READ_EXPLANATION = `The word, <strong>read</strong>, could help
                                   place <strong>4 keys.</strong> The letters are
@@ -21,7 +17,7 @@ const EXAMPLE_READ_EXPLANATION = `The word, <strong>read</strong>, could help
 
 const EXAMPLE_SUN_EXPLANATION = `The word, <strong>sun</strong>, could help
                                  place <strong>3 keys.</strong> However, this
-                                 may not be the best Golden Word. Each key is
+                                 may not be the best word. Each key is
                                  far away from each other, which may make it
                                  hard to remember.`;
 
@@ -60,13 +56,9 @@ class GoldenWordExamplesHelpPage {
         subtitle.className = 'help__subtitle';
         subtitle.textContent = 'Golden Words: Examples';
 
-        const instrText = document.createElement('p');
-        instrText.className = 'help__instr-text';
-        instrText.innerHTML = PAGE_INSTRUCTIONS;
-
         const examplesContainer = this._createExamplesContainer();
 
-        this._page.append(subtitle, instrText, examplesContainer);
+        this._page.append(subtitle, examplesContainer);
     };
 
     _createExamplesContainer() {

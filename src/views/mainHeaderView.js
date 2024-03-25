@@ -1,11 +1,15 @@
 import { publishEvent } from "../eventBus.js";
 
 
+/**
+ * Display for the Game's main Header.
+ */
 class MainHeaderView {
+    /**
+     * Creates an instance of `MainHeaderView`.
+     */
     constructor() {
-        // The main HTML Element
         this._header;
-
         this._initView();
         this._setupEvents();
     };
@@ -70,7 +74,7 @@ class MainHeaderView {
         const helpIcon = this._header.querySelector('.header__help-icon');
 
         helpIcon.addEventListener('click', () => {
-            publishEvent('helpIconClicked');
+            publishEvent('helpBtnClicked');
         });
 
         // TODO: Add events for stats, settings, and title click

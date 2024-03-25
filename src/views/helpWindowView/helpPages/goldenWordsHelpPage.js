@@ -1,14 +1,17 @@
-const PAGE_INSTRUCTIONS = `Golden Words are special words that <strong>help
-                           you remember the positions of some keys.</strong>
-                           This may be a useful strategy, to make sense of
-                           the randomness of letters. <strong>There are no
-                           right answers</strong>&mdash;they are just for you.
-                           Golden Words are <strong>optional</strong>.
+const PAGE_INSTRUCTIONS = `What are Golden Words? These are intentional words that
+                           <strong>help you remember the positions of some keys.
+                           </strong> This may be a useful strategy... There are no
+                           right answers&mdash;they are just for you. Golden Words
+                           are <strong>optional</strong>.
                            <br><br>
-                           <strong>To track these words</strong>, you may add
-                           them to the <strong>provided list</strong>. You'll
-                           be able to see your list when making your guess,
-                           but it cannot be interacted with at that time.`
+                           You may add these words to the <strong>provided
+                           list</strong>, but they must be <strong>valid</strong>.
+                           Valid words are <strong>at least three letters long,
+                           </strong> and <strong>found in our word bank.</strong>
+                           You'll be able to see this list when making your guess,
+                           but it cannot be interacted with at that time.
+                           <br><br>
+                           Check out the next page for some examples!`
 
 
 /**

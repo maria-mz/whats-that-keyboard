@@ -1,14 +1,30 @@
+/**
+ * Represents an HTML component that displays the number of hours, minutes,
+ * seconds left in the day.
+ */
 class DayCountDownText {
-    constructor(styleClassName) {
+    /**
+     * Creates a new `DayCountDownText` component. Initially, the text is empty,
+     * until `startCountDown` is called.
+     * 
+     * @param {string} styleClass - The CSS class to apply to the element
+     */
+    constructor(styleClass) {
         this._dayToCountDownFrom = null;
         this._intervalId = null;
         this._countDownText = document.createElement('span');
 
-        if (styleClassName) {
-            this._countDownText.className = styleClassName;
-        }
+        if (styleClass) {
+            this._countDownText.className = styleClass;
+        };
     };
 
+    /**
+     * Start the countdown.
+     * 
+     * The text will be continually updated with the amount of time remaining in
+     * the day, until the day is over.
+     */
     startCountDown() {
         if (this._intervalId !== null) {
             // Countdown already started, do nothing
@@ -20,6 +36,11 @@ class DayCountDownText {
         this._intervalId = setInterval(this._updateCountDownText.bind(this), 1000);
     };
 
+    /**
+     * Stop the countdown.
+     * 
+     * The text will no longer be updated.
+     */
     stopCountDown() {
         if (this._intervalId !== null) {
             clearInterval(this._intervalId);
@@ -64,6 +85,11 @@ class DayCountDownText {
         return secondsLeft < 10 ? `0${secondsLeft}` : `${secondsLeft}`;
     };
 
+    /**
+     * Retrieves the HTML element of the countdown text.
+     * 
+     * @returns {HTMLElement} - The countdown text HTML element
+     */
     get HTMLElement() {
         return this._countDownText;
     };

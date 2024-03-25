@@ -1,14 +1,16 @@
 import { publishEvent } from "../../eventBus.js";
 
+
 /**
- * @class WordInputField
- * 
- * 
+ * Represents the HTML component for Golden Word input.
  */
 class WordInputField {
+    /**
+     * Creates a new `WordInputField` component.
+     */
     constructor() {
+        this._wordInputSection;
         this._initWordInputSection();
-        this._updateButtonEnabledStatus();
     };
 
     _initWordInputSection() {
@@ -102,13 +104,13 @@ class WordInputField {
         );
 
         helpIcon.addEventListener('click', () => {
-            publishEvent('helpIconClicked');
+            publishEvent('helpBtnClicked');
         });
 
         return helpIcon;
     };
 
-    _enableBtn() {
+    enableBtn() {
         this._addWordBtn.classList.add('word-input__field-btn-enabled');
         this._addWordBtn.classList.remove('word-input__field-btn-disabled');
         this._addWordBtn.onclick = () => {
@@ -116,7 +118,7 @@ class WordInputField {
         };
     };
 
-    _disableBtn() {
+    disableBtn() {
         this._addWordBtn.classList.add('word-input__field-btn-disabled');
         this._addWordBtn.classList.remove('word-input__field-btn-enabled');
         this._addWordBtn.onclick = null;
@@ -137,19 +139,34 @@ class WordInputField {
         return inputFieldDiv;
     };
 
+    /**
+     * Get the current text content of the input field.
+     * 
+     * @returns {string} - The text content of the input field
+     */
     get fieldText() {
         return this._fieldText.textContent;
     };
 
+    /**
+     * Set the text content of the input field. Moves the cursor accordingly.
+     * 
+     * @param {string} text - The text to set
+     */
     set fieldText(text) {
         this._fieldText.textContent = text;
 
         const newWidth = this._fieldText.offsetWidth;
         this._cursor.style.transform = `translateX(${newWidth / 2}px)`;
-
-        this._updateButtonEnabledStatus();
     };
 
+    /**
+     * Set the warning text, which appears under the input field.
+     * 
+     * @param {string} text - The warning message
+     * @param {string} word - The word associated with the warning, if any. Will
+     *      be placed before `text`.
+     */
     setWarningText(text, word = '') {
         if (word !== '') {
             this._warningText.innerHTML = `<strong>${word}</strong> ${text}`
@@ -159,15 +176,11 @@ class WordInputField {
         };
     };
 
-    _updateButtonEnabledStatus() {
-        if (this._fieldText.textContent.length === 0) {
-            this._disableBtn();
-        }
-        else {
-            this._enableBtn();
-        };
-    };
-
+    /**
+     * Retrieves the HTML element of the input section.
+     * 
+     * @returns {HTMLElement} - The input section HTML element
+     */
     get HTMLElement() {
         return this._wordInputSection;
     };

@@ -1,9 +1,22 @@
 import SolidBtn from "./mainComponents/buttons/solidBtn.js";
+
 import { publishEvent } from "../eventBus.js";
+import { GAME_LAUNCH_DATE } from "../constants.js";
+import { daysBetween } from "../utils/miscUtils.js";
 
 
+/**
+ * Display for the Game's Landing page.
+ */
 class LandingPageView {
-    constructor() {
+    /**
+     * Creates an instance of `LandingPageView`.
+     * 
+     * @param {Date} gameDate - The date of the game
+     */
+    constructor(gameDate) {
+        this._gameDate = gameDate;
+
         this._landingPageContainer;
 
         this._fadeAnimationDelay = 0.5; // Delay between each key fade
@@ -18,6 +31,7 @@ class LandingPageView {
 
         const gameTitle = this._createGameTitle();
         const gameSubTitle = this._createGameSubTitle();
+        const gameDate = this._createGameDateText();
 
         const playGameBtn = this._createPlayGameBtn();
         const howToPlayBtn = this._createHowToPlayBtn();
@@ -30,23 +44,23 @@ class LandingPageView {
         this._landingPageContainer.className = 'landing-page__container';
 
         this._landingPageContainer.append(
-            fadingKeysContainer, gameTitle, gameSubTitle, btnsContainer
+            fadingKeysContainer, gameTitle, gameSubTitle, gameDate, btnsContainer
         );
     };
 
     _createFadingKeys() {
-        this._fadingKeys.push(this.createKey());
-        this._fadingKeys.push(this.createKey());
-        this._fadingKeys.push(this.createKey());
-        this._fadingKeys.push(this.createKey());
+        this._fadingKeys.push(this._createKey());
+        this._fadingKeys.push(this._createKey());
+        this._fadingKeys.push(this._createKey());
+        this._fadingKeys.push(this._createKey());
 
         // Each key has a list of letters it will iterate over. When looked at
         // together, they will form words. E.g. 'BOND'
         const lettersToIterate = [
-            ['A', 'B', 'F', 'G', 'H', 'J', 'Q', 'V'],
-            ['P', 'O', 'A', 'L', 'I', 'A', 'U', 'E'],
-            ['E', 'N', 'C', 'O', 'K', 'M', 'I', 'R'],
-            ['X', 'D', 'T', 'W', 'E', 'S', 'Z', 'Y'],
+            ['E', 'L', 'F', 'G', 'K', 'J', 'R', 'V'],
+            ['C', 'A', 'A', 'L', 'I', 'A', 'A', 'E'],
+            ['H', 'M', 'C', 'O', 'T', 'M', 'I', 'R'],
+            ['O', 'P', 'T', 'W', 'E', 'S', 'N', 'Y'],
         ];
     
         this._fadingKeys.forEach((key, idx) => {
@@ -77,16 +91,43 @@ class LandingPageView {
 
     _createGameSubTitle() {
         const gameSubTitle = document.createElement('p');
-        gameSubTitle.textContent = 'The daily keyboard guessing game!';
+        gameSubTitle.textContent = 'Can you remember all 26 keys?';
         gameSubTitle.className = 'landing-page__subtitle-text';
 
         return gameSubTitle;
     };
 
+    _createGameDateText() {
+        const gameDateText = document.createElement('p');
+        gameDateText.className = 'landing-page__date-text';
+        gameDateText.innerHTML = `<strong>${this._getFormattedDateText()}</strong>
+                                  <br>
+                                  Game: <strong>#${this._getGameNumber() + 1}</strong>`;
+        
+        return gameDateText;
+    };
+
+    _getFormattedDateText() {
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        const dateMonth = months[this._gameDate.getMonth()];
+        const dateDay = this._gameDate.getDate();
+        const dateYear = this._gameDate.getFullYear();
+
+        return `${dateMonth} ${dateDay}, ${dateYear}`;
+    };
+
+    _getGameNumber() {
+        return daysBetween(this._gameDate, GAME_LAUNCH_DATE);
+    };
+
     _createPlayGameBtn() {
         return new SolidBtn(
             'Play Game',
-            () => { publishEvent('playBtnClicked') }, // -> game starts
+            () => { publishEvent('playBtnClicked') },
             true
         );
     };
@@ -95,8 +136,8 @@ class LandingPageView {
         return new SolidBtn(
             'How to Play',
             () => { 
-                publishEvent('helpIconClicked'); // -> help window pops up
-                publishEvent('playBtnClicked'); // -> game starts
+                publishEvent('helpBtnClicked');
+                publishEvent('playBtnClicked');
             },
             true
         );
@@ -110,7 +151,7 @@ class LandingPageView {
         return btnsContainer;
     };
 
-    createKey() {
+    _createKey() {
         const key = document.createElement('div');
         key.className = 'key';
         return key;
@@ -140,13 +181,13 @@ class LandingPageView {
                 key.textContent = lettersToIterate[lettersIdx++];
 
                 if (isLast) {
-                    this.resetAnimations();
+                    this._resetAnimations();
                 };
             };
         });
     };
 
-    resetAnimations() {
+    _resetAnimations() {
         this._fadingKeys.forEach((key, idx) => {
             key.classList.remove('fade-out-anim');
             key.classList.add('fade-in-anim');

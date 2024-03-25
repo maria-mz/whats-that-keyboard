@@ -1,14 +1,11 @@
-const PAGE_INSTRUCTIONS = `You'll be shown an illustrated keyboard with a
-                           <strong>randomized layout.</strong> Unlike the
-                           typical QWERTY layout you may be used to seeing.
+const PAGE_INSTRUCTIONS = `<strong>What's that keyboard!</strong> It's unlike the typical
+                           QWERTY layout you may be used to seeing. Go ahead, try typing...
                            <br><br>
-                           Your challenge is to <strong>memorize</strong> the
+                           Your challenge: <strong>memorize</strong> the
                            entire layout&mdash;<strong>all the keys.</strong>
                            <br><br>
-                           Each day will feature a brand new layout, so you
-                           can hopefully test your memory in a unique way.
-                           The game is designed to be completed
-                           <strong>once.</strong> So give it your best try!`
+                           This is a daily game, and as such can only be completed
+                           <strong>once</strong> per day. So give it your best try!`
 
 
 /**

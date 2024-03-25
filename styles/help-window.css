@@ -60,16 +60,10 @@
   transition: background-color 0.15s ease, color 0.15s ease;
 
   scale: 1.5;
-
-  /* For cricle background */
-  background-color: transparent;
-  padding: 0.25em 0.4em 0.25em 0.4em;
-  border-radius: 50%;
 }
 
 .help__exit-icon:hover {
-  color: white;
-  background-color: var(--clr-dark);
+  color: var(--clr-dark);
   cursor: pointer;
 }
 
@@ -99,6 +93,7 @@
   font-family: 'Quicksand';
   line-height: 1.5;
 }
+
 
 /* *---------- Content - Viewing Phase Panel Styles ----------* */
 

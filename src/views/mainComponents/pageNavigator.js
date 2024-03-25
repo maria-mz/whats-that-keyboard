@@ -1,9 +1,19 @@
 /**
- * @class PageNavigator
+ * Represents a functional HTML component for page navigation.
  * 
- * 
+ * This component is meant to be used within another component. It uses the
+ * callback functions provided by the parent component to respond to user
+ * interactions and apply page changes.
  */
 class PageNavigator {
+    /**
+     * Creates a new `PageNavigator` component.
+     * 
+     * @param {number} startPageNumber - The initial page number
+     * @param {number} minPageNumber - The minimum page number allowed
+     * @param {number} maxPageNumber - The maximum page number allowed
+     * @param {object} pageNumberToCallbacks - A mapping of page numbers to callback functions
+     */
     constructor(startPageNumber, minPageNumber, maxPageNumber, pageNumberToCallbacks) {
         this._pageNumberToCallbacks = pageNumberToCallbacks;
 
@@ -11,12 +21,10 @@ class PageNavigator {
         this._minPageNumber = minPageNumber;
         this._maxPageNumber = maxPageNumber;
 
-        // Other HTML elements
         this._prevNavBtn;
         this._nextNavBtn;
         this._navText;
 
-        // The main HTML Element
         this._pageNavigator = this._createPageNavigator(startPageNumber);
 
         this._pageNumberToCallbacks[startPageNumber]();
@@ -144,6 +152,11 @@ class PageNavigator {
         };
     };
 
+    /**
+     * Retrieves the HTML element of the page navigator.
+     * 
+     * @returns {HTMLElement} - The page navigator HTML element
+     */
     get HTMLElement() {
         return this._pageNavigator;
     };
