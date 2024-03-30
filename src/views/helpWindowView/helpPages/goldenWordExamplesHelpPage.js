@@ -1,4 +1,4 @@
-import Keyboard from "../../mainComponents/keyboard.js";
+import Keyboard from "../../components/keyboard.js";
 import { getKeyLayout } from "../../../utils/keyboardUtils.js";
 
 

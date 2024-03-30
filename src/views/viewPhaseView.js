@@ -1,7 +1,7 @@
-import WordInputField from "./mainComponents/wordInputField.js";
-import WordListSection from "./mainComponents/wordListSection/wordListSection.js";
-import Keyboard from "./mainComponents/keyboard.js";
-import TestBtn from "./mainComponents/buttons/testBtn.js";
+import WordInputField from "./components/wordInputField.js";
+import WordListSection from "./components/wordListSection/wordListSection.js";
+import Keyboard from "./components/keyboard.js";
+import TestBtn from "./components/buttons/testBtn.js";
 
 
 const LIST_EMPTY_STATE = `<strong>Your list is empty.</strong> <br><br>To add a

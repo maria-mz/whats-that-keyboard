@@ -1,4 +1,5 @@
-import PageNavigator from "../mainComponents/pageNavigator.js";
+import PageNavigator from "../components/pageNavigator.js";
+
 import OverviewHelpPage from "./helpPages/overviewHelpPage.js";
 import StructureHelpPage from "./helpPages/structureHelpPage.js";
 import GoldenWordsHelpPage from "./helpPages/goldenWordsHelpPage.js";

@@ -113,8 +113,6 @@ class PageNavigator {
 
     _disableNavBtnHover(navBtn) {
         navBtn.classList.remove('page-nav__btn-hoverable');
-        // navBtn.style.borderColor = 'rgb(193, 199, 201, 0.4)';
-
         navBtn.onmouseenter = null;
         navBtn.onmouseleave = null;
 

@@ -1,4 +1,4 @@
-import SolidBtn from "./mainComponents/buttons/solidBtn.js";
+import SolidBtn from "./components/buttons/solidBtn.js";
 
 import { publishEvent } from "../eventBus.js";
 import { GAME_LAUNCH_DATE } from "../constants.js";

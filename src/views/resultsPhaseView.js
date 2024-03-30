@@ -1,6 +1,6 @@
-import Keyboard from "./mainComponents/keyboard.js";
-import { GuessableKeyboard } from "./mainComponents/guessableKeyboard.js"
-import DayCountDownText from "./mainComponents/dayCountDownText.js";
+import Keyboard from "./components/keyboard.js";
+import { GuessableKeyboard } from "./components/guessableKeyboard.js"
+import DayCountDownText from "./components/dayCountDownText.js";
 
 
 const KEY_BG_HEX_CORRECT_GUESS = '#ddfbe9';

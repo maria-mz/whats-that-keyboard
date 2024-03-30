@@ -1,7 +1,7 @@
-import WordListSection from "./mainComponents/wordListSection/wordListSection.js";
-import { GuessableKeyboard, KeyHoverState } from "./mainComponents/guessableKeyboard.js";
-import GuessingKeysGrid from "./mainComponents/guessingKeysGrid.js";
-import SubmitGuessBtn from "./mainComponents/buttons/submitGuessBtn.js";
+import WordListSection from "./components/wordListSection/wordListSection.js";
+import { GuessableKeyboard, KeyHoverState } from "./components/guessableKeyboard.js";
+import GuessingKeysGrid from "./components/guessingKeysGrid.js";
+import SubmitGuessBtn from "./components/buttons/submitGuessBtn.js";
 
 
 /**
