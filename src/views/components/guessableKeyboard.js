@@ -27,8 +27,8 @@ class GuessableKeyboard extends Keyboard {
      * Creates a new `GuessableKeyboard` component.
      * 
      * @param {object} keysLayout - The layout of keys for the keyboard
-     * @param {object} keyGuesses - The letter to guess mapping
-     * @param {boolean} showAnim - To show pop-up animation on display or not
+     * @param {object} keyGuesses - The initial letter to guess mapping
+     * @param {boolean} showAnim - Whether to show pop-up animation on display
      */
     constructor(keysLayout, keyGuesses, showAnim) {
         super(keysLayout, showAnim);

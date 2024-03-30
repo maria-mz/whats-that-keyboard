@@ -28,10 +28,8 @@ class GuessingKeysGrid {
     /**
      * Creates a new `GuessingKeysGrid` component.
      * 
-     * @param {object} keyGuesses - The initial set of guesses. A letter to guess
-     *      mapping. If a guess has been made for a key, the corresponding guessing
-     *      key will appear hidden. Otherwise, it will be made visible.
-     * @param {boolean} showAnim - To show pop-up animation on grid display or not
+     * @param {object} keyGuesses - The initial letter to guess mapping
+     * @param {boolean} showAnim - Whether to show pop-up animation on display
      */
     constructor(keyGuesses, showAnim) {
         this.letterToKeyDiv = {};
@@ -347,9 +345,7 @@ class GuessingKeysGrid {
     };
 
     /**
-     * Retrieves the HTML element of the grid. Note, only guessing keys
-     * that belong to the grid at the time of the call will show up in
-     * the grid.
+     * Retrieves the HTML element of the grid.
      * 
      * @returns {HTMLElement} - The grid HTML element
      */

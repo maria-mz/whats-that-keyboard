@@ -54,7 +54,7 @@ class GoldenWordExamplesHelpPage {
 
         const subtitle = document.createElement('p');
         subtitle.className = 'help__subtitle';
-        subtitle.textContent = 'Golden Words: Examples';
+        subtitle.innerHTML = 'Golden Words&mdash;Examples';
 
         const examplesContainer = this._createExamplesContainer();
 

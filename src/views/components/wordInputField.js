@@ -40,7 +40,7 @@ class WordInputField {
     _createInstrTextTitle() {
         const instrTextTitle = document.createElement('p');
         instrTextTitle.className = 'word-input__instr-text__title'
-        instrTextTitle.textContent = 'Memorize the keyboard.'
+        instrTextTitle.textContent = 'Memorize the keyboard...'
 
         return instrTextTitle;
     };
@@ -48,10 +48,10 @@ class WordInputField {
     _createInstrText() {
         const instrText = document.createElement('p');
         instrText.className = 'word-input__instr-text';
-        instrText.textContent = `Here, you can see the letters as you type them.
-                                 Use this to practice your memory,
-                                 or add a new Golden Word...`;
-        
+        instrText.innerHTML = `See the letters appear as you type them!
+                               You can use this space to practice your
+                               memory, or add a new Golden Word...`;
+
         const helpIcon = this._createHelpIcon();
         instrText.append(helpIcon);
 

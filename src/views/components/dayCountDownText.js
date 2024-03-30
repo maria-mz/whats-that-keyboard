@@ -4,8 +4,8 @@
  */
 class DayCountDownText {
     /**
-     * Creates a new `DayCountDownText` component. Initially, the text is empty,
-     * until `startCountDown` is called.
+     * Creates a new `DayCountDownText` component.
+     * Initially, the text is empty, until `startCountDown` is called.
      * 
      * @param {string} styleClass - The CSS class to apply to the element
      */

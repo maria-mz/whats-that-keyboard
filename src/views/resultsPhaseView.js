@@ -92,10 +92,10 @@ class ResultsPhaseView {
         answersContainer.className = 'results__answers__container';
 
         const playerAnswerContainer = this._createAnswerContainer(
-            'Your Answer', this._keyboardGuess.HTMLElem
+            'Your Answer', this._keyboardGuess.HTMLElement
         );
         const correctAnswerContainer = this._createAnswerContainer(
-            'Correct Answer', this._keyboardAnswer.HTMLElem
+            'Correct Answer', this._keyboardAnswer.HTMLElement
         );
 
         answersContainer.append(playerAnswerContainer, correctAnswerContainer);

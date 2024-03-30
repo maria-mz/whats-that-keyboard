@@ -9,7 +9,7 @@ import { publishEvent } from "../../../eventBus.js";
 class TestBtn extends SolidBtn {
     constructor() {
         super(
-            'Test Me!',
+            'Test me!',
             () => { publishEvent('testMeBtnClicked') },
             true
         );

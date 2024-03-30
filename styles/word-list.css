@@ -73,14 +73,11 @@
 .word-list__progress-text__title, .word-list__progress-text__coverage {
   font-family: 'Quicksand';
   font-size: 1rem;
+  font-weight: 500;
 
   color: var(--clr-dark);
 
   margin: 0;
-}
-
-.word-list__progress-text__title {
-  font-weight: 500;
 }
 
 .word-list__progress-bar__container {

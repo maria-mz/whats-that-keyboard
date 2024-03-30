@@ -14,11 +14,13 @@
 }
 
 .word-input__instr-text__title {
-  color: var(--clr-dark);
+  color: var(--clr-navy);
 
   font-size: 1.5rem;
   font-weight: 500;
   font-family: 'Neuton';
+  font-style: italic;
+
   text-align: center;
 }
 
@@ -28,6 +30,10 @@
   font-size: 1rem;
   font-family: 'Quicksand';
   text-align: center;
+}
+
+.word-input__instr-text {
+  font-weight: 500;
 }
 
 /* Builds on fontawesome icon */
@@ -98,7 +104,7 @@
 
   font-size: 1rem;
   font-family: 'Quicksand';
-  font-weight: 500;
+  font-weight: 600;
 
   transition: border 0.15s ease, color 0.15s ease;
 
@@ -109,8 +115,8 @@
 }
 
 .word-input__field-btn-enabled:hover {
-  border-bottom: 2px solid #276dbc;
-  color: #276dbc;
+  border-bottom: 2px solid #558B6E;
+  color: #558B6E;
   cursor: pointer;
 }
 

@@ -11,7 +11,7 @@ class Keyboard {
      * Creates a new `Keyboard` component.
      * 
      * @param {object} keysLayout - The layout of keys for the keyboard
-     * @param {boolean} showAnim - To show pop-up animation on display or not
+     * @param {boolean} showAnim - Whether to show pop-up animation on display
      */
     constructor(keysLayout, showAnim) {
         this.letterToKeyDiv = {};

@@ -121,11 +121,13 @@
 }
 
 .key-grid__title {
-  color: var(--clr-dark);
+  color: #033F63;
 
   font-size: 1.5rem;
   font-weight: 500;
   font-family: 'Neuton';
+  font-style: italic;
+
   text-align: center;
 }
 

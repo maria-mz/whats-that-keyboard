@@ -91,7 +91,7 @@ class LandingPageView {
 
     _createGameSubTitle() {
         const gameSubTitle = document.createElement('p');
-        gameSubTitle.textContent = 'Can you remember all 26 keys?';
+        gameSubTitle.textContent = 'A daily memory game!';
         gameSubTitle.className = 'landing-page__subtitle-text';
 
         return gameSubTitle;

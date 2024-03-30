@@ -8,7 +8,7 @@
  *
  * @param {string[]} letters - The letters to be arranged in the layout,
  *      processed sequentially
- * @returns {Object} - A mapping of each letter to its position {row, idx}
+ * @returns {object} - A mapping of each letter to its position {row, idx}
  *      on the keyboard
  * @example
  * const letters = [
@@ -48,9 +48,9 @@ function getKeyLayout(letters) {
  * Creates a mapping between letters of two key layouts based on their
  * shared position.
  *
- * @param {Object} keyLayoutSrc - The key layout to map from 
- * @param {Object} keyLayoutDst - The key layout to map to
- * @returns {Object} - The letter to letter mapping
+ * @param {object} keyLayoutSrc - The key layout to map from 
+ * @param {object} keyLayoutDst - The key layout to map to
+ * @returns {object} - The letter to letter mapping
  * @example
  * const keyLayoutSrc = {
  *     'Q': {row: 0, idx: 0},
@@ -58,6 +58,7 @@ function getKeyLayout(letters) {
  *     'E': {row: 0, idx: 2},
  *     ...
  * };
+ * 
  * const keyLayoutDst = {
  *     'P': {row: 0, idx: 0},
  *     'O': {row: 0, idx: 1},
@@ -101,7 +102,7 @@ function getLetterMap(keyLayoutSrc, keyLayoutDst) {
  * Creates a function that maps letters from the standard QWERTY keyboard
  * layout to letters in the given key layout.
  *
- * @param {Object} keyLayout - The key layout to map QWERTY layout to
+ * @param {object} keyLayout - The key layout to map QWERTY layout to
  * @returns {Function} - A function that takes a letter from the QWERTY layout
  *      as input, and returns the corresponding letter in the given key layout
  * @example

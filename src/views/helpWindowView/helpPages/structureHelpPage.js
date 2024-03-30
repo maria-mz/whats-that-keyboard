@@ -1,11 +1,11 @@
 const PAGE_INSTRUCTIONS = `There are <strong>two parts</strong> to this game.
                            <br><br>
-                           <strong>1. Memorize.</strong> The keyboard is
+                           <strong>1. Memorize</strong><br>The keyboard is
                            shown to you. You're encouraged to type with it
                            to practice your memory. This is also when you
                            would add your <strong>Golden Words...</strong>
                            <br><br>
-                           <strong>2. Guess.</strong> The keys are removed,
+                           <strong>2. Guess</strong><br>The keys are removed,
                            and you'll need to piece together the keyboard
                            from memory. Drag and drop the keys into place.`
 

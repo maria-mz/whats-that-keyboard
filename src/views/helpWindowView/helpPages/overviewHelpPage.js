@@ -4,7 +4,7 @@ const PAGE_INSTRUCTIONS = `<strong>What's that keyboard!</strong> It's unlike th
                            Your challenge: <strong>memorize</strong> the
                            entire layout&mdash;<strong>all the keys.</strong>
                            <br><br>
-                           This is a daily game, and as such can only be completed
+                           This is a daily game, and therefore can only be completed
                            <strong>once</strong> per day. So give it your best try!`
 
 

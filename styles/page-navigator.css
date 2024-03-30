@@ -30,6 +30,10 @@
   transition: background 0.15s ease;
 }
 
+.page-nav__btn:hover {
+  cursor: not-allowed;
+}
+
 .page-nav__btn-hoverable:hover {
   background-color: #dadedf;
   cursor: pointer;

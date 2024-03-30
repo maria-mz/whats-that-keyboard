@@ -25,9 +25,11 @@
   font-size: 1.75rem;
   font-family: 'Neuton';
   font-weight: 400;
+  font-style: italic;
+
   margin: 0.5em;
 
-  color: var(--clr-dark);
+  color: var(--clr-navy);
 }
 
 .landing-page__date-text {
