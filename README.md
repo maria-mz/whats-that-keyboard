@@ -1,26 +1,34 @@
 # What's That Keyboard
 
-This is a little web-based game I created. I learned lots by making it! :-)
+This is a tiny game I created to help me learn **HTML, CSS, and JavaScript** :-)
+
+The concept of the game might be a little out there, but I learned a lot by building it!
 
 ## The Game
 
-Without looking at your keyboard, think you can remember the positions of all the letter keys?
+Without looking at your keyboard, can you remember the positions of all the letter keys?
 
-You may not know the exact arrangement, but perhaps you remember some words you've physically typed before, that can help you visualize where each letter should go? That's how I go about it at least! I think using these words to recall the keyboard is an interesting application of spatial memory. While this might be a fun challenge, it's one-time with the QWERTY layout.
+You may not know the exact arrangement, but perhaps you remember some words you've typed before, that can help you visualize where each letter should go? I think using these words to recall the keyboard is an interesting application of spatial memory. I thought this might be a fun challenge, but it's one-time with the QWERTY layout.
 
-That's why I created _What's That Keyboard_. It's a game centered around this concept. Each day features a completely new layout, so the challenge continues on!
+That's more or less the idea of this game. _What's That Keyboard_ explores using spatial connections, or words, to memorize a seemingly random arrangement of letters. Using a keyboard as the interface adds a tactile element to the game, and taps into that spatial memory beyond the screen.
 
-You can play the game here: 
+Each day features a different keyboard layout, so the challenge continues on!
 
-**P.S** There are still some features I would like to implement: Statistics, Settings, and Easy and Hard game modes.
+You can check out the game at .
 
-## Learning Outcomes
-I also made this project because I wanted to become familiar with the core web technologies—**HTML, CSS, JavaScript**.
+## The Code
+
+So, I mentioned wanting to learn web technologies...
 
 Indeed, throughout this project I've had to:
-- Design and build out numerous UI components
-- Handle events of varying nature (e.g. keyboard input, drag and drop)
+- Design and build numerous functional UI components
+- Implement various CSS animations and transitions
+- Practice responsive design
+- Handle events of varying nature, like keyboard inputs and drag-and-drop
 - Dynamically update the DOM
+- Integrate Web Storage API for persisting game details
+- Leverage third-party libraries, like `typo.js` and `seedrandom`, for added functionality
+- Document classes and functions with JSDoc
 
 As the project grew, I decided to adopt the **Model-View-Controller (MVC) pattern** for better seperation of concerns and code organization. My next goal was then to learn how to implement the pattern.
 
@@ -28,4 +36,14 @@ The main challenges I faced were:
 - Defining the role, or scope of each component
 - Deciding how the components would interact with each other
 
-  Overall, I'm glad I chose the MVC pattern and faced these challenges! So far, this structure has helped me integrate new features and make improvements more easily.
+Overall, I think some parts of my implementation are good and clearly resemble the pattern, but others I am not so sure about. I'm glad I went with the pattern though, it was interesting to implement, and I do think it has helped me integrate new features and improvements more easily.
+
+## What's Left
+
+At this point in time, I think the game can stand on its own. But there some are features that would be nice to add:
+
+- Save more stats, like streaks, and add Statistics window.
+- Easy and Hard game modes.
+- Confirmation pop-ups on button clicks that move from one phase to the next.
+- Dark mode?
+- Settings window. Could feature a toggle for light or dark mode, enable/disable confirmation pop-ups, game mode selection...
