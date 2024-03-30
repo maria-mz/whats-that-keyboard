@@ -40,7 +40,7 @@ function getStoredGameScoreCounts() {
  * Retrieves the stored count for a specific score.
  * 
  * @param {number} score - The score to retrieve the count.
- * @returns {number | null} The count, or `null` if Game Score Counts isn't found.
+ * @returns {number | null} The count, or `null` if not found.
  * @throws {Error} If the provided score is invalid.
  */
 function getStoredGameCount(score) {

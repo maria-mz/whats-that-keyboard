@@ -4,8 +4,8 @@
 
 
 :root {
-  --clr-dark: #404040;
-  --clr-navy: #1B1B3A;
+  --clr-dark: #1f2328;
+  --clr-navy: #033F63;
   --clr-plum: #693668;
   --clr-shadow: #b4b4b4;
   --clr-silver: #CDCDCD;
@@ -33,8 +33,17 @@ strong {
   font-weight: 600;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+
+  width: 100vw;
+  height: 100vh;
+}
+
 .game-area {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -51,6 +60,8 @@ strong {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .popup-overlay {
@@ -64,4 +75,30 @@ strong {
   background-color: rgba(0, 0, 0, 0.25);
 
   z-index: 999;
+}
+
+.screen-size-err-msg {
+  font-size: 1.15rem;
+  font-weight: 400;
+  font-family: 'Quicksand';
+  text-align: center;
+
+  color: var(--clr-dark);
+
+  display: none;
+}
+
+@media (max-width: 1240px) {
+  .content {
+    display: none;
+  }
+
+  body {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .screen-size-err-msg {
+    display: block;
+  }
 }

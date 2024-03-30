@@ -25,7 +25,7 @@ class ResultsPhaseController {
     };
 
     _beginResultsPhase() {
-        // Init view when phase begins, to use most up to date key guesses
+        // Init view when phase begins, to use latest key guesses
         this._initView();
         this.view.displayView();
     };
