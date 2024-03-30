@@ -13,8 +13,13 @@ import { GameModel } from "./gameModel.js";
  */
 class App {
     constructor() {
-        this.model = new GameModel();
-        
+        const dateNow = new Date();
+        const gameDate = new Date(
+            dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate()
+        );
+
+        this.model = new GameModel(gameDate);
+
         this.landingPageController = new LandingPageController(this.model);
         this.mainHeaderController =  new MainHeaderController(this.model);
         this.viewPhaseController = new ViewPhaseController(this.model);

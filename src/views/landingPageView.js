@@ -1,7 +1,7 @@
 import SolidBtn from "./components/buttons/solidBtn.js";
 
 import { publishEvent } from "../eventBus.js";
-import { GAME_LAUNCH_DATE } from "../constants.js";
+import { GAME_LAUNCH_DATE } from "../gameModel.js";
 import { daysBetween } from "../utils/miscUtils.js";
 
 

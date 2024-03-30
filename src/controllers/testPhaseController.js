@@ -1,14 +1,12 @@
 import TestPhaseView from "../views/testPhaseView.js";
-import { NO_GUESS_STR, GameStage } from "../gameModel.js";
+import { GameStage, NO_GUESS_STR } from "../gameModel.js";
 
 import { getKeyLayout } from "../utils/keyboardUtils.js";
 import { subscribeEvent } from "../eventBus.js";
 
 
 /**
- * @class TestPhaseController
- * 
- * Controller managing user input during the Test Phase of the game.
+ * Manages user input and display for the Test Phase of the game.
  */
 class TestPhaseController {
     constructor(gameModel) {
@@ -43,24 +41,19 @@ class TestPhaseController {
      */
     _subscribeToTestPhaseEvents() {
         subscribeEvent(
-            'guessingKeyEnteredGuessableKey',
-            this._putHoverOnKeyboardKey.bind(this)
+            'guessingKeyEnteredGuessableKey', this._putHoverOnKeyboardKey.bind(this)
         );
         subscribeEvent(
-            'guessingKeyLeftGuessableKey',
-            this._removeHoverOnKeyboardKey.bind(this)
+            'guessingKeyLeftGuessableKey', this._removeHoverOnKeyboardKey.bind(this)
         );
         subscribeEvent(
-            'guessingKeyReleasedOnGuessableKey',
-            this._updateGuess.bind(this)
+            'guessingKeyReleasedOnGuessableKey', this._updateGuess.bind(this)
         );
         subscribeEvent(
-            'keyboardViewGuessRemoved',
-            this._removeKeyGuess.bind(this)
+            'keyboardViewGuessRemoved', this._removeKeyGuess.bind(this)
         );
         subscribeEvent(
-            'submitGuessBtnClicked',
-            this._concludeTestPhase.bind(this)
+            'submitGuessBtnClicked', this._concludeTestPhase.bind(this)
         );
     };
 
@@ -68,7 +61,7 @@ class TestPhaseController {
      * Handles the event when a guessing key has just started hovering
      * over a guessable key on the keyboard.
      * 
-     * @param {Object} msg - letters of keys involved in this interaction
+     * @param {object} msg - letters of keys involved in this interaction
      * @param {string} msg.letterOfGuessingKey
      * @param {string} msg.letterOfGuessableKey
      */
@@ -80,7 +73,7 @@ class TestPhaseController {
      * Handles the event when a guessing key has just stopped hovering
      * over a guessable key on the keyboard.
      * 
-     * @param {Object} msg - letters of keys involved in this interaction
+     * @param {object} msg - letters of keys involved in this interaction
      * @param {string} msg.letterOfGuessingKey
      * @param {string} msg.letterOfGuessableKey
      */
@@ -95,7 +88,7 @@ class TestPhaseController {
      * This is considered making progress in the game. The guessing key
      * letter is the player's guess at the real guessable key letter.
      * 
-     * @param {Object} msg - letters of keys involved in this interaction
+     * @param {object} msg - letters of keys involved in this interaction
      * @param {string} msg.letterOfGuessingKey
      * @param {string} msg.letterOfGuessableKey
      */
@@ -122,7 +115,7 @@ class TestPhaseController {
 
     _concludeTestPhase() {
         this.model.saveGameScore();
-        this.model.setStage(GameStage.RESULTS);
+        this.model.setStage(GameStage.RESULTS);  // Set to next phase
         this.view.removeView();
     }
 };

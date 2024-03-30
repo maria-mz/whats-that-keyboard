@@ -6,9 +6,7 @@ import { subscribeEvent } from "../eventBus.js";
 
 
 /**
- * @class ViewPhaseController
- * 
- * Controller managing user input during the View Phase of the game.
+ * Manages user input and display for the View Phase of the game.
  */
 class ViewPhaseController {
     constructor(gameModel) {
@@ -29,6 +27,7 @@ class ViewPhaseController {
     _beginViewPhase() {
         this._subscribeToEvents();
         this.view.displayView();
+        this.view.disableAddWordBtn();
     };
 
     /**
@@ -36,32 +35,25 @@ class ViewPhaseController {
      */
     _subscribeToEvents() {
         subscribeEvent(
-            'keyboardLetterPressed',
-            this._appendCharToField.bind(this)
+            'keyboardLetterPressed', this._appendCharToField.bind(this)
         );
         subscribeEvent(
-            'keyboardBackspacePressed',
-            this._deleteCharFromField.bind(this)
+            'keyboardBackspacePressed', this._deleteCharFromField.bind(this)
         );
         subscribeEvent(
-            'wordListViewWordSelected',
-            (word) => { this.view.highlightWordOnKeyboard(word); }
+            'wordListViewWordSelected', (word) => { this.view.highlightWordOnKeyboard(word); }
         );
         subscribeEvent(
-            'wordListViewWordDeselected',
-            (word) => { this.view.unHighlightWordOnKeyboard(word); }
+            'wordListViewWordDeselected', (word) => { this.view.unHighlightWordOnKeyboard(word); }
         )
         subscribeEvent(
-            'wordListViewWordDeleted',
-            (word) => { this.model.deleteGoldenWord(word); }
+            'wordListViewWordDeleted', (word) => { this.model.deleteGoldenWord(word); }
         );
         subscribeEvent(
-            'keyboardEnterPressed',
-            this._addWordListWord.bind(this)
+            'keyboardEnterPressed', this._addGoldenWordInput.bind(this)
         );
         subscribeEvent(
-            'addWordBtnPressed',
-            this._addWordListWord.bind(this)
+            'addWordBtnPressed', this._addGoldenWordInput.bind(this)
         );
         subscribeEvent(
             'testMeBtnClicked', this._concludeViewPhase.bind(this)
@@ -69,14 +61,22 @@ class ViewPhaseController {
     };
 
     _appendCharToField(char) {
+        if (!char) {
+            return;
+        };
+
         const fieldText = this.view.getFieldText();
         const newText = fieldText + char;
 
-        this.view.setFieldText(newText)
+        this.view.setFieldText(newText);
+
+        if (this.model.meetsMinWordLength(newText)) {
+            this.view.enableAddWordBtn();
+        };
 
         if (this.view.fieldShowsWarning()) {
+            this.view.clearFieldWarning();
             this.view.enableAddWordBtn();
-            this.view.clearFieldWarning()
         };
     };
 
@@ -87,32 +87,42 @@ class ViewPhaseController {
         this.view.setFieldText(newText);
 
         if (this.view.fieldShowsWarning()) {
-            this.view.clearFieldWarning()
+            this.view.clearFieldWarning();
+            this.view.enableAddWordBtn();
+        };
+
+        if (!this.model.meetsMinWordLength(newText)) {
+            this.view.disableAddWordBtn();
         };
     };
 
-    _addWordListWord() {
+    _addGoldenWordInput() {
         const word = this.view.getFieldText();
 
+        if (!this.model.meetsMinWordLength(word)) {
+            return;
+        };
+
         if (this.model.hasGoldenWord(word)) {
-            this.view.setFieldWarning('is already in the list', word);
+            this.view.setFieldWarning('already in list', word);
             this.view.disableAddWordBtn();
             return;
         };
 
-        if (!this.model.isValidGoldenWord(word)) {
-            this.view.setFieldWarning('isn\'t a valid word in this game', word);
+        if (!this.model.isInWordBank(word)) {
+            this.view.setFieldWarning('not in word bank', word);
             this.view.disableAddWordBtn();
             return;
-        }
+        };
 
         this.model.addGoldenWord(word);
-
-        this.view.setFieldText('');
 
         if (this.view.fieldShowsWarning()) {
             this.view.clearFieldWarning();
         };
+
+        this.view.setFieldText('');
+        this.view.disableAddWordBtn();
     };
 
     _concludeViewPhase() {

@@ -3,15 +3,13 @@ import { subscribeEvent } from "../eventBus.js";
 
 
 /**
- * @class LandingPageController
- * 
- * 
+ * Manages display for the Landing Page.
  */
 class LandingPageController {
     constructor(gameModel) {
         this.model = gameModel;
 
-        this.view = new LandingPageView();
+        this.view = new LandingPageView(this.model.getGameDate());
         this.view.displayView();
 
         this._subscribeToEvents();

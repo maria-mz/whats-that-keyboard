@@ -1,6 +1,6 @@
 /**
-* Other utility functions...
-*/
+ * Other util functions
+ */
 
 
 /**
@@ -9,6 +9,7 @@
 function isLetter(str) {
     return /^[a-zA-Z]$/.test(str);
 };
+
 
 /**
  * Convert the case of `char2` to the case of `char1`.
@@ -21,12 +22,25 @@ function convertCharCase(char1, char2) {
     return char2.toLowerCase();
 };
 
+
 /**
  * Sort an array of strings in ascending order
  */
 function sortArray(arr) {
     return arr.sort((a, b) => a.localeCompare(b));
-}
+};
 
 
-export { sortArray, isLetter, convertCharCase };
+/**
+ * Get the difference in days between two Dates
+ */
+function daysBetween(d1, d2) {
+    const oneDayMs = 1000 * 60 * 60 * 24;
+    const differenceMs = Math.abs(d1 - d2);
+    const daysBetween = Math.round(differenceMs / oneDayMs);
+
+    return daysBetween;
+};
+
+
+export { sortArray, isLetter, convertCharCase, daysBetween };

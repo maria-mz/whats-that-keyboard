@@ -14,36 +14,42 @@ import {
 import {
     initStoredGameScoreCounts,
     getStoredGameScoreCounts,
-    incStoredGameCount
+    incrementStoredGameCount
 } from "./utils/localStorageUtils/gameScoreCountsUtils.js"
 
 
-const NO_GUESS_STR = ''
+const GAME_LAUNCH_DATE = new Date(2024, 2, 30);
 
+const NO_GUESS_STR = ''
+const MIN_SCORE = 0;
+const MAX_SCORE = 26;
+
+/**
+ * Represents the stage, or phase, the player is currently at in the game.
+ * 
+ * @const {object} GameStage
+ */
 const GameStage = {
     MEMORIZE: 'Memorize',
     GUESS: 'Guess',
     RESULTS: 'Results'
-}
+};
+
+const MIN_WORD_LENGTH = 3;
 
 
 /**
- * @class GameModel
- * 
- * 
+ * Represents the underlying state of the game.
  */
 class GameModel {
-    constructor() {
-        // TODO: pass game date to constructor, call `gameDate` instead of `todaysDate`
-        this._todaysDate = new Date().toDateString();
+    constructor(gameDate) {
+        this._gameDate = gameDate;
         this._todaysLetterList = this._genTodaysLetterList();
 
-        // TODO: create class / func for validating words instead?
-        this._dictionary = new Typo(
+        this._wordBank = new Typo(
             "en_US", false, false, { dictionaryPath: "external/typo" }
         );
 
-        // TODO: create class for 'GameProgress' ?
         this._goldenWords;
         this._keyGuesses;
         this._stage;
@@ -57,9 +63,9 @@ class GameModel {
     _initGameProgress() {
         const gameProgress = getStoredGameProgress();
 
-        if (!gameProgress || gameProgress.date !== this._todaysDate) {
+        if (!gameProgress || gameProgress.date !== this._gameDate.toDateString()) {
             setStoredGameProgress(
-                this._todaysDate,
+                this._gameDate.toDateString(),
                 [],
                 this._getEmptyKeyGuesses(),
                 GameStage.MEMORIZE,
@@ -132,7 +138,7 @@ class GameModel {
      * This ensures that all players get the same layout on any given day.
      */
     _genTodaysLetterList() {
-        const rng = new Math.seedrandom(this._todaysDate);
+        const rng = new Math.seedrandom(this._gameDate.toDateString());
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         const todaysLetterList = letters.sort(() => { return rng() - 0.5; });
 
@@ -178,7 +184,7 @@ class GameModel {
         const isScoreSaved = getStoredIsScoreSaved();
 
         if (isScoreSaved === false) {
-            incStoredGameCount(this.getGameScore());
+            incrementStoredGameCount(this.getGameScore());
             setStoredIsScoreSaved(true);
         };
     };
@@ -187,12 +193,12 @@ class GameModel {
         return this._goldenWords;
     };
 
-    isValidGoldenWord(word) {
-        if (word.length === 1) {
-            return false;
-        };
+    isInWordBank(word) {
+        return this._wordBank.check(word);
+    };
 
-        return this._dictionary.check(word);
+    meetsMinWordLength(word) {
+        return word.length >= MIN_WORD_LENGTH;
     };
 
     hasGoldenWord(word) {
@@ -222,6 +228,18 @@ class GameModel {
         setStoredGoldenWords([...this._goldenWords]);
         publishEvent('wordListUpdated', [...this._goldenWords]);
     };
+
+    getGameDate() {
+        return this._gameDate;
+    };
 };
 
-export { GameModel, GameStage, NO_GUESS_STR };
+
+export {
+    GameModel,
+    GameStage,
+    GAME_LAUNCH_DATE,
+    NO_GUESS_STR,
+    MIN_SCORE,
+    MAX_SCORE
+};

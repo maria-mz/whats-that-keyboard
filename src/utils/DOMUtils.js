@@ -10,12 +10,14 @@ function getX(elmt) {
     return elmt.getBoundingClientRect().left;
 };
 
+
 /**
 * Get top Y-coordinate of HTML element `elmt` in viewport
 */
 function getY(elmt) {
     return elmt.getBoundingClientRect().top;
 };
+
 
 /**
 * Move an HTML element `elmt` to coordinates `x` and `y`
@@ -24,6 +26,7 @@ function moveElmtTo(elmt, x, y) {
     elmt.style.left = x + 'px';
     elmt.style.top = y + 'px';
 };
+
 
 /**
 * Adjust the current position of an HTML element `elmt` to

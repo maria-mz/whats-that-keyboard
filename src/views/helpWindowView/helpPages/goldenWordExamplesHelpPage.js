@@ -71,7 +71,7 @@ class GoldenWordExamplesHelpPage {
         this._keyboard.highlightWord(DEFAULT_SELECTED_EXAMPLE_WORD);
 
         // Adjust keyboard styles to fit well in the window
-        this._keyboard.HTMLElement.style.scale = '0.95';
+        this._keyboard.HTMLElement.style.scale = '0.8';
         this._keyboard.HTMLElement.style.marginTop = '1.5em';
         this._keyboard.HTMLElement.style.marginBottom = '1em';
 

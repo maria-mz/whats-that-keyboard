@@ -14,31 +14,66 @@
 const SET_ERR_MSG = 'There is no Game Progress stored yet.'
 
 
+/**
+ * Retrieves the locally stored Game Progress object.
+ * 
+ * @returns {object | null} The Game Progress, or `null` if not found.
+ */
 function getStoredGameProgress() {
     const gameProgress = localStorage.getItem('gameProgress');
     return gameProgress ? JSON.parse(gameProgress) : null;
 };
 
+
+/**
+ * Retrieves the locally stored Golden Words.
+ * 
+ * @returns {Any | null} The Golden Words, or `null` if not found.
+ */
 function getStoredGoldenWords() {
     const gameProgress = getStoredGameProgress();
     return gameProgress ? gameProgress.goldenWords : null;
 };
 
+
+/**
+ * Retrieves the locally stored Key Guesses.
+ * 
+ * @returns {Any | null} The Key Guesses, or `null` if not found.
+ */
 function getStoredKeyGuesses() {
     const gameProgress = getStoredGameProgress();
     return gameProgress ? gameProgress.keyGuesses : null;
 };
 
+
+/**
+ * Retrieves the locally stored game Stage.
+ * 
+ * @returns {Any | null} The Stage, or `null` if not found.
+ */
 function getStoredStage() {
     const gameProgress = getStoredGameProgress();
     return gameProgress ? gameProgress.stage : null;
 };
 
+
+/**
+ * Retrieves the locally stored score saved status.
+ * 
+ * @returns {Any | null} The score saved status, or `null` if not found.
+ */
 function getStoredIsScoreSaved() {
     const gameProgress = getStoredGameProgress();
     return gameProgress ? gameProgress.isScoreSaved : null;
 };
 
+
+/**
+ * Sets the locally stored Game Progress object.
+ * 
+ * @throws {Error} If any argument is missing.
+ */
 function setStoredGameProgress(date, goldenWords, keyGuesses, stage, isScoreSaved) {
     if (
         date === undefined ||
@@ -64,6 +99,13 @@ function setStoredGameProgress(date, goldenWords, keyGuesses, stage, isScoreSave
     );
 };
 
+
+/**
+ * Sets the locally stored Golden Words in the existing Game Progress object.
+ * 
+ * @param {Any} goldenWords - The new Golden Words to set.
+ * @throws {Error} Thrown if Game Progress object is not found.
+ */
 function setStoredGoldenWords(goldenWords) {
     const gameProgress = getStoredGameProgress();
 
@@ -80,6 +122,13 @@ function setStoredGoldenWords(goldenWords) {
     );
 };
 
+
+/**
+ * Sets the locally stored Key Guesses in the existing Game Progress object.
+ * 
+ * @param {Any} keyGuesses - The new Key Guesses to set.
+ * @throws {Error} Thrown if Game Progress object is not found.
+ */
 function setStoredKeyGuesses(keyGuesses) {
     const gameProgress = getStoredGameProgress();
 
@@ -96,6 +145,13 @@ function setStoredKeyGuesses(keyGuesses) {
     );
 };
 
+
+/**
+ * Sets the locally stored Key Guesses in the existing Game Progress object.
+ * 
+ * @param {Any} stage - The new Key Guesses to set.
+ * @throws {Error} Thrown if Game Progress object is not found.
+ */
 function setStoredStage(stage) {
     const gameProgress = getStoredGameProgress();
 
@@ -112,6 +168,13 @@ function setStoredStage(stage) {
     );
 };
 
+
+/**
+ * Sets the locally stored score saved status in the existing Game Progress object.
+ * 
+ * @param {Any} isScoreSaved - The new score saved status to set.
+ * @throws {Error} Thrown if Game Progress object is not found.
+ */
 function setStoredIsScoreSaved(isScoreSaved) {
     const gameProgress = getStoredGameProgress();
 

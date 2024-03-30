@@ -5,9 +5,7 @@ import { subscribeEvent } from "../eventBus.js";
 
 
 /**
- * @class MainHeaderController
- * 
- * 
+ * Manages user input and display for the Main Header.
  */
 class MainHeaderController {
     constructor(gameModel) {
@@ -26,7 +24,7 @@ class MainHeaderController {
     };
 
     _subscribeToHeaderEvents() {
-        subscribeEvent('helpIconClicked', this._displayHelpWindow.bind(this));
+        subscribeEvent('helpBtnClicked', this._displayHelpWindow.bind(this));
     };
 
     _subscribeToWindowEvents() {

@@ -1,6 +1,6 @@
 import {  getX, getY, moveElmtTo, boundElmtInsideWindow } from "../../utils/DOMUtils.js";
 import { publishEvent, subscribeEvent } from '../../eventBus.js';
-import { NO_GUESS_STR } from "../../constants.js";
+import { NO_GUESS_STR } from "../../gameModel.js";
 
 
 /**

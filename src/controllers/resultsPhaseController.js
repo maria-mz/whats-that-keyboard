@@ -6,9 +6,7 @@ import { subscribeEvent } from "../eventBus.js";
 
 
 /**
- * @class ResultsPhaseController
- * 
- * 
+ * Manages display for the Results Phase of the game.
  */
 class ResultsPhaseController {
     constructor(gameModel) {
@@ -27,6 +25,7 @@ class ResultsPhaseController {
     };
 
     _beginResultsPhase() {
+        // Init view when phase begins, to use most up to date key guesses
         this._initView();
         this.view.displayView();
     };
