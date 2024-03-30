@@ -14,7 +14,7 @@ That's more or less the idea of this game. _What's That Keyboard_ explores using
 
 Each day features a different keyboard layout, so the challenge continues on!
 
-You can check out the game at .
+You can check out the game at https://maria-mz.github.io/whats-that-keyboard/.
 
 ## The Code
 
@@ -45,5 +45,7 @@ At this point in time, I think the game can stand on its own. But there some are
 - Save more stats, like streaks, and add Statistics window.
 - Easy and Hard game modes.
 - Confirmation pop-ups on button clicks that move from one phase to the next.
+- Identify mobile devices, and display a message indicating the game isn't compatible.
 - Dark mode?
+- Support other keyboard layouts (currently assumes the player is using the QWERTY layout)
 - Settings window. Could feature a toggle for light or dark mode, enable/disable confirmation pop-ups, game mode selection...

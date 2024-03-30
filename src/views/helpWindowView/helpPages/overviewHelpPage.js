@@ -1,7 +1,7 @@
-const PAGE_INSTRUCTIONS = `<strong>What's that keyboard!</strong> It's unlike the typical
-                           QWERTY layout you may be used to seeing. Go ahead, try typing...
+const PAGE_INSTRUCTIONS = `What's that keyboard! It's unlike the typical QWERTY
+                           layout you may be used to seeing. Go ahead, try typing...
                            <br><br>
-                           Your challenge: <strong>memorize</strong> the
+                           Your challenge is to <strong>memorize</strong> the
                            entire layout&mdash;<strong>all the keys.</strong>
                            <br><br>
                            This is a daily game, and therefore can only be completed
