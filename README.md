@@ -10,11 +10,10 @@ Without looking at your keyboard, can you remember the positions of all the lett
 
 You may not know the exact arrangement, but perhaps you remember some words you've typed before, that can help you visualize where each letter should go? I think using these words to recall the keyboard is an interesting application of spatial memory. I thought this might be a fun challenge, but it's one-time with the QWERTY layout.
 
-That's more or less the idea of this game. _What's That Keyboard_ explores using spatial connections, or words, to memorize a seemingly random arrangement of letters. Using a keyboard as the interface adds a tactile element to the game, and taps into that spatial memory beyond the screen.
+That's more or less the idea of this game. Each day features a different keyboard layout, so the challenge continues on!
 
-Each day features a different keyboard layout, so the challenge continues on!
-
-You can check out the game at https://maria-mz.github.io/whats-that-keyboard/.
+You can check out the game at https://maria-mz.github.io/whats-that-keyboard/.<br>
+_Please note: Mobile devices aren't supported, and you'll need a keyboard to play._
 
 ## The Code
 
@@ -45,7 +44,6 @@ At this point in time, I think the game can stand on its own. But there some are
 - Save more stats, like streaks, and add Statistics window.
 - Easy and Hard game modes.
 - Confirmation pop-ups on button clicks that move from one phase to the next.
-- Identify mobile devices, and display a message indicating the game isn't compatible.
 - Dark mode?
 - Support other keyboard layouts (currently assumes the player is using the QWERTY layout)
 - Settings window. Could feature a toggle for light or dark mode, enable/disable confirmation pop-ups, game mode selection...
